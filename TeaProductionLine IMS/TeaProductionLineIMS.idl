@@ -1,0 +1,29 @@
+// TeaProductionLineIMS.idl : TeaProductionLine IMS.exe 的类型库源
+
+// 此文件将由 MIDL 编译器处理以产生
+// 类型库(TeaProductionLineIMS.tlb)。
+
+[ uuid(485C9F10-19D2-41EC-97C4-A32438C83ADA), version(1.0) ]
+library TeaProductionLineIMS
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  CTeaProductionLineIMSDoc 的主调度接口
+	
+	[ uuid(E6E392E5-4C19-4ED0-B641-A0A468860781) ]
+	dispinterface ITeaProductionLineIMS
+	{
+		properties:
+			
+		methods:
+	};
+
+	//  CTeaProductionLineIMSDoc 的类信息
+	
+	[ uuid(1C8FCBEA-5A91-49C9-BCE6-A437D8025D2E) ]
+	coclass TeaProductionLineIMS
+	{
+		[default] dispinterface ITeaProductionLineIMS;
+	};
+};

@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7E8D4209-EDF1-4525-AC4D-4E1A6DE8B2FB}</ProjectGuid>
+    <RootNamespace>TeaProductionLineIMS</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <RegisterOutput>true</RegisterOutput>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>$(IntDir)TeaProductionLineIMS.tlb</TypeLibraryName>
+      <HeaderFileName>TeaProductionLineIMS_h.h</HeaderFileName>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RegisterOutput>true</RegisterOutput>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>$(IntDir)TeaProductionLineIMS.tlb</TypeLibraryName>
+      <HeaderFileName>TeaProductionLineIMS_h.h</HeaderFileName>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AddConfigParaPopDlg.h" />
+    <ClInclude Include="AlarmClass.h" />
+    <ClInclude Include="AlarmDlg.h" />
+    <ClInclude Include="AllUserManageDlg.h" />
+    <ClInclude Include="ConfigChiDlg.h" />
+    <ClInclude Include="DataProvider.h" />
+    <ClInclude Include="DeviceChiDlg.h" />
+    <ClInclude Include="DeviceClass.h" />
+    <ClInclude Include="DeviceContrlPopDlg.h" />
+    <ClInclude Include="DevicePara.h" />
+    <ClInclude Include="DlgProxy.h" />
+    <ClInclude Include="EditDeviceParaPopDlg.h" />
+    <ClInclude Include="EditDeviceParaTabDlg.h" />
+    <ClInclude Include="EditDevicePopDlg.h" />
+    <ClInclude Include="EditErrorParaPopDlg.h" />
+    <ClInclude Include="EditErrorParaTabDlg.h" />
+    <ClInclude Include="EditLinePopDlg.h" />
+    <ClInclude Include="EditModuleParaPopDlg.h" />
+    <ClInclude Include="EditModuleParaTabDlg.h" />
+    <ClInclude Include="EditModulePopDlg.h" />
+    <ClInclude Include="EditOwnerPopDlg.h" />
+    <ClInclude Include="EditPassWordDlg.h" />
+    <ClInclude Include="EditPlcParaDlg.h" />
+    <ClInclude Include="EditPlcPopDlg.h" />
+    <ClInclude Include="EditStateParaPopDlg.h" />
+    <ClInclude Include="EditStateParaTabDlg.h" />
+    <ClInclude Include="EditUserPopDlg.h" />
+    <ClInclude Include="EditVedioPopDlg.h" />
+    <ClInclude Include="FaultPara.h" />
+    <ClInclude Include="FormulaClass.h" />
+    <ClInclude Include="FullScreenDlg.h" />
+    <ClInclude Include="InitDlg.h" />
+    <ClInclude Include="LoginDlg.h" />
+    <ClInclude Include="LoginUser.h" />
+    <ClInclude Include="MainDlg.h" />
+    <ClInclude Include="Modbus.h" />
+    <ClInclude Include="NewConfigGraChiDlg.h" />
+    <ClInclude Include="OldConfigGraChiDlg.h" />
+    <ClInclude Include="ParaCheckUtil.h" />
+    <ClInclude Include="PlcClass.h" />
+    <ClInclude Include="PlcStatusDlg.h" />
+    <ClInclude Include="ProcessModuleClass.h" />
+    <ClInclude Include="ProcessModulePara.h" />
+    <ClInclude Include="ProductionLineClass.h" />
+    <ClInclude Include="realplayxctrl1.h" />
+    <ClInclude Include="RequestQueue.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SendBuffQueue.h" />
+    <ClInclude Include="SkinPPWTL.h" />
+    <ClInclude Include="StatePara.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="tbDevice.h" />
+    <ClInclude Include="tbDevicePara.h" />
+    <ClInclude Include="tbFaultPara.h" />
+    <ClInclude Include="tbFormula.h" />
+    <ClInclude Include="tbLoginUser.h" />
+    <ClInclude Include="tbPLc.h" />
+    <ClInclude Include="tbProcessModule.h" />
+    <ClInclude Include="tbProcessPara.h" />
+    <ClInclude Include="tbProductionLine.h" />
+    <ClInclude Include="tbStatePara.h" />
+    <ClInclude Include="tbUser.h" />
+    <ClInclude Include="tbVideo.h" />
+    <ClInclude Include="TCPClient.h" />
+    <ClInclude Include="TcpSendBuffFrame.h" />
+    <ClInclude Include="TeaProductionLine IMS.h" />
+    <ClInclude Include="Thread.h" />
+    <ClInclude Include="UserClass.h" />
+    <ClInclude Include="UserManageDlg.h" />
+    <ClInclude Include="VedioChiDlg.h" />
+    <ClInclude Include="VideoClass.h" />
+    <ClInclude Include="Weather.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AddConfigParaPopDlg.cpp" />
+    <ClCompile Include="AlarmClass.cpp" />
+    <ClCompile Include="AlarmDlg.cpp" />
+    <ClCompile Include="AllUserManageDlg.cpp" />
+    <ClCompile Include="ConfigChiDlg.cpp" />
+    <ClCompile Include="DataProvider.cpp" />
+    <ClCompile Include="DeviceChiDlg.cpp" />
+    <ClCompile Include="DeviceClass.cpp" />
+    <ClCompile Include="DeviceContrlPopDlg.cpp" />
+    <ClCompile Include="DevicePara.cpp" />
+    <ClCompile Include="DlgProxy.cpp" />
+    <ClCompile Include="EditDeviceParaPopDlg.cpp" />
+    <ClCompile Include="EditDeviceParaTabDlg.cpp" />
+    <ClCompile Include="EditDevicePopDlg.cpp" />
+    <ClCompile Include="EditErrorParaPopDlg.cpp" />
+    <ClCompile Include="EditErrorParaTabDlg.cpp" />
+    <ClCompile Include="EditLinePopDlg.cpp" />
+    <ClCompile Include="EditModuleParaPopDlg.cpp" />
+    <ClCompile Include="EditModuleParaTabDlg.cpp" />
+    <ClCompile Include="EditModulePopDlg.cpp" />
+    <ClCompile Include="EditOwnerPopDlg.cpp" />
+    <ClCompile Include="EditPassWordDlg.cpp" />
+    <ClCompile Include="EditPlcParaDlg.cpp" />
+    <ClCompile Include="EditPlcPopDlg.cpp" />
+    <ClCompile Include="EditStateParaPopDlg.cpp" />
+    <ClCompile Include="EditStateParaTabDlg.cpp" />
+    <ClCompile Include="EditUserPopDlg.cpp" />
+    <ClCompile Include="EditVedioPopDlg.cpp" />
+    <ClCompile Include="FaultPara.cpp" />
+    <ClCompile Include="FormulaClass.cpp" />
+    <ClCompile Include="FullScreenDlg.cpp" />
+    <ClCompile Include="InitDlg.cpp" />
+    <ClCompile Include="LoginDlg.cpp" />
+    <ClCompile Include="LoginUser.cpp" />
+    <ClCompile Include="MainDlg.cpp" />
+    <ClCompile Include="Modbus.cpp" />
+    <ClCompile Include="NewConfigGraChiDlg.cpp" />
+    <ClCompile Include="OldConfigGraChiDlg.cpp" />
+    <ClCompile Include="ParaCheckUtil.cpp" />
+    <ClCompile Include="PlcClass.cpp" />
+    <ClCompile Include="PlcStatusDlg.cpp" />
+    <ClCompile Include="PlcWriteRequest.cpp" />
+    <ClCompile Include="ProcessModuleClass.cpp" />
+    <ClCompile Include="ProcessModulePara.cpp" />
+    <ClCompile Include="ProductionLineClass.cpp" />
+    <ClCompile Include="realplayxctrl1.cpp" />
+    <ClCompile Include="RequestQueue.cpp" />
+    <ClCompile Include="SendBuffQueue.cpp" />
+    <ClCompile Include="StatePara.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="tbDevice.cpp" />
+    <ClCompile Include="tbDevicePara.cpp" />
+    <ClCompile Include="tbFaultPara.cpp" />
+    <ClCompile Include="tbFormula.cpp" />
+    <ClCompile Include="tbLoginUser.cpp" />
+    <ClCompile Include="tbPLc.cpp" />
+    <ClCompile Include="tbProcessModule.cpp" />
+    <ClCompile Include="tbProcessPara.cpp" />
+    <ClCompile Include="tbProductionLine.cpp" />
+    <ClCompile Include="tbStatePara.cpp" />
+    <ClCompile Include="tbUser.cpp" />
+    <ClCompile Include="tbVideo.cpp" />
+    <ClCompile Include="TCPClient.cpp" />
+    <ClCompile Include="TcpSendBuffFrame.cpp" />
+    <ClCompile Include="TeaProductionLine IMS.cpp" />
+    <ClCompile Include="Thread.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UserClass.cpp" />
+    <ClCompile Include="UserManageDlg.cpp" />
+    <ClCompile Include="VedioChiDlg.cpp" />
+    <ClCompile Include="VideoClass.cpp" />
+    <ClCompile Include="Weather.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="TeaProductionLineIMS.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\TeaProductionLineIMS.rc2" />
+    <None Include="TeaProductionLine IMS.reg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TeaProductionLine IMS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\32.ico" />
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\bitmap2.bmp" />
+    <Image Include="res\bitmap3.bmp" />
+    <Image Include="res\for.ico" />
+    <Image Include="res\green light.bmp" />
+    <Image Include="res\icon5.ico" />
+    <Image Include="res\LOGO  LINE.bmp" />
+    <Image Include="res\LongLOGO.bmp" />
+    <Image Include="res\minusB.ico" />
+    <Image Include="res\ooopic_1439367440.ico" />
+    <Image Include="res\ooopic_1439367498.ico" />
+    <Image Include="res\ooopic_1439368661.ico" />
+    <Image Include="res\ooopic_1439368680.ico" />
+    <Image Include="res\ooopic_1439369687.ico" />
+    <Image Include="res\ooopic_1439369713.ico" />
+    <Image Include="res\plus.ico" />
+    <Image Include="res\TeaProductionLine IMS.ico" />
+    <Image Include="res\treeicon.ico" />
+    <Image Include="res\white light.bmp" />
+    <Image Include="res\xiangfengchaji.jpg" />
+    <Image Include="res\xiangfengLOGO.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties _x007B_30209FBC-57EB-4F87-BF3E-740E3D8019D2_x007D_="CRealplayxctrl1" RESOURCE_FILE="TeaProductionLine IMS.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
