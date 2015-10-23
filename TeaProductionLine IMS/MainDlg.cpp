@@ -109,6 +109,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON2, &CMainDlg::OnBnClickedDisconnectPlc)
 
 	ON_BN_CLICKED(IDC_BT_ALARM, &CMainDlg::OnBnClickedBtAlarm)
+	ON_BN_CLICKED(IDC_BT_HISTROY, &CMainDlg::OnBnClickedBtHistroy)
 END_MESSAGE_MAP()
 
 
@@ -694,4 +695,9 @@ void CMainDlg::UpdateStatePara()  //监听状态参数//
 			    m_listState.SetItemText(y, 2, _T("未连接"));
 		}
 	}
+}
+
+void CMainDlg::OnBnClickedBtHistroy()
+{
+	// TODO:  在此添加控件通知处理程序代码
 }

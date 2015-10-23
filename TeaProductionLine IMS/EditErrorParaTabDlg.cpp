@@ -63,7 +63,8 @@ void CEditErrorParaTabDlg::OnBnClickedAddItem()
 	if (!m_ParaCheckUtil.FaultParaCheck(tempFaultPara))
 	{
 		m_pDataProvider->AddFaultParaToDatabase(tempFaultPara);
-		ListOnPaint();
+		//ListOnPaint();
+		AddItemToList(tempFaultPara);
 	}
 }
 
@@ -206,10 +207,6 @@ int CEditErrorParaTabDlg::ListOnPaint()
 
 	//清空列表//
 	m_list1.DeleteAllItems();
-	CHeaderCtrl *pmyHeaderCtrl = m_list1.GetHeaderCtrl();
-	int nCount = pmyHeaderCtrl->GetItemCount();
-	for (int i = nCount - 1; i >= 0; i--)
-		m_list1.DeleteColumn(i);
 
 	m_list1.InsertColumn(0, _T(""), LVCFMT_CENTER, 0, -1);
 	m_list1.InsertColumn(1, _T("序号"), LVCFMT_CENTER, rect1.Width() / 15, -1);
@@ -225,20 +222,70 @@ int CEditErrorParaTabDlg::ListOnPaint()
 	for (int i = 0; i < length; i++)
 	{
 		litem.iItem = i;
-		CString str;
-		str.Format(_T("%d"), i + 1);
-		m_list1.InsertItem(&litem);
-		m_list1.SetItemText(i, 1, str);
-		m_list1.SetItemText(i, 2, m_pDataProvider->m_vectFaultPara[i].m_strProductionLineName);
-		m_list1.SetItemText(i, 3, m_pDataProvider->m_vectFaultPara[i].m_strProcessName);
-		m_list1.SetItemText(i, 4, m_pDataProvider->m_vectFaultPara[i].m_strDeviceName);
-		m_list1.SetItemText(i, 5, m_pDataProvider->m_vectFaultPara[i].m_strPlcName);
-		m_list1.SetItemText(i, 6, m_pDataProvider->m_vectFaultPara[i].m_strParaName);
-		m_list1.SetItemText(i, 7, m_pDataProvider->m_vectFaultPara[i].m_strAddressIndex);
-		m_list1.SetItemText(i, 8, m_pDataProvider->m_vectFaultPara[i].m_strDescription);
+		m_list1.InsertItem(&litem);	
+		SetListItemText(i, m_pDataProvider->m_vectFaultPara[i]);
 	}
 	return 0;
 }
+
+
+
+void CEditErrorParaTabDlg::UpdateItemInList(int Index, CFaultPara &faultPara)
+{
+	SetListItemText(Index, faultPara);
+
+	m_list1.EnsureVisible(Index, TRUE);
+	
+
+}
+
+
+void CEditErrorParaTabDlg::DeleteItemInList(int Index)
+{
+	m_list1.DeleteItem(Index);
+
+	int length = m_pDataProvider->m_vectFaultPara.size();
+	//更新INDEX之后的编号//
+	for (int i = Index; i < length; i++)
+	{
+		CString str;
+		str.Format(_T("%d"), i + 1);
+		m_list1.SetItemText(i, 1, str);
+	}
+}
+
+
+void CEditErrorParaTabDlg::AddItemToList(CFaultPara &faultPara)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list1.GetItemCount();
+	litem.iItem = i;
+	m_list1.InsertItem(&litem);
+
+	SetListItemText(i, faultPara);
+
+	m_list1.EnsureVisible(i, TRUE);
+}
+
+
+void CEditErrorParaTabDlg::SetListItemText(int Index, CFaultPara &faultPara)
+{
+	CString str;
+	str.Format(_T("%d"), Index + 1);
+	m_list1.SetItemText(Index, 1, str);
+	m_list1.SetItemText(Index, 2, faultPara.m_strProductionLineName);
+	m_list1.SetItemText(Index, 3, faultPara.m_strProcessName);
+	m_list1.SetItemText(Index, 4, faultPara.m_strDeviceName);
+	m_list1.SetItemText(Index, 5, faultPara.m_strPlcName);
+	m_list1.SetItemText(Index, 6, faultPara.m_strParaName);
+	m_list1.SetItemText(Index, 7, faultPara.m_strAddressIndex);
+	m_list1.SetItemText(Index, 8, faultPara.m_strDescription);
+}
+
 
 
 
@@ -273,16 +320,20 @@ void CEditErrorParaTabDlg::OnNMRClickLi1EditerrorparaTabdlg(NMHDR *pNMHDR, LRESU
 	case ID_PARA_MODIFY:  //右键菜单：修改//
 		m_FaultParaPopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_FaultParaPopDlg.DoModal();
+		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectFaultPara[m_nSelectedItem]);
 		break;
 	case ID_PARA_DELETE:
 		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbFaultPara, m_pDataProvider->m_vectFaultPara[m_nSelectedItem].m_Id);
 		m_pDataProvider->m_vectFaultPara.erase(m_pDataProvider->m_vectFaultPara.begin() + m_nSelectedItem);
+
+		DeleteItemInList(m_nSelectedItem);
+
 		break;
 	default:
 		break;
 	}
 
-	ListOnPaint();
+	//ListOnPaint();
 
 }
 

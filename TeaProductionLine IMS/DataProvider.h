@@ -31,7 +31,7 @@ private:
 	int ExecutionSQL(CString strSql);
 
 public:
-
+	
 	static CDataProvider* getInstance();
 	
 	~CDataProvider();

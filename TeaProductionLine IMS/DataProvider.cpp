@@ -7,8 +7,6 @@
 #include "tbDevice.h"
 #include "tbPLc.h"
 #include "tbVideo.h"
-
-
 #include "tbLoginUser.h"
 #include "tbDevicePara.h"
 #include "tbFaultPara.h"
@@ -24,10 +22,11 @@ CDataProvider::CDataProvider()
 
 }
 
-
+CRITICAL_SECTION Cs;
 CDataProvider::~CDataProvider()
 {
 	delete(Instance);
+	DeleteCriticalSection(&Cs);
 }
 
 CDataProvider::CDataProvider(const CDataProvider&)
@@ -36,7 +35,6 @@ CDataProvider::CDataProvider(const CDataProvider&)
 
 CDataProvider*   CDataProvider::Instance = NULL;
 
-CRITICAL_SECTION Cs;
 CDataProvider* CDataProvider::getInstance(){
 	
 	InitializeCriticalSection(&Cs);

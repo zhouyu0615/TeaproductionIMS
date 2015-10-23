@@ -46,6 +46,11 @@ public:
 
 	int MyOnPaint();
 	int ListOnPaint();
+
+	void UpdateItemInList(int Index, CProcessPara &processPara);
+	void DeleteItemInList(int Index);
+	void AddItemToList(CProcessPara &processPara);
+
 	int LineComboxPaint();
 	int ModuleComboxPaint(CString LineName);
 	int PlcComboxPaint();
@@ -62,4 +67,7 @@ public:
 
 	void AddrTypeComboBoxInit();
 	afx_msg void OnCbnSelchangeAddrType();
+
+private:
+	void SetListItemText(int Index, CProcessPara &processPara);
 };

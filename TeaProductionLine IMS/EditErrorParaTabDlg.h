@@ -48,6 +48,11 @@ public:
 
 	int MyOnPaint();
 	int ListOnPaint();
+
+	void UpdateItemInList(int Index, CFaultPara &faultPara);
+	void DeleteItemInList(int Index);
+	void AddItemToList(CFaultPara &faultPara);
+
 	int LineComboxPaint();
 	int ModuleComboxPaint(CString LineName);
 	int DeviceComboxPaint(CString LineName, CString ModuleName);
@@ -56,4 +61,8 @@ public:
 
 
 	virtual void OnOK();
+
+private:
+	void SetListItemText(int Index, CFaultPara &faultPara);
+
 };

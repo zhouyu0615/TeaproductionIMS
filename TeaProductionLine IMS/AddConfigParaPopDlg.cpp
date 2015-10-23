@@ -42,7 +42,7 @@ BOOL CAddConfigParaPopDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// TODO:  在此添加额外的初始化
+
 
 	//初始化LIST1的表头//
 	CRect rectList1;

@@ -60,9 +60,10 @@ void CEditStateParaTabDlg::OnBnClickedAddItem()
 	if (!m_ParaCheckUtil.StateParaCheck(tempStatePara))
 	{
 		m_pDataProvider->AddStateParaToDatabase(tempStatePara);
+		AddItemToList(tempStatePara);
 	}
 
-	ListOnPaint();
+	//ListOnPaint();
 
 }
 
@@ -194,19 +195,67 @@ int CEditStateParaTabDlg::ListOnPaint()
 	for (int i = 0; i < length; i++)
 	{
 		litem.iItem = i;
-		CString str;
-		str.Format(_T("%d"), i + 1);
 		m_list1.InsertItem(&litem);
-		m_list1.SetItemText(i, 1, str);
-		m_list1.SetItemText(i, 2, m_pDataProvider->m_vectStatePara[i].m_strProductionLineName);
-		m_list1.SetItemText(i, 3, m_pDataProvider->m_vectStatePara[i].m_strProcessModuleName);
-		m_list1.SetItemText(i, 4, m_pDataProvider->m_vectStatePara[i].m_strPlcName);
-		m_list1.SetItemText(i, 5, m_pDataProvider->m_vectStatePara[i].m_strParaName);
-		m_list1.SetItemText(i, 6, m_pDataProvider->m_vectStatePara[i].m_strAddressIndex);
-		m_list1.SetItemText(i, 7, m_pDataProvider->m_vectStatePara[i].m_strDescription);
+		
+		SetListItemText(i, m_pDataProvider->m_vectStatePara[i]);
 	}
 	return 0;
 }
+
+
+void CEditStateParaTabDlg::SetListItemText(int Index, CStatePara &statePara)
+{
+	CString str;
+	int i = Index;
+	str.Format(_T("%d"), i + 1);
+	m_list1.SetItemText(i, 1, str);
+	m_list1.SetItemText(i, 2, m_pDataProvider->m_vectStatePara[i].m_strProductionLineName);
+	m_list1.SetItemText(i, 3, m_pDataProvider->m_vectStatePara[i].m_strProcessModuleName);
+	m_list1.SetItemText(i, 4, m_pDataProvider->m_vectStatePara[i].m_strPlcName);
+	m_list1.SetItemText(i, 5, m_pDataProvider->m_vectStatePara[i].m_strParaName);
+	m_list1.SetItemText(i, 6, m_pDataProvider->m_vectStatePara[i].m_strAddressIndex);
+	m_list1.SetItemText(i, 7, m_pDataProvider->m_vectStatePara[i].m_strDescription);
+
+}
+
+void CEditStateParaTabDlg::AddItemToList(CStatePara &statePara)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list1.GetItemCount();
+	litem.iItem = i;
+	m_list1.InsertItem(&litem);
+
+	SetListItemText(i, statePara);
+
+	m_list1.EnsureVisible(i, TRUE);
+}
+
+
+void CEditStateParaTabDlg::UpdateItemInList(int Index, CStatePara &statePara)
+{
+	SetListItemText(Index, statePara);
+
+	m_list1.EnsureVisible(Index, TRUE);
+
+}
+void CEditStateParaTabDlg::DeleteItemInList(int Index)
+{
+	m_list1.DeleteItem(Index);
+
+	size_t length = m_pDataProvider->m_vectStatePara.size();
+
+	for (int i = Index; i < length;i++)
+	{
+		CString str;
+		str.Format(_T("%d"), i + 1);
+		m_list1.SetItemText(i, 1, str);
+	}
+}
+
 
 
 
@@ -239,16 +288,20 @@ void CEditStateParaTabDlg::OnNMRClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 	case ID_PARA_MODIFY:  //ÓÒ¼ü²Ëµ¥£ºÐÞ¸Ä//
 		m_StateParaPopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_StateParaPopDlg.DoModal();
+		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectStatePara[m_nSelectedItem]);
+
 		break;
 	case ID_PARA_DELETE:
 		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbStatePara, m_pDataProvider->m_vectStatePara[m_nSelectedItem].m_Id);
 		m_pDataProvider->m_vectStatePara.erase(m_pDataProvider->m_vectStatePara.begin() + m_nSelectedItem);
+		DeleteItemInList(m_nSelectedItem);
+
 		break;
 	default:
 		break;
 	}
 
-	ListOnPaint();
+	//ListOnPaint();
 
 
 }

@@ -66,9 +66,9 @@ void CEditDeviceParaTabDlg::OnBnClickedAddItem()
 	if (m_ParaCheckUtil.DeviceParaCheck(tempDevicePara) == 0) //参数名的检查通过
 	{
 		m_pDataProvider->AddDeviceParaToDatabase(tempDevicePara);
+		AddItemToList(tempDevicePara);
 	}
-	
-	ListOnPaint();
+		
 }
 
 //清空编辑框//
@@ -216,21 +216,74 @@ int CEditDeviceParaTabDlg::ListOnPaint()
 	for (int i = 0; i < length; i++)
 	{
 		litem.iItem = i;
-		CString str;
-		str.Format(_T("%d"), i + 1);
 		m_list1.InsertItem(&litem);
-		m_list1.SetItemText(i, 1, str);
-		m_list1.SetItemText(i, 2, m_pDataProvider->m_vectDevicePara[i].m_strProductionLineName);
-		m_list1.SetItemText(i, 3, m_pDataProvider->m_vectDevicePara[i].m_strProcessModuleName);
-		m_list1.SetItemText(i, 4, m_pDataProvider->m_vectDevicePara[i].m_strDeviceName);
-		m_list1.SetItemText(i, 5, m_pDataProvider->m_vectDevicePara[i].m_strPlcName);
-		m_list1.SetItemText(i, 6, m_pDataProvider->m_vectDevicePara[i].m_strParaName);
-		m_list1.SetItemText(i, 7, m_pDataProvider->m_vectDevicePara[i].m_strControlAddrIndex);
-		m_list1.SetItemText(i, 8, m_pDataProvider->m_vectDevicePara[i].m_strStateAddrIndex);
-		m_list1.SetItemText(i, 9, m_pDataProvider->m_vectDevicePara[i].m_strDescription);
+		SetListItemText(i, m_pDataProvider->m_vectDevicePara[i]);
 	}
 	return 0;
 }
+
+
+void CEditDeviceParaTabDlg::UpdateItemInList(int Index, CDevicePara &devicePara)
+{
+    
+	SetListItemText(Index, devicePara);
+
+	m_list1.EnsureVisible(Index, TRUE);
+
+}
+
+
+void CEditDeviceParaTabDlg::DeleteItemInList(int Index)
+{
+	m_list1.DeleteItem(Index);
+
+	int length = m_pDataProvider->m_vectDevicePara.size();
+	//更新INDEX之后的编号//
+	for (int i = Index; i <length ;i++)
+	{
+		CString str;
+		str.Format(_T("%d"), i + 1);
+		m_list1.SetItemText(i, 1, str);
+	}
+}
+
+
+void CEditDeviceParaTabDlg::AddItemToList(CDevicePara &devicePara)
+{
+
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i =m_list1.GetItemCount();
+	litem.iItem = i;
+	m_list1.InsertItem(&litem);
+
+	SetListItemText(i, devicePara);
+
+	m_list1.EnsureVisible(i, TRUE);
+	
+}
+
+
+void CEditDeviceParaTabDlg::SetListItemText(int Index, CDevicePara &devicePara)
+{
+
+	CString str;
+	str.Format(_T("%d"), Index + 1);
+	m_list1.SetItemText(Index, 1, str);
+	m_list1.SetItemText(Index, 2, devicePara.m_strProductionLineName);
+	m_list1.SetItemText(Index, 3, devicePara.m_strProcessModuleName);
+	m_list1.SetItemText(Index, 4, devicePara.m_strDeviceName);
+	m_list1.SetItemText(Index, 5, devicePara.m_strPlcName);
+	m_list1.SetItemText(Index, 6, devicePara.m_strParaName);
+	m_list1.SetItemText(Index, 7, devicePara.m_strControlAddrIndex);
+	m_list1.SetItemText(Index, 8, devicePara.m_strStateAddrIndex);
+	m_list1.SetItemText(Index, 9, devicePara.m_strDescription);	
+}
+
+
 
 
 void CEditDeviceParaTabDlg::OnCbnSelchangeLine()
@@ -286,16 +339,21 @@ void CEditDeviceParaTabDlg::OnNMRClickLi1EditdeviceparaTabdlg(NMHDR *pNMHDR, LRE
 	case ID_PARA_MODIFY:  //右键菜单：修改//
 		m_DeviceParaDlg.m_nSelectedItem = m_nSelectedItem;
 		m_DeviceParaDlg.DoModal();
+		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectDevicePara[m_nSelectedItem]);
+
 		break;
 	case ID_PARA_DELETE:
 		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbDevicePara, m_pDataProvider->m_vectDevicePara[m_nSelectedItem].m_Id);		
 		m_pDataProvider->m_vectDevicePara.erase(m_pDataProvider->m_vectDevicePara.begin() + m_nSelectedItem);
+
+		DeleteItemInList(m_nSelectedItem);
 		break;
 	default:
 		break;
 	}
 
-	ListOnPaint();
+	//ListOnPaint();
+	
 
 }
 

@@ -105,9 +105,10 @@ void CEditModuleParaTabDlg::OnBnClickedAddItem()
 	if (!m_ParaCheckUtil.ProcessParaCheck(tempProPara))
 	{
 		m_pDataProvider->AddProcessParaToDatabase(tempProPara);
+		AddItemToList(tempProPara);
 	}
 
-	ListOnPaint();
+	//ListOnPaint();
 }
 
 void CEditModuleParaTabDlg::OnBnClickedClearEdit()
@@ -171,16 +172,20 @@ void CEditModuleParaTabDlg::OnNMRClickLi1EditmoduleparaTabdlg(NMHDR *pNMHDR, LRE
 	case ID_PARA_MODIFY:  //右键菜单：修改//
 		m_ModuleParaPopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_ModuleParaPopDlg.DoModal();
+		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectProModulePara[m_nSelectedItem]);
 		break;
 	case ID_PARA_DELETE:
 		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbProcessPara, m_pDataProvider->m_vectProModulePara[m_nSelectedItem].m_Id);
 		m_pDataProvider->m_vectProModulePara.erase(m_pDataProvider->m_vectProModulePara.begin() + m_nSelectedItem);
+		
+		DeleteItemInList(m_nSelectedItem);
+
 		break;
 	default:
 		break;
 	}
 
-	ListOnPaint();
+	//ListOnPaint();
 
 }
 
@@ -309,24 +314,76 @@ int CEditModuleParaTabDlg::ListOnPaint()
 	for (int i = 0; i < length; i++)
 	{
 		litem.iItem = i;
-		CString str;
-		str.Format(_T("%d"), i + 1);
 		m_list1.InsertItem(&litem);
-		m_list1.SetItemText(i, 1, str);
-		m_list1.SetItemText(i, 2, m_pDataProvider->m_vectProModulePara[i].m_strProductionLineName);
-		m_list1.SetItemText(i, 3, m_pDataProvider->m_vectProModulePara[i].m_strProcessModuleName);
-		m_list1.SetItemText(i, 4, m_pDataProvider->m_vectProModulePara[i].m_strPlcName);
-		m_list1.SetItemText(i, 5, m_pDataProvider->m_vectProModulePara[i].m_strParaName);
-		m_list1.SetItemText(i, 6, m_pDataProvider->m_vectProModulePara[i].m_strAddressType);
-		m_list1.SetItemText(i, 7, m_pDataProvider->m_vectProModulePara[i].m_strReadAddrIndex);
-		m_list1.SetItemText(i, 8, m_pDataProvider->m_vectProModulePara[i].m_strWriteAddrIndex);
-		m_list1.SetItemText(i, 9, m_pDataProvider->m_vectProModulePara[i].ConvertValTypeToString());
-		m_list1.SetItemText(i, 10, m_pDataProvider->m_vectProModulePara[i].ConvertIsConfigToString());
-		m_list1.SetItemText(i, 11, m_pDataProvider->m_vectProModulePara[i].ConvertIsVisibleToString());
-		m_list1.SetItemText(i, 12, m_pDataProvider->m_vectProModulePara[i].m_strUnit);
+		SetListItemText(i, m_pDataProvider->m_vectProModulePara[i]);
 	}
 	return 0;
 }
+
+
+void CEditModuleParaTabDlg::AddItemToList(CProcessPara &processPara)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list1.GetItemCount();
+	litem.iItem = i;
+	m_list1.InsertItem(&litem);
+
+	SetListItemText(i, processPara);
+
+	m_list1.EnsureVisible(i, TRUE);
+
+
+}
+
+
+void CEditModuleParaTabDlg::UpdateItemInList(int Index, CProcessPara &processPara)
+{
+	SetListItemText(Index, processPara);
+
+	m_list1.EnsureVisible(Index, TRUE);
+	
+
+}
+void CEditModuleParaTabDlg::DeleteItemInList(int Index)
+{
+	m_list1.DeleteItem(Index);
+
+	int length = m_pDataProvider->m_vectProModulePara.size();
+	//更新INDEX之后的编号//
+	for (int i = Index; i < length; i++)
+	{
+		CString str;
+		str.Format(_T("%d"), i + 1);
+		m_list1.SetItemText(i, 1, str);
+	}
+}
+
+
+void CEditModuleParaTabDlg::SetListItemText(int Index, CProcessPara &processPara)
+{
+	CString str;
+	str.Format(_T("%d"), Index + 1);
+	m_list1.SetItemText(Index, 1, str);
+	m_list1.SetItemText(Index, 2, processPara.m_strProductionLineName);
+	m_list1.SetItemText(Index, 3, processPara.m_strProcessModuleName);
+	m_list1.SetItemText(Index, 4, processPara.m_strPlcName);
+	m_list1.SetItemText(Index, 5, processPara.m_strParaName);
+	m_list1.SetItemText(Index, 6, processPara.m_strAddressType);
+	m_list1.SetItemText(Index, 7, processPara.m_strReadAddrIndex);
+	m_list1.SetItemText(Index, 8, processPara.m_strWriteAddrIndex);
+	m_list1.SetItemText(Index, 9, processPara.ConvertValTypeToString());
+	m_list1.SetItemText(Index, 10, processPara.ConvertIsConfigToString());
+	m_list1.SetItemText(Index, 11, processPara.ConvertIsVisibleToString());
+	m_list1.SetItemText(Index, 12, processPara.m_strUnit);
+}
+
+
+
+
 
 void CEditModuleParaTabDlg::ShowConfigState(BOOL IsConfig)
 {

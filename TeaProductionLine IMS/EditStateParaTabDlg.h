@@ -43,9 +43,17 @@ public:
 
 	int MyOnPaint();
 	int ListOnPaint();
+
+	void AddItemToList(CStatePara &statePara);
+	void UpdateItemInList(int Index, CStatePara &statePara);
+	void DeleteItemInList(int Index);
+
 	int LineComboxPaint();
 	int ModuleComboxPaint(CString LineName);
 	int PlcComboxPaint();
 	afx_msg void OnNMRClickList1(NMHDR *pNMHDR, LRESULT *pResult);
 	virtual void OnOK();
+
+private:
+	void SetListItemText(int Index, CStatePara &statePara);
 };

@@ -49,6 +49,15 @@ public:
 	int MyOnPaint();
 
 	int ListOnPaint();
+	void UpdateItemInList(int Index, CDevicePara &devicePara);
+	void DeleteItemInList(int Index);
+
+	void AddItemToList(CDevicePara &devicePara);
+
+	
+
+
+
 	int LineComboxPaint();
 	int ModuleComboxPaint(CString LineName);
 	int DeviceComboxPaint(CString LineName, CString ModuleName);
@@ -60,4 +69,8 @@ public:
 	afx_msg void OnCbnSelchangeModule();
 	afx_msg void OnNMRClickLi1EditdeviceparaTabdlg(NMHDR *pNMHDR, LRESULT *pResult);
 	virtual void OnOK();
+
+private:
+	void SetListItemText(int Index,CDevicePara &devicePara);
+
 };
