@@ -90,7 +90,9 @@ void CEditDeviceParaTabDlg::OnBnClickedClearAll()
 		m_pDataProvider->m_vectDevicePara.clear();
 		m_pDataProvider->DeleteDbTable(CDataProvider::tbDevicePara);
 		OnBnClickedClearEdit();
-		ListOnPaint();
+		
+
+		MyOnPaint();
 	}
 
 }
@@ -110,7 +112,7 @@ BOOL CEditDeviceParaTabDlg::OnInitDialog()
 
 int CEditDeviceParaTabDlg::MyOnPaint()
 {
-	ListOnPaint(); //绘制列表框//
+	//ListOnPaint(); //绘制列表框//
 
 	LineComboxPaint();
 	CString LineName,ModuleName;
@@ -121,6 +123,9 @@ int CEditDeviceParaTabDlg::MyOnPaint()
 	//m_ModuleComboBox.GetLBText(0,ModuleName);
 	m_ModuleComboBox.GetWindowText(ModuleName);
 	DeviceComboxPaint(LineName,ModuleName);
+
+	ListOnPaint(LineName, ModuleName);
+
 
 	PlcComboxPaint();
 	
@@ -182,7 +187,7 @@ int CEditDeviceParaTabDlg::PlcComboxPaint()
 	return 0;
 }
 
-int CEditDeviceParaTabDlg::ListOnPaint()
+int CEditDeviceParaTabDlg::ListOnPaint(const CString &ProLineName, const CString &ProModuleName)
 {
 
 	LV_ITEM litem;
@@ -211,13 +216,21 @@ int CEditDeviceParaTabDlg::ListOnPaint()
 	m_list1.InsertColumn(7, _T("控制信号地址"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
 	m_list1.InsertColumn(8, _T("运行信号地址"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
 	m_list1.InsertColumn(9, _T("备注"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
+	
 	//填写表单内容//
 	int length = m_pDataProvider->m_vectDevicePara.size();
-	for (int i = 0; i < length; i++)
+	int index = 0; //表单索引//
+	for (size_t i = 0; i < length; i++)
 	{
-		litem.iItem = i;
-		m_list1.InsertItem(&litem);
-		SetListItemText(i, m_pDataProvider->m_vectDevicePara[i]);
+		if (ProLineName == m_pDataProvider->m_vectDevicePara[i].m_strProductionLineName
+			&&ProModuleName == m_pDataProvider->m_vectDevicePara[i].m_strProcessModuleName)
+		{
+			litem.iItem = index;			
+			m_list1.InsertItem(&litem);
+			SetListItemText(index, m_pDataProvider->m_vectDevicePara[i]);
+			index++;
+		}
+
 	}
 	return 0;
 }
@@ -285,7 +298,6 @@ void CEditDeviceParaTabDlg::SetListItemText(int Index, CDevicePara &devicePara)
 
 
 
-
 void CEditDeviceParaTabDlg::OnCbnSelchangeLine()
 {
 	// TODO:  在此添加控件通知处理程序代码
@@ -296,6 +308,8 @@ void CEditDeviceParaTabDlg::OnCbnSelchangeLine()
 
 	m_ModuleComboBox.GetWindowText(ModuleName);
 	DeviceComboxPaint(LineName, ModuleName);
+
+	ListOnPaint(LineName, ModuleName);
 }
 
 
@@ -306,6 +320,8 @@ void CEditDeviceParaTabDlg::OnCbnSelchangeModule()
 	m_ModuleComboBox.GetWindowText(ModuleName);
 	
 	DeviceComboxPaint(LineName, ModuleName);
+
+	ListOnPaint(LineName, ModuleName);
 
 }
 

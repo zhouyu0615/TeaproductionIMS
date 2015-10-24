@@ -88,9 +88,11 @@ void CEditErrorParaTabDlg::OnBnClickedClearAllTabdlg()
 		m_pDataProvider->m_vectFaultPara.clear();
 		m_pDataProvider->DeleteDbTable(CDataProvider::tbFaultPara);
 		OnBnClickedClearEdit();
+
+		MyOnPaint();
 	}
 
-	ListOnPaint();
+	
 }
 
 
@@ -101,6 +103,8 @@ void CEditErrorParaTabDlg::OnCbnSelchangeLine()
 	m_LineComboBox.GetWindowText(LineName);
 	ModuleComboxPaint(LineName);
 	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName); //绘制列表框//
 	DeviceComboxPaint(LineName, ModuleName);
 }
 
@@ -111,6 +115,8 @@ void CEditErrorParaTabDlg::OnCbnSelchangeModule()
 	CString LineName, ModuleName;
 	m_LineComboBox.GetWindowText(LineName);
 	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName); //绘制列表框//
 	DeviceComboxPaint(LineName, ModuleName);
 }
 
@@ -130,14 +136,15 @@ BOOL CEditErrorParaTabDlg::OnInitDialog()
 
 int CEditErrorParaTabDlg::MyOnPaint()
 {
-	ListOnPaint(); //绘制列表框//
-
 	LineComboxPaint();
 	CString LineName, ModuleName;
 	m_LineComboBox.GetWindowText(LineName);
 	ModuleComboxPaint(LineName);
 	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName);//绘制列表框//
 	DeviceComboxPaint(LineName, ModuleName);
+
 	PlcComboxPaint();
 	return 0;
 }
@@ -193,7 +200,7 @@ int CEditErrorParaTabDlg::PlcComboxPaint()
 	return 0;
 }
 
-int CEditErrorParaTabDlg::ListOnPaint()
+int CEditErrorParaTabDlg::ListOnPaint(const CString &ProLineName, const CString &ProModuleName)
 {
 
 	LV_ITEM litem;
@@ -208,6 +215,7 @@ int CEditErrorParaTabDlg::ListOnPaint()
 	//清空列表//
 	m_list1.DeleteAllItems();
 
+
 	m_list1.InsertColumn(0, _T(""), LVCFMT_CENTER, 0, -1);
 	m_list1.InsertColumn(1, _T("序号"), LVCFMT_CENTER, rect1.Width() / 15, -1);
 	m_list1.InsertColumn(2, _T("所属生产线"), LVCFMT_CENTER, rect1.Width() / 15 * 2, -1);
@@ -219,11 +227,18 @@ int CEditErrorParaTabDlg::ListOnPaint()
 	m_list1.InsertColumn(8, _T("说明"), LVCFMT_CENTER, rect1.Width() / 15 * 2, -1);
 	//填写表单内容//
 	int length = m_pDataProvider->m_vectFaultPara.size();
-	for (int i = 0; i < length; i++)
+	int index = 0; //表单索引//
+	for (size_t i = 0; i < length; i++)
 	{
-		litem.iItem = i;
-		m_list1.InsertItem(&litem);	
-		SetListItemText(i, m_pDataProvider->m_vectFaultPara[i]);
+		if (ProLineName == m_pDataProvider->m_vectFaultPara[i].m_strProductionLineName
+			&&ProModuleName == m_pDataProvider->m_vectFaultPara[i].m_strProcessName)
+		{
+			litem.iItem = index;
+			m_list1.InsertItem(&litem);
+			SetListItemText(index, m_pDataProvider->m_vectFaultPara[i]);
+			index++;
+		}
+
 	}
 	return 0;
 }

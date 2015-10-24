@@ -609,8 +609,7 @@ int CInitDlg::ListOnPaint()
 		for (int i = 0; i < temp; i++)
 		{
 			litem.iItem = i;
-			m_list_init.InsertItem(&litem);
-			
+			m_list_init.InsertItem(&litem);		
 			SetListItemText(i, m_pDataProvider->m_vectDevice[i]);
 		}
 		break;

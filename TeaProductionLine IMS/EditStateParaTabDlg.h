@@ -42,7 +42,7 @@ public:
 	afx_msg void OnCbnSelchangeLine();
 
 	int MyOnPaint();
-	int ListOnPaint();
+	int ListOnPaint(const CString &ProLineName, const CString &ProModuleName);
 
 	void AddItemToList(CStatePara &statePara);
 	void UpdateItemInList(int Index, CStatePara &statePara);
@@ -56,4 +56,6 @@ public:
 
 private:
 	void SetListItemText(int Index, CStatePara &statePara);
+public:
+	afx_msg void OnCbnSelchangeModule();
 };

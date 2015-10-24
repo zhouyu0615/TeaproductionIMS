@@ -61,7 +61,6 @@ CMainDlg::CMainDlg(CWnd* pParent /*=NULL*/)
 	m_bIsWarningDlgShow = false;
 	//读取数据库到数据源//
 	m_pDataProvider->InitDataProvider();
-	
 }
 
 CMainDlg::~CMainDlg()
@@ -156,7 +155,7 @@ BOOL CMainDlg::OnInitDialog()
 	m_ConfigChiDlg.Create(IDD_CONFIG_CHIDLG, this);
 	m_ConfigChiDlg.ShowWindow(SW_HIDE);
 	CDialog::OnInitDialog();
-	//天气预报
+	//天气预报//
 	m_CityComboBox.AddString(_T("长沙"));
 	m_CityComboBox.AddString(_T("北京"));
 	m_CityComboBox.AddString(_T("深圳"));

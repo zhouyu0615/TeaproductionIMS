@@ -41,9 +41,10 @@ BEGIN_MESSAGE_MAP(CEditModuleParaTabDlg, CDialog)
 	ON_BN_CLICKED(IDC_BT1_EDITMODULEPARA_TABDLG, &CEditModuleParaTabDlg::OnBnClickedAddItem)
 	ON_BN_CLICKED(IDC_BT2_EDITMODULEPARA_TABDLG, &CEditModuleParaTabDlg::OnBnClickedClearEdit)
 	ON_BN_CLICKED(IDC_BT3_EDITMODULEPARA_TABDLG, &CEditModuleParaTabDlg::OnBnClickedClearAll)
-	ON_CBN_SELCHANGE(IDC_CO2_EDITMODULEPARA_TABDLG, &CEditModuleParaTabDlg::OnCbnSelchangeCo2EditmoduleparaTabdlg)
+	ON_CBN_SELCHANGE(IDC_CO2_EDITMODULEPARA_TABDLG, &CEditModuleParaTabDlg::OnCbnSelchangeLine)
 	ON_NOTIFY(NM_RCLICK, IDC_LI1_EDITMODULEPARA_TABDLG, &CEditModuleParaTabDlg::OnNMRClickLi1EditmoduleparaTabdlg)
 	ON_CBN_SELCHANGE(IDC_COMBO1, &CEditModuleParaTabDlg::OnCbnSelchangeAddrType)
+	ON_CBN_SELCHANGE(IDC_CO3_EDITMODULEPARA_TABDLG, &CEditModuleParaTabDlg::OnCbnSelchangeModule)
 END_MESSAGE_MAP()
 
 
@@ -128,19 +129,35 @@ void CEditModuleParaTabDlg::OnBnClickedClearAll()
 	{
 		m_pDataProvider->m_vectProModulePara.clear();
 		m_pDataProvider->DeleteDbTable(CDataProvider::tbProcessPara);		
-		ListOnPaint();
+		
+		MyOnPaint();
 	}
 }
 
 
 
-void CEditModuleParaTabDlg::OnCbnSelchangeCo2EditmoduleparaTabdlg()
+void CEditModuleParaTabDlg::OnCbnSelchangeLine()
 {
 	// TODO:  在此添加控件通知处理程序代码
-	CString LineName;
+	CString LineName,ModuleName;
 	m_LineComboBox.GetWindowText(LineName);
 	ModuleComboxPaint(LineName);
+
+	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName);
+
 }
+
+void CEditModuleParaTabDlg::OnCbnSelchangeModule()
+{
+	CString LineName, ModuleName;
+	m_LineComboBox.GetWindowText(LineName);
+	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName); //绘制列表框//
+}
+
 
 
 void CEditModuleParaTabDlg::OnNMRClickLi1EditmoduleparaTabdlg(NMHDR *pNMHDR, LRESULT *pResult)
@@ -193,7 +210,7 @@ void CEditModuleParaTabDlg::OnNMRClickLi1EditmoduleparaTabdlg(NMHDR *pNMHDR, LRE
 
 int CEditModuleParaTabDlg::MyOnPaint()
 {
-	ListOnPaint(); //绘制列表框//
+	
 
 	ShowConfigState(TRUE);
 	ShowVisibleState(TRUE);
@@ -207,6 +224,10 @@ int CEditModuleParaTabDlg::MyOnPaint()
 	//m_LineComboBox.GetLBText(0, LineName);
 	m_LineComboBox.GetWindowText(LineName);
 	ModuleComboxPaint(LineName);
+
+	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName);
 
 	PlcComboxPaint();
 
@@ -278,7 +299,7 @@ void CEditModuleParaTabDlg::AddrTypeComboBoxInit()
 	m_AddrTypeComboBox.SetCurSel(2);
 }
 
-int CEditModuleParaTabDlg::ListOnPaint()
+int CEditModuleParaTabDlg::ListOnPaint(const CString &ProLineName, const CString &ProModuleName)
 {
 	LV_ITEM litem;
 	litem.mask = LVIF_TEXT;
@@ -311,12 +332,22 @@ int CEditModuleParaTabDlg::ListOnPaint()
 	m_list1.InsertColumn(12, _T("单位"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
 	//填写表单内容//
 	int length = m_pDataProvider->m_vectProModulePara.size();
-	for (int i = 0; i < length; i++)
+	int index = 0; //表单索引//
+	for (size_t i = 0; i < length; i++)
 	{
-		litem.iItem = i;
-		m_list1.InsertItem(&litem);
-		SetListItemText(i, m_pDataProvider->m_vectProModulePara[i]);
+		if (ProLineName == m_pDataProvider->m_vectProModulePara[i].m_strProductionLineName
+			&&ProModuleName == m_pDataProvider->m_vectProModulePara[i].m_strProcessModuleName)
+		{
+			litem.iItem = index;
+			m_list1.InsertItem(&litem);
+			SetListItemText(index, m_pDataProvider->m_vectProModulePara[i]);
+			index++;
+		}
+
 	}
+
+
+
 	return 0;
 }
 
@@ -477,3 +508,5 @@ void CEditModuleParaTabDlg::OnCbnSelchangeAddrType()
 
 
 }
+
+

@@ -40,6 +40,7 @@ BEGIN_MESSAGE_MAP(CEditStateParaTabDlg, CDialog)
 	ON_BN_CLICKED(IDC_BT3_EDITSTATEPARA_TABDLG, &CEditStateParaTabDlg::OnBnClickedClearAll)
 	ON_CBN_SELCHANGE(IDC_CO2_EDITSTATEPARA_TABDLG, &CEditStateParaTabDlg::OnCbnSelchangeLine)
 	ON_NOTIFY(NM_RCLICK, IDC_LIST1, &CEditStateParaTabDlg::OnNMRClickList1)
+	ON_CBN_SELCHANGE(IDC_CO3_EDITSTATEPARA_TABDLG, &CEditStateParaTabDlg::OnCbnSelchangeModule)
 END_MESSAGE_MAP()
 
 
@@ -84,12 +85,15 @@ BOOL CEditStateParaTabDlg::OnInitDialog()
 
 int CEditStateParaTabDlg::MyOnPaint()
 {
-	ListOnPaint();
 	LineComboxPaint();
-	CString LineName;
+	CString LineName,ModuleName;
 	//m_LineComboBox.GetLBText(0, LineName);
 	m_LineComboBox.GetWindowText(LineName);
 	ModuleComboxPaint(LineName);
+
+	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName);
 	PlcComboxPaint();
 
 	return 0;
@@ -110,8 +114,9 @@ void CEditStateParaTabDlg::OnBnClickedClearAll()
 	{ 
 		m_pDataProvider->m_vectStatePara.clear();
 		m_pDataProvider->DeleteDbTable(CDataProvider::tbStatePara);
-		ListOnPaint();
+		
 		OnBnClickedClearEdit();
+		MyOnPaint();
 	}
 
 }
@@ -119,10 +124,25 @@ void CEditStateParaTabDlg::OnBnClickedClearAll()
 
 void CEditStateParaTabDlg::OnCbnSelchangeLine()
 {
-	CString LineName;
+	CString LineName,ModuleName;
 	m_LineComboBox.GetWindowText(LineName);
 	ModuleComboxPaint(LineName);
+
+	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName);
 }
+
+
+void CEditStateParaTabDlg::OnCbnSelchangeModule()
+{
+	CString LineName, ModuleName;
+	m_LineComboBox.GetWindowText(LineName);
+	m_ModuleComboBox.GetWindowText(ModuleName);
+
+	ListOnPaint(LineName, ModuleName);
+}
+
 
 
 int CEditStateParaTabDlg::LineComboxPaint()
@@ -164,7 +184,7 @@ int CEditStateParaTabDlg::PlcComboxPaint()
 	return 0;
 }
 
-int CEditStateParaTabDlg::ListOnPaint()
+int CEditStateParaTabDlg::ListOnPaint(const CString &ProLineName, const CString &ProModuleName)
 {
 	LV_ITEM litem;
 	litem.mask = LVIF_TEXT;
@@ -192,13 +212,20 @@ int CEditStateParaTabDlg::ListOnPaint()
 	m_list1.InsertColumn(7, _T("备注"), LVCFMT_CENTER, rect1.Width() / 13 * 2, -1);
 	//填写表单内容//
 	int length = m_pDataProvider->m_vectStatePara.size();
-	for (int i = 0; i < length; i++)
+	int index = 0; //表单索引//
+	for (size_t i = 0; i < length; i++)
 	{
-		litem.iItem = i;
-		m_list1.InsertItem(&litem);
-		
-		SetListItemText(i, m_pDataProvider->m_vectStatePara[i]);
+		if (ProLineName == m_pDataProvider->m_vectStatePara[i].m_strProductionLineName
+			&&ProModuleName == m_pDataProvider->m_vectStatePara[i].m_strProcessModuleName)
+		{
+			litem.iItem = index;
+			m_list1.InsertItem(&litem);
+			SetListItemText(index, m_pDataProvider->m_vectStatePara[i]);
+			index++;
+		}
+
 	}
+
 	return 0;
 }
 
@@ -209,12 +236,12 @@ void CEditStateParaTabDlg::SetListItemText(int Index, CStatePara &statePara)
 	int i = Index;
 	str.Format(_T("%d"), i + 1);
 	m_list1.SetItemText(i, 1, str);
-	m_list1.SetItemText(i, 2, m_pDataProvider->m_vectStatePara[i].m_strProductionLineName);
-	m_list1.SetItemText(i, 3, m_pDataProvider->m_vectStatePara[i].m_strProcessModuleName);
-	m_list1.SetItemText(i, 4, m_pDataProvider->m_vectStatePara[i].m_strPlcName);
-	m_list1.SetItemText(i, 5, m_pDataProvider->m_vectStatePara[i].m_strParaName);
-	m_list1.SetItemText(i, 6, m_pDataProvider->m_vectStatePara[i].m_strAddressIndex);
-	m_list1.SetItemText(i, 7, m_pDataProvider->m_vectStatePara[i].m_strDescription);
+	m_list1.SetItemText(i, 2, statePara.m_strProductionLineName);
+	m_list1.SetItemText(i, 3, statePara.m_strProcessModuleName);
+	m_list1.SetItemText(i, 4, statePara.m_strPlcName);
+	m_list1.SetItemText(i, 5, statePara.m_strParaName);
+	m_list1.SetItemText(i, 6, statePara.m_strAddressIndex);
+	m_list1.SetItemText(i, 7, statePara.m_strDescription);
 
 }
 
@@ -313,3 +340,6 @@ void CEditStateParaTabDlg::OnOK()
 
 	//CDialog::OnOK();
 }
+
+
+

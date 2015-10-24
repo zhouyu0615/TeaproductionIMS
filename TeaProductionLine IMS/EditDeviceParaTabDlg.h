@@ -48,7 +48,8 @@ public:
 	virtual BOOL OnInitDialog();
 	int MyOnPaint();
 
-	int ListOnPaint();
+	int ListOnPaint(const CString &ProLineName, const CString &ProModuleName);
+
 	void UpdateItemInList(int Index, CDevicePara &devicePara);
 	void DeleteItemInList(int Index);
 

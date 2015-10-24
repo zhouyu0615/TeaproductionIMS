@@ -41,11 +41,11 @@ public:
 	afx_msg void OnBnClickedAddItem();
 	afx_msg void OnBnClickedClearEdit();
 	afx_msg void OnBnClickedClearAll();
-	afx_msg void OnCbnSelchangeCo2EditmoduleparaTabdlg();
+	afx_msg void OnCbnSelchangeLine();
 	afx_msg void OnNMRClickLi1EditmoduleparaTabdlg(NMHDR *pNMHDR, LRESULT *pResult);
 
 	int MyOnPaint();
-	int ListOnPaint();
+	int ListOnPaint(const CString &ProLineName, const CString &ProModuleName);
 
 	void UpdateItemInList(int Index, CProcessPara &processPara);
 	void DeleteItemInList(int Index);
@@ -70,4 +70,6 @@ public:
 
 private:
 	void SetListItemText(int Index, CProcessPara &processPara);
+public:
+	afx_msg void OnCbnSelchangeModule();
 };
