@@ -373,9 +373,6 @@ CTcpSendBuffFrame CModbus::ConstructModbusWriteFrame(CPlcWriteRequest WriteReque
 	WORD wValue = 0;
 
 
-	
-	
-
 	switch (WriteRequest.m_AddrType)
 	{
 	case CPlcWriteRequest::ADDR_TYPE_BIT:

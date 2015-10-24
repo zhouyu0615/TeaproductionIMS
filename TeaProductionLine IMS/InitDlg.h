@@ -89,6 +89,23 @@ public:
 	int LineComboboxOnPaint();
 	int ListOnPaint();
 
+	void SetListItemText(int index,CUserClass &user);
+	void SetListItemText(int index, CProductionLineClass &ProLine);
+	void SetListItemText(int index, CProcessModuleClass &ProModule);
+	void SetListItemText(int index, CDeviceClass &device);
+	void SetListItemText(int index, CPlcClass &plc);
+	void SetListItemText(int index, CVideoClass &video);
+
+	void AddItemToList(CUserClass &user);
+	void AddItemToList(CProductionLineClass &ProLine);
+	void AddItemToList(CProcessModuleClass &ProModule);
+	void AddItemToList(CDeviceClass &device);
+	void AddItemToList(CPlcClass &plc);
+	void AddItemToList(CVideoClass &video);
+
+
+	void DeleteItemInList(int index);
+
 	int DeleteListItem(int nItem);
 	int ModifyListItem();
 	int MoveUpItem();

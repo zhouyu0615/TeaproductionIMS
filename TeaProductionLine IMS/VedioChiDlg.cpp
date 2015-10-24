@@ -58,7 +58,7 @@ BEGIN_MESSAGE_MAP(CVedioChiDlg, CDialog)
 	ON_WM_SIZE()
 	ON_BN_CLICKED(IDC_BT_PLAY, &CVedioChiDlg::OnBnClickedBtPlay)
 	ON_BN_CLICKED(IDC_BT_STOP, &CVedioChiDlg::OnBnClickedBtStop)
-	ON_BN_CLICKED(IDC_BUTTON3, &CVedioChiDlg::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON3, &CVedioChiDlg::OnBnClickedRefresh)
 	ON_BN_CLICKED(IDC_BT_SINGLEPIC, &CVedioChiDlg::OnBnClickedBtSinglepic)
 	ON_BN_CLICKED(IDC_BT_FOURPIC, &CVedioChiDlg::OnBnClickedBtFourpic)
 	ON_BN_CLICKED(IDC_BT_NINEPIC, &CVedioChiDlg::OnBnClickedBtNinepic)
@@ -156,6 +156,7 @@ BOOL CVedioChiDlg::OnInitDialog()
 	if (m_nNumOfVedio > 4)                                    //如果摄像头个数大于4，则使能下一页按钮//
 		GetDlgItem(IDC_BT_NEXT)->EnableWindow(TRUE);
 
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常:  OCX 属性页应返回 FALSE
 }
@@ -164,14 +165,20 @@ BOOL CVedioChiDlg::OnInitDialog()
 //开始所有按钮响应函数//
 void CVedioChiDlg::OnBnClickedBtPlay()
 {
-	// TODO:  在此添加控件通知处理程序代码
 	AfxBeginThread(ThreadFunc, this);
+
+	IsVideoPlay = true;
 }
 
 //停止所有响应函数//
 void CVedioChiDlg::OnBnClickedBtStop()
 {
-	// TODO:  在此添加控件通知处理程序代码
+	StopAllVideoPlay();
+	IsVideoPlay = false;
+}
+
+void CVedioChiDlg::StopAllVideoPlay()
+{
 	for (int n = 0; n < m_nNumOfVedio; n++)
 	{
 		m_vectVedio[n]->StopPlay();
@@ -180,7 +187,7 @@ void CVedioChiDlg::OnBnClickedBtStop()
 }
 
 //刷新按钮的响应函数//
-void CVedioChiDlg::OnBnClickedButton3()
+void CVedioChiDlg::OnBnClickedRefresh()
 {
 	// TODO:  在此添加控件通知处理程序代码
 	AfxBeginThread(ThreadConnectVideo, this);
@@ -917,4 +924,15 @@ void CVedioChiDlg::DblClickRealplayxctrl16()
 		FullScreenDlg.m_nItem = 15;
 		FullScreenDlg.DoModal();
 	}
+}
+
+
+BOOL CVedioChiDlg::DestroyWindow()
+{
+	// TODO:  在此添加专用代码和/或调用基类
+
+	StopAllVideoPlay();
+
+
+	return CDialog::DestroyWindow();
 }

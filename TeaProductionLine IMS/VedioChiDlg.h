@@ -36,7 +36,7 @@ public:
 	virtual BOOL OnInitDialog();	
 	afx_msg void OnBnClickedBtPlay();
 	afx_msg void OnBnClickedBtStop();
-	afx_msg void OnBnClickedButton3();
+	afx_msg void OnBnClickedRefresh();
 	int m_nPicStyle;              //画面风格标志，1单画面、4表示四画面，9表示九画面，16表示十六画面//
 	int m_nNumOfPage;             //当需要多页面时，当前显示页面的页码//
 
@@ -94,4 +94,11 @@ public:
 	void DblClickRealplayxctrl14();
 	void DblClickRealplayxctrl15();
 	void DblClickRealplayxctrl16();
+	virtual BOOL DestroyWindow();
+
+
+	
+public:
+	bool IsVideoPlay = false;
+	void StopAllVideoPlay();
 };

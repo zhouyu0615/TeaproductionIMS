@@ -397,6 +397,10 @@ void CMainDlg::OnBnClickedBtVedio()
 	m_VedioChiDlg.ShowWindow(SW_SHOW);
 	m_ConfigChiDlg.ShowWindow(SW_HIDE);
 	m_nCurChiDlg = ID_VEDIODLG;               //相应为当前显示子界面的标识符赋值//
+	if (m_VedioChiDlg.IsVideoPlay==true)
+	{
+		m_VedioChiDlg.OnBnClickedBtPlay();
+	}
 }
 
 //点击“设备监控”按钮的响应函数//
@@ -410,6 +414,8 @@ void CMainDlg::OnBnClickedBtDevice()
 		m_ConfigChiDlg.m_OldConfigGraChiDlg.m_bIsCurConfigChange = false;
 	}
 	m_VedioChiDlg.ShowWindow(SW_HIDE);
+	m_VedioChiDlg.StopAllVideoPlay(); //关闭视频连接//
+
 	m_DeviceChiDlg.ShowWindow(SW_SHOW);
 	m_ConfigChiDlg.ShowWindow(SW_HIDE);
 	m_nCurChiDlg = ID_DEVICEDLG;         //相应为当前显示子界面的标识符赋值//
@@ -423,7 +429,10 @@ void CMainDlg::OnBnClickedBtConfig()
 		return;
 	m_ConfigChiDlg.ShowWindow(SW_SHOW);
 	m_DeviceChiDlg.ShowWindow(SW_HIDE);
+
 	m_VedioChiDlg.ShowWindow(SW_HIDE);
+	m_VedioChiDlg.StopAllVideoPlay();
+
 	m_nCurChiDlg = ID_CONFIGDLG;
 }
 
@@ -431,6 +440,8 @@ void CMainDlg::OnBnClickedBtConfig()
 void CMainDlg::OnDestroy()
 {
 	OnBnClickedDisconnectPlc();
+
+	m_VedioChiDlg.StopAllVideoPlay(); //断开视频连接//
 	CDialog::OnDestroy();
 	// TODO:  在此处添加消息处理程序代码
 }

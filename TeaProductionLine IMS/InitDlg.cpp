@@ -16,7 +16,6 @@ CInitDlg::CInitDlg(CWnd* pParent /*=NULL*/)
 : CDialog(CInitDlg::IDD, pParent)
 {
 	m_InitTag = OWER_EDIT_TAG;
-	//m_pDataProvider->InitDataProvider();
 }
 
 CInitDlg::~CInitDlg()
@@ -234,6 +233,7 @@ void CInitDlg::OnBnClickedAddInitdlg()
 		tempUser.m_strNote = text4;
 
 		m_pDataProvider->AddUserToDatabase(tempUser);
+		AddItemToList(tempUser);
 
 		break;
 	case PRODUCTION_LINE_EDIT_TAG:
@@ -257,6 +257,7 @@ void CInitDlg::OnBnClickedAddInitdlg()
 		 
 		m_pDataProvider->AddProLineToDatabase(tempProLine);
 
+		AddItemToList(tempProLine);
 
 		break;
 	case MODULE_EDIT_TAG:
@@ -287,6 +288,9 @@ void CInitDlg::OnBnClickedAddInitdlg()
 		tempProModule.m_strDescription = text3;
 
 		m_pDataProvider->AddProModuleToDatabase(tempProModule);
+		AddItemToList(tempProModule);
+	    
+
 		break;
 	case DEVICE_EDIT_TAG:
 
@@ -306,6 +310,7 @@ void CInitDlg::OnBnClickedAddInitdlg()
 
 
 		m_pDataProvider->AddDeviceToDatabase(tempDevice);
+		AddItemToList(tempDevice);
 
 		break;
 	case PLC_EDIT_TAG:
@@ -328,6 +333,7 @@ void CInitDlg::OnBnClickedAddInitdlg()
 		//将添加的信息录入到容器//
 
 		m_pDataProvider->AddPlcToDatabase(tempPlc);
+		AddItemToList(tempPlc);
 		break;
 
 	case VIDEO_EDIT_TAG:
@@ -348,9 +354,10 @@ void CInitDlg::OnBnClickedAddInitdlg()
 		tempVideo.m_port = _ttoi(text5);
 
 		//将添加的信息录入到容器//
-
-
 		m_pDataProvider->AddVideoToDatabase(tempVideo);
+
+		AddItemToList(tempVideo);
+
 		break;
 
 	default:
@@ -358,7 +365,7 @@ void CInitDlg::OnBnClickedAddInitdlg()
 	}
 	ClearEditCtrl();
 
-	ListOnPaint();
+	//ListOnPaint();
 
 }
 
@@ -448,14 +455,9 @@ int CInitDlg::ListOnPaint()
 		for (int i = 0; i < temp; i++)
 		{
 			litem.iItem = i;
-			CString str;
-			str.Format(_T("%d"), i + 1);
 			m_list_init.InsertItem(&litem);
-			m_list_init.SetItemText(i, 1, str);
-			m_list_init.SetItemText(i, 2, m_pDataProvider->m_vectUser[i].m_strUserName);
-			m_list_init.SetItemText(i, 3, m_pDataProvider->m_vectUser[i].m_strUserPasswd);
-			m_list_init.SetItemText(i, 4, m_pDataProvider->m_vectUser[i].m_strUserCode);
-			m_list_init.SetItemText(i, 5, m_pDataProvider->m_vectUser[i].m_strNote);
+			
+			SetListItemText(i,m_pDataProvider->m_vectUser[i]);
 		}
 		break;
 
@@ -496,13 +498,9 @@ int CInitDlg::ListOnPaint()
 		for (int i = 0; i < temp; i++)
 		{
 			litem.iItem = i;
-			CString str;
-			str.Format(_T("%d"), i + 1);
 			m_list_init.InsertItem(&litem);
-			m_list_init.SetItemText(i, 1, str); //序号
-			m_list_init.SetItemText(i, 2, m_pDataProvider->m_vectProductionLine[i].m_strLineName);
-			m_list_init.SetItemText(i, 3, m_pDataProvider->m_vectProductionLine[i].m_strCapacity);
-			m_list_init.SetItemText(i, 4, m_pDataProvider->m_vectProductionLine[i].m_strDescription);
+		
+			SetListItemText(i, m_pDataProvider->m_vectProductionLine[i]);
 		}
 		break;
 
@@ -546,13 +544,9 @@ int CInitDlg::ListOnPaint()
 		for (int i = 0; i < temp; i++)
 		{
 			litem.iItem = i;
-			CString str;
-			str.Format(_T("%d"), i + 1);
 			m_list_init.InsertItem(&litem);
-			m_list_init.SetItemText(i, 1, str); //序号
-			m_list_init.SetItemText(i, 2, m_pDataProvider->m_vectProcessModule[i].m_strProductionLineName);
-			m_list_init.SetItemText(i, 3, m_pDataProvider->m_vectProcessModule[i].m_strProcessModuleName);
-			m_list_init.SetItemText(i, 4, m_pDataProvider->m_vectProcessModule[i].m_strDescription);
+			
+			SetListItemText(i, m_pDataProvider->m_vectProcessModule[i]);
 		}
 		break;
 
@@ -615,14 +609,9 @@ int CInitDlg::ListOnPaint()
 		for (int i = 0; i < temp; i++)
 		{
 			litem.iItem = i;
-			CString str;
-			str.Format(_T("%d"), i + 1);
 			m_list_init.InsertItem(&litem);
-			m_list_init.SetItemText(i, 1, str); //序号
-			m_list_init.SetItemText(i, 2, m_pDataProvider->m_vectDevice[i].m_strProductionLineName);
-			m_list_init.SetItemText(i, 3, m_pDataProvider->m_vectDevice[i].m_strProcessModuleName);
-			m_list_init.SetItemText(i, 4, m_pDataProvider->m_vectDevice[i].m_strDeviceName);
-			m_list_init.SetItemText(i, 5, m_pDataProvider->m_vectDevice[i].m_strDeviceType);
+			
+			SetListItemText(i, m_pDataProvider->m_vectDevice[i]);
 		}
 		break;
 
@@ -669,21 +658,9 @@ int CInitDlg::ListOnPaint()
 		for (int i = 0; i < temp; i++)
 		{
 			litem.iItem = i;
-			CString str;
-			str.Format(_T("%d"), i + 1);
 			m_list_init.InsertItem(&litem);
-			m_list_init.SetItemText(i, 1, str); //序号
-			m_list_init.SetItemText(i, 2, m_pDataProvider->m_vectPlc[i].m_strPlcName);
-			m_list_init.SetItemText(i, 3, m_pDataProvider->m_vectPlc[i].m_strIPAddr);
-
-			str.Format(_T("%d"), m_pDataProvider->m_vectPlc[i].m_ReadStartAddr);
-			m_list_init.SetItemText(i, 4, str);
-			str.Format(_T("%d"), m_pDataProvider->m_vectPlc[i].m_ReadLength);
-			m_list_init.SetItemText(i, 5, str);
-			//str.Format(_T("%d"), m_pDataProvider->m_vectPlc[i].m_WriteStartAddr);
-			//m_list_init.SetItemText(i, 6, str);
-			//str.Format(_T("%d"), m_pDataProvider->m_vectPlc[i].m_WriteLength);
-			//m_list_init.SetItemText(i, 7, str);
+			
+			SetListItemText(i, m_pDataProvider->m_vectPlc[i]);
 		}
 		break;
 
@@ -743,18 +720,11 @@ int CInitDlg::ListOnPaint()
 
 		for (int i = 0; i < temp; i++)
 		{
-			CString str, strPort;
+			
 			litem.iItem = i;
-			str.Format(_T("%d"), i + 1);
 			m_list_init.InsertItem(&litem);
-			m_list_init.SetItemText(i, 1, str); //序号
-			m_list_init.SetItemText(i, 2, m_pDataProvider->m_vectVideo[i].m_strProductionLineName);
-			m_list_init.SetItemText(i, 3, m_pDataProvider->m_vectVideo[i].m_strProcessModuleName);
-			m_list_init.SetItemText(i, 4, m_pDataProvider->m_vectVideo[i].m_strVideoName);
-			m_list_init.SetItemText(i, 5, m_pDataProvider->m_vectVideo[i].m_strIPAddr);
-
-			strPort.Format(_T("%d"), m_pDataProvider->m_vectVideo[i].m_port);
-			m_list_init.SetItemText(i, 6, strPort);
+			
+			SetListItemText(i, m_pDataProvider->m_vectVideo[i]);
 		}
 		break;
 
@@ -766,6 +736,170 @@ int CInitDlg::ListOnPaint()
 
 	return 0;
 }
+
+void  CInitDlg::SetListItemText(int index, CUserClass &user)
+{
+	int i = index;
+	CString str;
+	str.Format(_T("%d"), i + 1);
+	m_list_init.SetItemText(i, 1, str);
+	m_list_init.SetItemText(i, 2, user.m_strUserName);
+	m_list_init.SetItemText(i, 3, user.m_strUserPasswd);
+	m_list_init.SetItemText(i, 4, user.m_strUserCode);
+	m_list_init.SetItemText(i, 5, user.m_strNote);
+}
+void  CInitDlg::SetListItemText(int index, CProductionLineClass &ProLine)
+{
+	int i = index;
+	CString str;
+	str.Format(_T("%d"), i + 1);
+	m_list_init.SetItemText(i, 1, str); //序号
+	m_list_init.SetItemText(i, 2, ProLine.m_strLineName);
+	m_list_init.SetItemText(i, 3, ProLine.m_strCapacity);
+	m_list_init.SetItemText(i, 4, ProLine.m_strDescription);
+
+}
+void  CInitDlg::SetListItemText(int index, CProcessModuleClass &ProModule)
+{ 
+	int i = index;
+	CString str;
+	str.Format(_T("%d"), i + 1);
+
+	m_list_init.SetItemText(i, 1, str); //序号
+	m_list_init.SetItemText(i, 2, ProModule.m_strProductionLineName);
+	m_list_init.SetItemText(i, 3, ProModule.m_strProcessModuleName);
+	m_list_init.SetItemText(i, 4, ProModule.m_strDescription);
+}
+void  CInitDlg::SetListItemText(int index, CDeviceClass &device)
+{
+	int i = index;
+	CString str;
+	str.Format(_T("%d"), i + 1);
+	m_list_init.SetItemText(i, 1, str); //序号
+	m_list_init.SetItemText(i, 2, device.m_strProductionLineName);
+	m_list_init.SetItemText(i, 3, device.m_strProcessModuleName);
+	m_list_init.SetItemText(i, 4, device.m_strDeviceName);
+	m_list_init.SetItemText(i, 5, device.m_strDeviceType);
+
+}
+void  CInitDlg::SetListItemText(int index, CPlcClass &plc)
+{
+	int i = index;
+	CString str;
+	str.Format(_T("%d"), i + 1);
+
+	m_list_init.SetItemText(i, 1, str); //序号
+	m_list_init.SetItemText(i, 2, plc.m_strPlcName);
+	m_list_init.SetItemText(i, 3, plc.m_strIPAddr);
+	str.Format(_T("%d"), plc.m_ReadStartAddr);
+	m_list_init.SetItemText(i, 4, str);
+	str.Format(_T("%d"), plc.m_ReadLength);
+	m_list_init.SetItemText(i, 5, str);
+	//str.Format(_T("%d"), m_pDataProvider->m_vectPlc[i].m_WriteStartAddr);
+	//m_list_init.SetItemText(i, 6, str);
+	//str.Format(_T("%d"), m_pDataProvider->m_vectPlc[i].m_WriteLength);
+	//m_list_init.SetItemText(i, 7, str);
+}
+void  CInitDlg::SetListItemText(int index, CVideoClass &video)
+{
+	int i = index;
+	CString str, strPort;
+	str.Format(_T("%d"), i + 1);
+
+	m_list_init.SetItemText(i, 1, str); //序号
+	m_list_init.SetItemText(i, 2, video.m_strProductionLineName);
+	m_list_init.SetItemText(i, 3, video.m_strProcessModuleName);
+	m_list_init.SetItemText(i, 4, video.m_strVideoName);
+	m_list_init.SetItemText(i, 5, video.m_strIPAddr);
+
+	strPort.Format(_T("%d"), video.m_port);
+	m_list_init.SetItemText(i, 6, strPort);
+
+}
+
+
+void CInitDlg::AddItemToList(CUserClass &user)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list_init.GetItemCount();
+	litem.iItem = i;
+	m_list_init.InsertItem(&litem);
+	SetListItemText(i, user);
+	m_list_init.EnsureVisible(i, TRUE);
+}
+void CInitDlg::AddItemToList(CProductionLineClass &ProLine)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list_init.GetItemCount();
+	litem.iItem = i;
+	m_list_init.InsertItem(&litem);
+	SetListItemText(i, ProLine);
+	m_list_init.EnsureVisible(i, TRUE);
+
+
+}
+void CInitDlg::AddItemToList(CProcessModuleClass &ProModule)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list_init.GetItemCount();
+	litem.iItem = i;
+	m_list_init.InsertItem(&litem);
+	SetListItemText(i, ProModule);
+	m_list_init.EnsureVisible(i, TRUE);
+}
+void CInitDlg::AddItemToList(CDeviceClass &device)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list_init.GetItemCount();
+	litem.iItem = i;
+	m_list_init.InsertItem(&litem);
+	SetListItemText(i, device);
+	m_list_init.EnsureVisible(i, TRUE);
+}
+void CInitDlg::AddItemToList(CPlcClass &plc)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list_init.GetItemCount();
+	litem.iItem = i;
+	m_list_init.InsertItem(&litem);
+	SetListItemText(i, plc);
+	m_list_init.EnsureVisible(i, TRUE);
+}
+void CInitDlg::AddItemToList(CVideoClass &video)
+{
+	LV_ITEM litem;
+	litem.mask = LVIF_TEXT;
+	litem.iSubItem = 0;
+	litem.pszText = _T("");
+
+	int i = m_list_init.GetItemCount();
+	litem.iItem = i;
+	m_list_init.InsertItem(&litem);
+	SetListItemText(i, video);
+	m_list_init.EnsureVisible(i, TRUE);
+}
+
+
 
 void CInitDlg::MyOnPaint()
 {
@@ -892,7 +1026,7 @@ void CInitDlg::OnNMRClickLiInitdlg(NMHDR *pNMHDR, LRESULT *pResult)
 	default:
 		break;
 	}
-	MyOnPaint();
+//	MyOnPaint();
 }
 
 
@@ -903,26 +1037,39 @@ int CInitDlg::ModifyListItem()
 	case OWER_EDIT_TAG:
 		m_EditOwerPopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_EditOwerPopDlg.DoModal();
+
+		SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectUser[m_nSelectedItem]);
+
 		break;
 	case PRODUCTION_LINE_EDIT_TAG:
 		m_EditLinePopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_EditLinePopDlg.DoModal();
+
+		SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectProductionLine[m_nSelectedItem]);
 		break;
 	case MODULE_EDIT_TAG:
 		m_EditModulePopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_EditModulePopDlg.DoModal();
+		SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectProcessModule[m_nSelectedItem]);
 		break;
 	case DEVICE_EDIT_TAG:
 		m_EditDevicePopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_EditDevicePopDlg.DoModal();
+
+		SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectDevice[m_nSelectedItem]);
+
 		break;
 	case PLC_EDIT_TAG:
 		m_EditPlcPopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_EditPlcPopDlg.DoModal();
+
+		SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectPlc[m_nSelectedItem]);
 		break;
 	case VIDEO_EDIT_TAG:
 		m_EditVideoPopDlg.m_nSelectedItem = m_nSelectedItem;
 		m_EditVideoPopDlg.DoModal();
+
+		SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectVideo[m_nSelectedItem]);
 		break;
 	default:
 		break;
@@ -949,6 +1096,10 @@ int CInitDlg::MoveUpItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbProductionLine, m_pDataProvider->m_vectProductionLine[m_nSelectedItem - 1].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbProductionLine, m_pDataProvider->m_vectProductionLine[m_nSelectedItem].m_Id);
+
+			SetListItemText(m_nSelectedItem - 1, m_pDataProvider->m_vectProductionLine[m_nSelectedItem - 1]);
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectProductionLine[m_nSelectedItem]);
+
 		}
 		break;
 	case MODULE_EDIT_TAG:
@@ -962,6 +1113,12 @@ int CInitDlg::MoveUpItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbProcessModule, m_pDataProvider->m_vectProcessModule[m_nSelectedItem - 1].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbProcessModule, m_pDataProvider->m_vectProcessModule[m_nSelectedItem].m_Id);
+
+
+			SetListItemText(m_nSelectedItem - 1, m_pDataProvider->m_vectProcessModule[m_nSelectedItem - 1]);
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectProcessModule[m_nSelectedItem]);
+
+
 		}
 		break;
 	case DEVICE_EDIT_TAG:
@@ -975,6 +1132,9 @@ int CInitDlg::MoveUpItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbDevice, m_pDataProvider->m_vectDevice[m_nSelectedItem - 1].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbDevice, m_pDataProvider->m_vectDevice[m_nSelectedItem].m_Id);
+
+			SetListItemText(m_nSelectedItem - 1, m_pDataProvider->m_vectDevice[m_nSelectedItem - 1]);
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectDevice[m_nSelectedItem]);
 		}
 		break;
 	case PLC_EDIT_TAG:
@@ -988,6 +1148,10 @@ int CInitDlg::MoveUpItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbPLc, m_pDataProvider->m_vectPlc[m_nSelectedItem - 1].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbPLc, m_pDataProvider->m_vectPlc[m_nSelectedItem].m_Id);
+
+			SetListItemText(m_nSelectedItem - 1, m_pDataProvider->m_vectPlc[m_nSelectedItem - 1]);
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectPlc[m_nSelectedItem]);
+
 		}
 		break;
 	case VIDEO_EDIT_TAG:
@@ -1001,6 +1165,9 @@ int CInitDlg::MoveUpItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbVideo, m_pDataProvider->m_vectVideo[m_nSelectedItem - 1].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbVideo, m_pDataProvider->m_vectVideo[m_nSelectedItem].m_Id);
+
+			SetListItemText(m_nSelectedItem - 1, m_pDataProvider->m_vectVideo[m_nSelectedItem - 1]);
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectVideo[m_nSelectedItem]);			
 		}
 		break;
 	default:
@@ -1029,6 +1196,9 @@ int CInitDlg::MoveDownItem()
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbProductionLine, m_pDataProvider->m_vectProductionLine[m_nSelectedItem].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbProductionLine, m_pDataProvider->m_vectProductionLine[m_nSelectedItem+1].m_Id);
 
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectProductionLine[m_nSelectedItem]);
+			SetListItemText(m_nSelectedItem + 1, m_pDataProvider->m_vectProductionLine[m_nSelectedItem+1] );
+
 		}
 
 	case MODULE_EDIT_TAG:
@@ -1042,6 +1212,11 @@ int CInitDlg::MoveDownItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbProcessModule, m_pDataProvider->m_vectProcessModule[m_nSelectedItem].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbProcessModule, m_pDataProvider->m_vectProcessModule[m_nSelectedItem+1].m_Id);
+
+
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectProcessModule[m_nSelectedItem]);
+			SetListItemText(m_nSelectedItem + 1, m_pDataProvider->m_vectProcessModule[m_nSelectedItem + 1]);
+
 		}
 		break;
 	case DEVICE_EDIT_TAG:
@@ -1055,6 +1230,9 @@ int CInitDlg::MoveDownItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbDevice, m_pDataProvider->m_vectDevice[m_nSelectedItem].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbDevice, m_pDataProvider->m_vectDevice[m_nSelectedItem+1].m_Id);
+
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectDevice[m_nSelectedItem]);
+			SetListItemText(m_nSelectedItem + 1, m_pDataProvider->m_vectDevice[m_nSelectedItem + 1]);
 		}
 		break;
 	case PLC_EDIT_TAG:
@@ -1068,6 +1246,10 @@ int CInitDlg::MoveDownItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbPLc, m_pDataProvider->m_vectPlc[m_nSelectedItem].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbPLc, m_pDataProvider->m_vectPlc[m_nSelectedItem+1].m_Id);
+
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectPlc[m_nSelectedItem]);
+			SetListItemText(m_nSelectedItem + 1, m_pDataProvider->m_vectPlc[m_nSelectedItem + 1]);
+
 		}
 		break;
 	case VIDEO_EDIT_TAG:
@@ -1081,7 +1263,11 @@ int CInitDlg::MoveDownItem()
 			//把改动存入数据库//
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbVideo, m_pDataProvider->m_vectVideo[m_nSelectedItem].m_Id);
 			m_pDataProvider->UpdateTableItem(CDataProvider::tbVideo, m_pDataProvider->m_vectVideo[m_nSelectedItem+1].m_Id);
+
+			SetListItemText(m_nSelectedItem, m_pDataProvider->m_vectVideo[m_nSelectedItem]);
+			SetListItemText(m_nSelectedItem + 1, m_pDataProvider->m_vectVideo[m_nSelectedItem + 1]);
 		}
+
 		break;
 	default:
 		break;
@@ -1090,6 +1276,20 @@ int CInitDlg::MoveDownItem()
 
 	return 0;
 }
+
+void CInitDlg::DeleteItemInList(int index)
+{
+	int len = m_list_init.GetItemCount();
+
+	m_list_init.DeleteItem(index);
+	for (int i = index; i < len;i++)
+	{
+		CString str;
+		str.Format(_T("%d"), i + 1);
+		m_list_init.SetItemText(i, 1, str);
+	}
+}
+
 
 
 
@@ -1119,7 +1319,8 @@ int CInitDlg::DeleteListItem(int nItem)
 			m_pDataProvider->DeleteDbTable(CDataProvider::tbDevicePara);
 			m_pDataProvider->DeleteDbTable(CDataProvider::tbFaultPara);
 			m_pDataProvider->DeleteDbTable(CDataProvider::tbFormula);
-
+			
+			DeleteItemInList(m_nSelectedItem);
 		}
 		break;
 	case PRODUCTION_LINE_EDIT_TAG:
@@ -1143,6 +1344,9 @@ int CInitDlg::DeleteListItem(int nItem)
 			//删除该容器中的数据
 			pProlineIter = m_pDataProvider->m_vectProductionLine.begin();
 			m_pDataProvider->m_vectProductionLine.erase(pProlineIter + m_nSelectedItem);
+
+
+			DeleteItemInList(m_nSelectedItem);
 		}
 
 		break;
@@ -1167,6 +1371,8 @@ int CInitDlg::DeleteListItem(int nItem)
 			//删除该容器中的数据//
 			pModuleIter = m_pDataProvider->m_vectProcessModule.begin();
 			m_pDataProvider->m_vectProcessModule.erase(pModuleIter + m_nSelectedItem);
+
+			DeleteItemInList(m_nSelectedItem);
 		}
 
 		break;
@@ -1179,6 +1385,7 @@ int CInitDlg::DeleteListItem(int nItem)
 		pDeviceIter = m_pDataProvider->m_vectDevice.begin();
 		m_pDataProvider->m_vectDevice.erase(pDeviceIter + m_nSelectedItem);
 
+		DeleteItemInList(m_nSelectedItem);
 
 		break;
 	case PLC_EDIT_TAG:
@@ -1190,6 +1397,8 @@ int CInitDlg::DeleteListItem(int nItem)
 		pPlcIter = m_pDataProvider->m_vectPlc.begin();
 		m_pDataProvider->m_vectPlc.erase(pPlcIter + m_nSelectedItem);
 
+		DeleteItemInList(m_nSelectedItem);
+
 		break;
 	case VIDEO_EDIT_TAG:
 
@@ -1198,6 +1407,8 @@ int CInitDlg::DeleteListItem(int nItem)
 
 		pVideoIter = m_pDataProvider->m_vectVideo.begin();
 		m_pDataProvider->m_vectVideo.erase(pVideoIter + m_nSelectedItem);
+
+		DeleteItemInList(m_nSelectedItem);
 
 		break;
 	default:
