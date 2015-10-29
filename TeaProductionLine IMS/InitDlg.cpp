@@ -73,14 +73,12 @@ void CInitDlg::OnBnClickedBtPlcparaInitdlg()
 
 void CInitDlg::OnBnClickedBtOwnerInitdlg()
 {
-	// TODO:  在此添加控件通知处理程序代码
 	if (m_InitTag != OWER_EDIT_TAG)
 	{
 		ClearEditCtrl();
 	}
 	m_InitTag = OWER_EDIT_TAG;
 	MyOnPaint();
-
 }
 
 
