@@ -154,6 +154,10 @@ BOOL CMainDlg::OnInitDialog()
 	m_VedioChiDlg.ShowWindow(SW_SHOW);
 	m_ConfigChiDlg.Create(IDD_CONFIG_CHIDLG, this);
 	m_ConfigChiDlg.ShowWindow(SW_HIDE);
+
+	m_HistoryChiDlg.Create(IDD_HISTORY_CHIDLG, this);
+	m_HistoryChiDlg.ShowWindow(SW_HIDE);
+
 	CDialog::OnInitDialog();
 	//天气预报//
 	m_CityComboBox.AddString(_T("长沙"));
@@ -382,6 +386,8 @@ void CMainDlg::OnSize(UINT nType, int cx, int cy)
 			m_DeviceChiDlg.SetWindowPos(&wndBottom, ChiDlgRect.left, ChiDlgRect.top, ChiDlgRect.right - ChiDlgRect.left, ChiDlgRect.bottom - ChiDlgRect.top, SWP_NOZORDER);
 			m_VedioChiDlg.SetWindowPos(&wndBottom, ChiDlgRect.left, ChiDlgRect.top, ChiDlgRect.right - ChiDlgRect.left, ChiDlgRect.bottom - ChiDlgRect.top, SWP_NOZORDER);
 			m_ConfigChiDlg.SetWindowPos(&wndBottom, ChiDlgRect.left, ChiDlgRect.top, ChiDlgRect.right - ChiDlgRect.left, ChiDlgRect.bottom - ChiDlgRect.top, SWP_NOZORDER);
+
+			m_HistoryChiDlg.SetWindowPos(&wndBottom, ChiDlgRect.left, ChiDlgRect.top, ChiDlgRect.right - ChiDlgRect.left, ChiDlgRect.bottom - ChiDlgRect.top, SWP_NOZORDER);
 		}
 	}
 }
@@ -395,6 +401,9 @@ void CMainDlg::OnBnClickedBtVedio()
 	m_DeviceChiDlg.ShowWindow(SW_HIDE);
 	m_VedioChiDlg.ShowWindow(SW_SHOW);
 	m_ConfigChiDlg.ShowWindow(SW_HIDE);
+
+	m_HistoryChiDlg.ShowWindow(SW_HIDE);
+
 	m_nCurChiDlg = ID_VEDIODLG;               //相应为当前显示子界面的标识符赋值//
 	if (m_VedioChiDlg.IsVideoPlay==true)
 	{
@@ -415,6 +424,8 @@ void CMainDlg::OnBnClickedBtDevice()
 	m_VedioChiDlg.ShowWindow(SW_HIDE);
 	m_VedioChiDlg.StopAllVideoPlay(); //关闭视频连接//
 
+	m_HistoryChiDlg.ShowWindow(SW_HIDE);
+
 	m_DeviceChiDlg.ShowWindow(SW_SHOW);
 	m_ConfigChiDlg.ShowWindow(SW_HIDE);
 	m_nCurChiDlg = ID_DEVICEDLG;         //相应为当前显示子界面的标识符赋值//
@@ -432,6 +443,7 @@ void CMainDlg::OnBnClickedBtConfig()
 	m_VedioChiDlg.ShowWindow(SW_HIDE);
 	m_VedioChiDlg.StopAllVideoPlay();
 
+	m_HistoryChiDlg.ShowWindow(SW_HIDE);
 	m_nCurChiDlg = ID_CONFIGDLG;
 }
 
@@ -710,4 +722,18 @@ void CMainDlg::UpdateStatePara()  //监听状态参数//
 void CMainDlg::OnBnClickedBtHistroy()
 {
 	// TODO:  在此添加控件通知处理程序代码
+	if (m_nCurChiDlg == ID_HISTORYDLG)
+		return;
+
+	m_HistoryChiDlg.ShowWindow(SW_SHOW);
+
+	m_ConfigChiDlg.ShowWindow(SW_HIDE);
+	m_DeviceChiDlg.ShowWindow(SW_HIDE);
+
+	m_VedioChiDlg.ShowWindow(SW_HIDE);
+	m_VedioChiDlg.StopAllVideoPlay();
+
+	m_nCurChiDlg = ID_HISTORYDLG;
+
+
 }

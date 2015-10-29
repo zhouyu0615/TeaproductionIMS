@@ -2,7 +2,7 @@
 
 #pragma once
 
-// 代码生成在 2015年7月31日 星期五, 15:14
+// 代码生成在 2015年10月29日 星期四, 10:21
 
 class CtbProcessPara : public CRecordset
 {
@@ -39,6 +39,7 @@ public:
 	CStringA	m_AddressType;
 	CStringA	m_WriteAddressIndex;
 	CStringA	m_Units;
+	long	m_IsRecord;
 
 // 重写
 	// 向导生成的虚函数重写

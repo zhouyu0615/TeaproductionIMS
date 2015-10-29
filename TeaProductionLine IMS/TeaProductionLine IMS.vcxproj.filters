@@ -150,9 +150,6 @@
     <ClInclude Include="tbProcessModule.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="tbProcessPara.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="tbProductionLine.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -235,6 +232,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AlarmClass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tbProcessPara.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="HistoryChlDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mschart1.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -365,9 +371,6 @@
     <ClCompile Include="tbProcessModule.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tbProcessPara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="tbProductionLine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -450,6 +453,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="AlarmClass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tbProcessPara.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryChlDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mschart1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

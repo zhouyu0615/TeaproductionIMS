@@ -48,7 +48,7 @@ BEGIN_MESSAGE_MAP(CEditModuleParaTabDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// CEditModuleParaTabDlg 消息处理程序
+// CEditModuleParaTabDlg 消息处理程序//
 
 
 BOOL CEditModuleParaTabDlg::OnInitDialog()
@@ -76,7 +76,6 @@ void CEditModuleParaTabDlg::OnBnClickedAddItem()
 	m_WriteAddrIndex.GetWindowText(tempProPara.m_strWriteAddrIndex);
 
 
-
 	CString strValType;
 	m_ValueTypeComboBox.GetWindowText(strValType);
 	if (strValType == _T("Bool"))
@@ -102,11 +101,17 @@ void CEditModuleParaTabDlg::OnBnClickedAddItem()
 
 	tempProPara.m_IsConfig = GetConfigState();
 	tempProPara.m_IsVisible = GetVisibleState();
+
+	tempProPara.m_IsRecord = GetRecordState(); //是否进入历史记录//
 	
 	if (!m_ParaCheckUtil.ProcessParaCheck(tempProPara))
 	{
 		m_pDataProvider->AddProcessParaToDatabase(tempProPara);
 		AddItemToList(tempProPara);
+
+		int i = m_list1.GetItemCount()-1;
+		int index = m_pDataProvider->m_vectProModulePara.size()-1;
+		m_IndexMap[i] = index;
 	}
 
 	//ListOnPaint();
@@ -118,6 +123,8 @@ void CEditModuleParaTabDlg::OnBnClickedClearEdit()
 	m_UnitEdit.SetWindowText(_T(""));
 	m_ReadAddrIndexEdit.SetWindowText(_T(""));
 	m_WriteAddrIndex.SetWindowText(_T(""));
+
+	
 }
 
 
@@ -184,16 +191,17 @@ void CEditModuleParaTabDlg::OnNMRClickLi1EditmoduleparaTabdlg(NMHDR *pNMHDR, LRE
 	GetCursorPos(&point1);//得到光标处//
 	UINT nItem1 = pSubMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_TOPALIGN, point1.x, point1.y, GetParent());//确保右键点击在哪菜单出现在哪，并返回所选的菜单项//
 
+	int DataIndex = m_IndexMap[m_nSelectedItem];
 	switch (nItem1)
 	{
 	case ID_PARA_MODIFY:  //右键菜单：修改//
-		m_ModuleParaPopDlg.m_nSelectedItem = m_nSelectedItem;
+		m_ModuleParaPopDlg.m_DataIndex = DataIndex;
 		m_ModuleParaPopDlg.DoModal();
-		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectProModulePara[m_nSelectedItem]);
+		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectProModulePara[DataIndex]);
 		break;
 	case ID_PARA_DELETE:
-		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbProcessPara, m_pDataProvider->m_vectProModulePara[m_nSelectedItem].m_Id);
-		m_pDataProvider->m_vectProModulePara.erase(m_pDataProvider->m_vectProModulePara.begin() + m_nSelectedItem);
+		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbProcessPara, m_pDataProvider->m_vectProModulePara[DataIndex].m_Id);
+		m_pDataProvider->m_vectProModulePara.erase(m_pDataProvider->m_vectProModulePara.begin() + DataIndex);
 		
 		DeleteItemInList(m_nSelectedItem);
 
@@ -214,6 +222,8 @@ int CEditModuleParaTabDlg::MyOnPaint()
 
 	ShowConfigState(TRUE);
 	ShowVisibleState(TRUE);
+	
+	ShowRecordState(FALSE);
 
 	AddrTypeComboBoxInit();
 	OnCbnSelchangeAddrType();
@@ -329,10 +339,14 @@ int CEditModuleParaTabDlg::ListOnPaint(const CString &ProLineName, const CString
 	m_list1.InsertColumn(9, _T("数据类型"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
 	m_list1.InsertColumn(10, _T("是否配方"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
 	m_list1.InsertColumn(11, _T("是否可见"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
-	m_list1.InsertColumn(12, _T("单位"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
+	m_list1.InsertColumn(12, _T("是否记录"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
+
+	m_list1.InsertColumn(13, _T("单位"), LVCFMT_CENTER, rect1.Width() / 17 * 2, -1);
 	//填写表单内容//
 	int length = m_pDataProvider->m_vectProModulePara.size();
 	int index = 0; //表单索引//
+
+	m_IndexMap.clear(); //清空关联的索引//
 	for (size_t i = 0; i < length; i++)
 	{
 		if (ProLineName == m_pDataProvider->m_vectProModulePara[i].m_strProductionLineName
@@ -341,13 +355,11 @@ int CEditModuleParaTabDlg::ListOnPaint(const CString &ProLineName, const CString
 			litem.iItem = index;
 			m_list1.InsertItem(&litem);
 			SetListItemText(index, m_pDataProvider->m_vectProModulePara[i]);
+			m_IndexMap[index] = i;
 			index++;
 		}
 
 	}
-
-
-
 	return 0;
 }
 
@@ -383,7 +395,7 @@ void CEditModuleParaTabDlg::DeleteItemInList(int Index)
 {
 	m_list1.DeleteItem(Index);
 
-	int length = m_pDataProvider->m_vectProModulePara.size();
+	int length = m_list1.GetItemCount();
 	//更新INDEX之后的编号//
 	for (int i = Index; i < length; i++)
 	{
@@ -409,7 +421,10 @@ void CEditModuleParaTabDlg::SetListItemText(int Index, CProcessPara &processPara
 	m_list1.SetItemText(Index, 9, processPara.ConvertValTypeToString());
 	m_list1.SetItemText(Index, 10, processPara.ConvertIsConfigToString());
 	m_list1.SetItemText(Index, 11, processPara.ConvertIsVisibleToString());
-	m_list1.SetItemText(Index, 12, processPara.m_strUnit);
+
+	m_list1.SetItemText(Index, 12, processPara.ConvertIsRecordToString());
+
+	m_list1.SetItemText(Index, 13, processPara.m_strUnit);
 }
 
 
@@ -464,6 +479,37 @@ BOOL CEditModuleParaTabDlg::GetVisibleState()
 
 
 
+void CEditModuleParaTabDlg::ShowRecordState(BOOL IsRecord)
+{
+
+	if (IsRecord) //是
+	{
+		((CButton *)GetDlgItem(IDC_RA5_EDITMODULEPARA_TABDLG))->SetCheck(TRUE);//选上
+		((CButton *)GetDlgItem(IDC_RA6_EDITMODULEPARA_TABDLG))->SetCheck(FALSE);// 不选上
+	}
+	else
+	{
+		((CButton *)GetDlgItem(IDC_RA5_EDITMODULEPARA_TABDLG))->SetCheck(FALSE);
+		((CButton *)GetDlgItem(IDC_RA6_EDITMODULEPARA_TABDLG))->SetCheck(TRUE);
+	}
+
+}
+BOOL CEditModuleParaTabDlg::GetRecordState()
+{
+	if (((CButton *)GetDlgItem(IDC_RA5_EDITMODULEPARA_TABDLG))->GetCheck())
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
+
+
+
+
+
+
 void CEditModuleParaTabDlg::OnOK()
 {
 	// TODO:  在此添加专用代码和/或调用基类
@@ -473,10 +519,9 @@ void CEditModuleParaTabDlg::OnOK()
 
 
 
-//根据选择的地址类型，来确定值类型有哪些可以选择
+//根据选择的地址类型，来确定值类型有哪些可以选择//
 void CEditModuleParaTabDlg::OnCbnSelchangeAddrType()
 {
-	// TODO:  在此添加控件通知处理程序代码
 	CString strAddrType;
 	m_AddrTypeComboBox.GetWindowText(strAddrType);
 	if (strAddrType == _T("MX"))//
@@ -505,8 +550,6 @@ void CEditModuleParaTabDlg::OnCbnSelchangeAddrType()
 		m_ValueTypeComboBox.AddString(_T("Float"));
 		m_ValueTypeComboBox.SetCurSel(0);
 	}
-
-
 }
 
 

@@ -17,12 +17,14 @@
 #include "AlarmDlg.h"
 #include "AlarmClass.h"
 #include "afxcmn.h"
+#include "HistoryChlDlg.h"
 
 class CTeaProductionLineIMSDlgAutoProxy;
 #define ID_VEDIODLG 1
 #define ID_DEVICEDLG 2
 #define ID_CONFIGDLG 3
 #define ID_TOTALPROCESSLINE 4
+#define ID_HISTORYDLG 5
 
 // CMainDlg 对话框
 class CMainDlg : public CDialog
@@ -70,6 +72,9 @@ public:
 	CVedioChiDlg m_VedioChiDlg;                         //视频监控子界面//
 	CDeviceChiDlg m_DeviceChiDlg;                       //设备监控子界面//
 	CConfigChiDlg m_ConfigChiDlg;                       //配方子界面//
+	
+	CHistoryChlDlg m_HistoryChiDlg;  //历史记录子界面//
+
 	afx_msg void OnBnClickedBtVedio();
 	int m_nCurChiDlg;                                    //标识当前主窗体内显示的子窗体，1标识视频监控，2表示设备监控，3配方，4生产总图//
 	afx_msg void OnBnClickedBtDevice();

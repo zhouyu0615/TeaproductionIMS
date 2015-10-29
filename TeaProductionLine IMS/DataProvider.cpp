@@ -760,10 +760,11 @@ void CDataProvider::AddProcessParaToDatabase(CProcessPara tempProcessPara)
 		tbProcessPara.m_IsConfig = tempProcessPara.m_IsConfig;
 		tbProcessPara.m_IsVisible = tempProcessPara.m_IsVisible;
 
+		tbProcessPara.m_IsRecord = tempProcessPara.m_IsRecord;
+
 		tbProcessPara.Update();
 
 	}
-
 	tbProcessPara.Close();
 
 }
@@ -1051,6 +1052,8 @@ void CDataProvider::ReadProcessParaFromDatabase()
 		tempProcessPara.m_ValueType=tbProcessPara.m_ValueType;
 		tempProcessPara.m_IsConfig=tbProcessPara.m_IsConfig;
 		tempProcessPara.m_IsVisible=tbProcessPara.m_IsVisible;
+
+		tempProcessPara.m_IsRecord = tbProcessPara.m_IsRecord;
 
 		m_vectProModulePara.push_back(tempProcessPara);
 		tbProcessPara.MoveNext();
@@ -1855,7 +1858,7 @@ int CDataProvider::UpdateTableItem(enumDBTABLE dbTable, int Id)
 		tempProcessPara.m_PlcId = FindPlcId(tempProcessPara.m_strPlcName);
 		m_vectProModulePara[i] = tempProcessPara;
 
-		strsql.Format(_T("UPDATE tbProcessPara SET LastUpdatedDateTime=getdate(), ProductionLineId='%d',ProcessModuleId='%d',PLCId='%d',ProductionLineName='%s',ProcessModuleName='%s',PlcName='%s',ParaName='%s',ParaValue='%f',IsConfig='%d',IsVisible='%d',ReadAddressIndex='%s',WriteAddressIndex='%s',Units='%s',ValueType='%d',AddressType='%s',Description='%s' WHERE Id='%d'"),
+		strsql.Format(_T("UPDATE tbProcessPara SET LastUpdatedDateTime=getdate(), ProductionLineId='%d',ProcessModuleId='%d',PLCId='%d',ProductionLineName='%s',ProcessModuleName='%s',PlcName='%s',ParaName='%s',ParaValue='%f',IsConfig='%d',IsVisible='%d',ReadAddressIndex='%s',WriteAddressIndex='%s',Units='%s',ValueType='%d',AddressType='%s',Description='%s',IsRecord=%d WHERE Id='%d'"),
 			tempProcessPara.m_ProductionLineId,
 			tempProcessPara.m_ProcessModuleId,
 			tempProcessPara.m_PlcId,
@@ -1872,6 +1875,7 @@ int CDataProvider::UpdateTableItem(enumDBTABLE dbTable, int Id)
 			tempProcessPara.m_ValueType,
 			tempProcessPara.m_strAddressType,
 			tempProcessPara.m_strDescription,
+			tempProcessPara.m_IsRecord,
 			Id);	
 		break;
 

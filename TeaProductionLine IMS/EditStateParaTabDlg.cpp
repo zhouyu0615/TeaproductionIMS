@@ -62,6 +62,11 @@ void CEditStateParaTabDlg::OnBnClickedAddItem()
 	{
 		m_pDataProvider->AddStateParaToDatabase(tempStatePara);
 		AddItemToList(tempStatePara);
+
+		int i = m_list1.GetItemCount() - 1;
+		int index = m_pDataProvider->m_vectStatePara.size() - 1;
+		m_IndexMap[i] = index;
+
 	}
 
 	//ListOnPaint();
@@ -213,6 +218,7 @@ int CEditStateParaTabDlg::ListOnPaint(const CString &ProLineName, const CString 
 	//填写表单内容//
 	int length = m_pDataProvider->m_vectStatePara.size();
 	int index = 0; //表单索引//
+	m_IndexMap.clear();
 	for (size_t i = 0; i < length; i++)
 	{
 		if (ProLineName == m_pDataProvider->m_vectStatePara[i].m_strProductionLineName
@@ -221,6 +227,8 @@ int CEditStateParaTabDlg::ListOnPaint(const CString &ProLineName, const CString 
 			litem.iItem = index;
 			m_list1.InsertItem(&litem);
 			SetListItemText(index, m_pDataProvider->m_vectStatePara[i]);
+
+			m_IndexMap[index] = i;
 			index++;
 		}
 
@@ -273,7 +281,7 @@ void CEditStateParaTabDlg::DeleteItemInList(int Index)
 {
 	m_list1.DeleteItem(Index);
 
-	size_t length = m_pDataProvider->m_vectStatePara.size();
+	size_t length = m_list1.GetItemCount();
 
 	for (int i = Index; i < length;i++)
 	{
@@ -310,17 +318,18 @@ void CEditStateParaTabDlg::OnNMRClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 	GetCursorPos(&point1);//得到光标处//
 	UINT nItem1 = pSubMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_TOPALIGN, point1.x, point1.y, GetParent());//确保右键点击在哪菜单出现在哪，并返回所选的菜单项//
 	
+	size_t dataIndex = m_IndexMap[m_nSelectedItem];
 	switch (nItem1)
 	{
 	case ID_PARA_MODIFY:  //右键菜单：修改//
-		m_StateParaPopDlg.m_nSelectedItem = m_nSelectedItem;
+		m_StateParaPopDlg.m_nSelectedItem = dataIndex;
 		m_StateParaPopDlg.DoModal();
-		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectStatePara[m_nSelectedItem]);
+		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectStatePara[dataIndex]);
 
 		break;
 	case ID_PARA_DELETE:
-		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbStatePara, m_pDataProvider->m_vectStatePara[m_nSelectedItem].m_Id);
-		m_pDataProvider->m_vectStatePara.erase(m_pDataProvider->m_vectStatePara.begin() + m_nSelectedItem);
+		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbStatePara, m_pDataProvider->m_vectStatePara[dataIndex].m_Id);
+		m_pDataProvider->m_vectStatePara.erase(m_pDataProvider->m_vectStatePara.begin() + dataIndex);
 		DeleteItemInList(m_nSelectedItem);
 
 		break;

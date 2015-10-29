@@ -73,5 +73,7 @@ public:
 
 private:
 	void SetListItemText(int Index,CDevicePara &devicePara);
+private:
+	std::map<int, int> m_IndexMap; //建立界面上显示的条目与数据源DataProvider里面的对应索引//
 
 };

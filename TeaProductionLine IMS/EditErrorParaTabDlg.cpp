@@ -63,8 +63,12 @@ void CEditErrorParaTabDlg::OnBnClickedAddItem()
 	if (!m_ParaCheckUtil.FaultParaCheck(tempFaultPara))
 	{
 		m_pDataProvider->AddFaultParaToDatabase(tempFaultPara);
-		//ListOnPaint();
 		AddItemToList(tempFaultPara);
+
+		size_t i = m_list1.GetItemCount() - 1;
+		size_t dataindex = m_pDataProvider->m_vectFaultPara.size() - 1;
+		m_IndexMap[i] = dataindex;
+
 	}
 }
 
@@ -228,6 +232,7 @@ int CEditErrorParaTabDlg::ListOnPaint(const CString &ProLineName, const CString 
 	//填写表单内容//
 	int length = m_pDataProvider->m_vectFaultPara.size();
 	int index = 0; //表单索引//
+	m_IndexMap.clear();
 	for (size_t i = 0; i < length; i++)
 	{
 		if (ProLineName == m_pDataProvider->m_vectFaultPara[i].m_strProductionLineName
@@ -236,6 +241,7 @@ int CEditErrorParaTabDlg::ListOnPaint(const CString &ProLineName, const CString 
 			litem.iItem = index;
 			m_list1.InsertItem(&litem);
 			SetListItemText(index, m_pDataProvider->m_vectFaultPara[i]);
+			m_IndexMap[index] = i;
 			index++;
 		}
 
@@ -259,7 +265,7 @@ void CEditErrorParaTabDlg::DeleteItemInList(int Index)
 {
 	m_list1.DeleteItem(Index);
 
-	int length = m_pDataProvider->m_vectFaultPara.size();
+	int length = m_list1.GetItemCount();
 	//更新INDEX之后的编号//
 	for (int i = Index; i < length; i++)
 	{
@@ -330,16 +336,17 @@ void CEditErrorParaTabDlg::OnNMRClickLi1EditerrorparaTabdlg(NMHDR *pNMHDR, LRESU
 	GetCursorPos(&point1);//得到光标处//
 	UINT nItem1 = pSubMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_TOPALIGN, point1.x, point1.y, GetParent());//确保右键点击在哪菜单出现在哪，并返回所选的菜单项//
 
+	size_t DataIndex = m_IndexMap[m_nSelectedItem];
 	switch (nItem1)
 	{
 	case ID_PARA_MODIFY:  //右键菜单：修改//
-		m_FaultParaPopDlg.m_nSelectedItem = m_nSelectedItem;
+		m_FaultParaPopDlg.m_nSelectedItem = DataIndex;
 		m_FaultParaPopDlg.DoModal();
-		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectFaultPara[m_nSelectedItem]);
+		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectFaultPara[DataIndex]);
 		break;
 	case ID_PARA_DELETE:
-		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbFaultPara, m_pDataProvider->m_vectFaultPara[m_nSelectedItem].m_Id);
-		m_pDataProvider->m_vectFaultPara.erase(m_pDataProvider->m_vectFaultPara.begin() + m_nSelectedItem);
+		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbFaultPara, m_pDataProvider->m_vectFaultPara[DataIndex].m_Id);
+		m_pDataProvider->m_vectFaultPara.erase(m_pDataProvider->m_vectFaultPara.begin() + DataIndex);
 
 		DeleteItemInList(m_nSelectedItem);
 

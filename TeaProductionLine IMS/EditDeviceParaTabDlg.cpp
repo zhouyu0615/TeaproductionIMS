@@ -67,6 +67,10 @@ void CEditDeviceParaTabDlg::OnBnClickedAddItem()
 	{
 		m_pDataProvider->AddDeviceParaToDatabase(tempDevicePara);
 		AddItemToList(tempDevicePara);
+
+		int i = m_list1.GetItemCount() - 1;
+		int index = m_pDataProvider->m_vectDevicePara.size() - 1;
+		m_IndexMap[i] = index;
 	}
 		
 }
@@ -220,6 +224,8 @@ int CEditDeviceParaTabDlg::ListOnPaint(const CString &ProLineName, const CString
 	//填写表单内容//
 	int length = m_pDataProvider->m_vectDevicePara.size();
 	int index = 0; //表单索引//
+
+	m_IndexMap.clear();
 	for (size_t i = 0; i < length; i++)
 	{
 		if (ProLineName == m_pDataProvider->m_vectDevicePara[i].m_strProductionLineName
@@ -228,6 +234,8 @@ int CEditDeviceParaTabDlg::ListOnPaint(const CString &ProLineName, const CString
 			litem.iItem = index;			
 			m_list1.InsertItem(&litem);
 			SetListItemText(index, m_pDataProvider->m_vectDevicePara[i]);
+
+			m_IndexMap[index] = i;
 			index++;
 		}
 
@@ -250,7 +258,7 @@ void CEditDeviceParaTabDlg::DeleteItemInList(int Index)
 {
 	m_list1.DeleteItem(Index);
 
-	int length = m_pDataProvider->m_vectDevicePara.size();
+	int length = m_list1.GetItemCount();
 	//更新INDEX之后的编号//
 	for (int i = Index; i <length ;i++)
 	{
@@ -350,17 +358,18 @@ void CEditDeviceParaTabDlg::OnNMRClickLi1EditdeviceparaTabdlg(NMHDR *pNMHDR, LRE
 	GetCursorPos(&point1);//得到光标处//
 	UINT nItem1 = pSubMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_TOPALIGN, point1.x, point1.y, GetParent());//确保右键点击在哪菜单出现在哪，并返回所选的菜单项//
 	
+	size_t DataIndex = m_IndexMap[m_nSelectedItem];
 	switch (nItem1)
 	{
 	case ID_PARA_MODIFY:  //右键菜单：修改//
-		m_DeviceParaDlg.m_nSelectedItem = m_nSelectedItem;
+		m_DeviceParaDlg.m_nSelectedItem = DataIndex;
 		m_DeviceParaDlg.DoModal();
-		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectDevicePara[m_nSelectedItem]);
+		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectDevicePara[DataIndex]);
 
 		break;
 	case ID_PARA_DELETE:
-		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbDevicePara, m_pDataProvider->m_vectDevicePara[m_nSelectedItem].m_Id);		
-		m_pDataProvider->m_vectDevicePara.erase(m_pDataProvider->m_vectDevicePara.begin() + m_nSelectedItem);
+		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbDevicePara, m_pDataProvider->m_vectDevicePara[DataIndex].m_Id);
+		m_pDataProvider->m_vectDevicePara.erase(m_pDataProvider->m_vectDevicePara.begin() + DataIndex);
 
 		DeleteItemInList(m_nSelectedItem);
 		break;

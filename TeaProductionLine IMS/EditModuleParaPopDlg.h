@@ -16,7 +16,7 @@ public:
 
 // 对话框数据
 	enum { IDD = IDD_EDITMODULEPARA_POPDLG };
-	int m_nSelectedItem;
+	int m_DataIndex;
 	CDataProvider* m_pDataProvider = CDataProvider::getInstance();
 
 	CParaCheckUtil m_ParaCheckUtil;
@@ -48,6 +48,11 @@ public:
 	void ShowVisibleState(BOOL IsVisible);
 	BOOL GetConfigState();
 	BOOL GetVisibleState();
+
+	void ShowRecordState(BOOL IsRecord);
+	BOOL GetRecordState();
+
+
 	virtual void OnOK();
 	CComboBox m_AddrTypeComboBox;
 	

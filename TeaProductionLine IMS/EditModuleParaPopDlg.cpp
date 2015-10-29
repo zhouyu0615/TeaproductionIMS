@@ -48,7 +48,7 @@ END_MESSAGE_MAP()
 
 void CEditModuleParaPopDlg::OnBnClickedOk()
 {
-	CProcessPara tempProcessPara = m_pDataProvider->m_vectProModulePara[m_nSelectedItem];
+	CProcessPara tempProcessPara = m_pDataProvider->m_vectProModulePara[m_DataIndex];
 	m_LineComboBox.GetWindowText(tempProcessPara.m_strProductionLineName);
 	m_ModuleComboBox.GetWindowText(tempProcessPara.m_strProcessModuleName);
 
@@ -86,11 +86,12 @@ void CEditModuleParaPopDlg::OnBnClickedOk()
 
 	tempProcessPara.m_IsConfig = GetConfigState();
 	tempProcessPara.m_IsVisible = GetVisibleState();
+	tempProcessPara.m_IsRecord = GetRecordState();
 
-	if (!m_ParaCheckUtil.ProcessParaCheck(tempProcessPara, m_nSelectedItem))
+	if (!m_ParaCheckUtil.ProcessParaCheck(tempProcessPara, m_DataIndex))
 	{
-		m_pDataProvider->m_vectProModulePara[m_nSelectedItem] = tempProcessPara;
-		m_pDataProvider->UpdateTableItem(CDataProvider::tbProcessPara, m_pDataProvider->m_vectProModulePara[m_nSelectedItem].m_Id);
+		m_pDataProvider->m_vectProModulePara[m_DataIndex] = tempProcessPara;
+		m_pDataProvider->UpdateTableItem(CDataProvider::tbProcessPara, m_pDataProvider->m_vectProModulePara[m_DataIndex].m_Id);
 	}
 
 
@@ -116,7 +117,7 @@ BOOL CEditModuleParaPopDlg::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化
 
-	CProcessPara tempProPara = m_pDataProvider->m_vectProModulePara[m_nSelectedItem];
+	CProcessPara tempProPara = m_pDataProvider->m_vectProModulePara[m_DataIndex];
 
 	m_NameEdit.SetWindowText(tempProPara.m_strParaName);
 	m_UnitEdit.SetWindowText(tempProPara.m_strUnit);
@@ -125,6 +126,8 @@ BOOL CEditModuleParaPopDlg::OnInitDialog()
 
 	ShowConfigState(tempProPara.m_IsConfig);
 	ShowVisibleState(tempProPara.m_IsVisible);
+
+	ShowRecordState(tempProPara.m_IsRecord);
 
 	AddrTypeComboBoxInit();
 	m_AddrTypeComboBox.SetCurSel(tempProPara.GetAddrTypeInEmType());
@@ -255,6 +258,30 @@ BOOL CEditModuleParaPopDlg::GetVisibleState()
 	return FALSE;
 }
 
+void CEditModuleParaPopDlg::ShowRecordState(BOOL IsRecord)
+{
+	if (IsRecord==TRUE)
+	{
+		((CButton *)GetDlgItem(IDC_RA5_EDITMODULEPARA_POPDLG))->SetCheck(TRUE);//选上
+		((CButton *)GetDlgItem(IDC_RA6_EDITMODULEPARA_POPDLG))->SetCheck(FALSE);
+	}
+	else
+	{
+		((CButton *)GetDlgItem(IDC_RA5_EDITMODULEPARA_POPDLG))->SetCheck(FALSE);//选上
+		((CButton *)GetDlgItem(IDC_RA6_EDITMODULEPARA_POPDLG))->SetCheck(TRUE);
+	}
+}
+BOOL CEditModuleParaPopDlg::GetRecordState()
+{
+	if (((CButton *)GetDlgItem(IDC_RA5_EDITMODULEPARA_POPDLG))->GetCheck())
+	{
+		return TRUE;
+	}
+	return FALSE;
+
+}
+
+
 
 
 void CEditModuleParaPopDlg::OnOK()
@@ -296,6 +323,4 @@ void CEditModuleParaPopDlg::OnCbnSelchangeAddrType()
 		m_ValueTypeComboBox.AddString(_T("Float"));
 		m_ValueTypeComboBox.SetCurSel(0);
 	}
-
-
 }

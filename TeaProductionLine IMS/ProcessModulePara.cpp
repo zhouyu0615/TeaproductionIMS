@@ -24,7 +24,7 @@ CProcessPara::CProcessPara()
 	m_strUnit = _T("");
 	m_strWriteAddrIndex = _T("");
 	m_fSetValue = -3001;
-
+	m_IsRecord = 0;
 }
 
 
@@ -60,10 +60,9 @@ CString CProcessPara::ConvertIsConfigToString()
 	{
 		return _T("ÊÇ");
 	}
-	else
-	{
-		return _T("·ñ");
-	}
+
+	return _T("·ñ");
+	
 }
 
 
@@ -73,10 +72,21 @@ CString CProcessPara::ConvertIsVisibleToString()
 	{
 		return _T("ÊÇ");
 	}
-	else
+
+	return _T("·ñ");
+	
+}
+
+
+
+CString CProcessPara::ConvertIsRecordToString()
+{
+
+	if (m_IsRecord==TRUE)
 	{
-		return _T("·ñ");
+		return _T("ÊÇ");
 	}
+	return _T("·ñ");
 }
 
 

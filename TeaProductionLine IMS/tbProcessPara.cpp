@@ -4,7 +4,7 @@
 
 // CtbProcessPara 实现
 
-// 代码生成在 2015年7月31日 星期五, 15:14
+// 代码生成在 2015年10月29日 星期四, 10:21
 
 #include "stdafx.h"
 #include "tbProcessPara.h"
@@ -32,7 +32,8 @@ CtbProcessPara::CtbProcessPara(CDatabase* pdb)
 	m_AddressType = "";
 	m_WriteAddressIndex = "";
 	m_Units = "";
-	m_nFields = 19;
+	m_IsRecord = 0;
+	m_nFields = 20;
 	m_nDefaultType = dynaset;
 }
 //#error 安全问题：连接字符串可能包含密码。
@@ -75,6 +76,7 @@ void CtbProcessPara::DoFieldExchange(CFieldExchange* pFX)
 	RFX_Text(pFX, _T("[AddressType]"), m_AddressType);
 	RFX_Text(pFX, _T("[WriteAddressIndex]"), m_WriteAddressIndex);
 	RFX_Text(pFX, _T("[Units]"), m_Units);
+	RFX_Long(pFX, _T("[IsRecord]"), m_IsRecord);
 
 }
 /////////////////////////////////////////////////////////////////////////////

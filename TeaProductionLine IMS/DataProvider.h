@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <map>
+
 #include "UserClass.h"
 #include "ProcessModuleClass.h"
 #include "ProductionLineClass.h"

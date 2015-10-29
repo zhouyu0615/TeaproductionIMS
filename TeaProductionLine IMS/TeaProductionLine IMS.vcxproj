@@ -58,6 +58,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RegisterOutput>true</RegisterOutput>
+      <AdditionalDependencies>odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -87,6 +88,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <RegisterOutput>true</RegisterOutput>
+      <AdditionalDependencies>odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -136,11 +138,13 @@
     <ClInclude Include="FaultPara.h" />
     <ClInclude Include="FormulaClass.h" />
     <ClInclude Include="FullScreenDlg.h" />
+    <ClInclude Include="HistoryChlDlg.h" />
     <ClInclude Include="InitDlg.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="LoginUser.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="Modbus.h" />
+    <ClInclude Include="mschart1.h" />
     <ClInclude Include="NewConfigGraChiDlg.h" />
     <ClInclude Include="OldConfigGraChiDlg.h" />
     <ClInclude Include="ParaCheckUtil.h" />
@@ -211,11 +215,13 @@
     <ClCompile Include="FaultPara.cpp" />
     <ClCompile Include="FormulaClass.cpp" />
     <ClCompile Include="FullScreenDlg.cpp" />
+    <ClCompile Include="HistoryChlDlg.cpp" />
     <ClCompile Include="InitDlg.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="LoginUser.cpp" />
     <ClCompile Include="MainDlg.cpp" />
     <ClCompile Include="Modbus.cpp" />
+    <ClCompile Include="mschart1.cpp" />
     <ClCompile Include="NewConfigGraChiDlg.cpp" />
     <ClCompile Include="OldConfigGraChiDlg.cpp" />
     <ClCompile Include="ParaCheckUtil.cpp" />
@@ -296,7 +302,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties _x007B_30209FBC-57EB-4F87-BF3E-740E3D8019D2_x007D_="CRealplayxctrl1" RESOURCE_FILE="TeaProductionLine IMS.rc" />
+      <UserProperties _x007B_30209FBC-57EB-4F87-BF3E-740E3D8019D2_x007D_="CRealplayxctrl1" _x007B_3A2B370C-BA0A-11D1-B137-0000F8753F5D_x007D_="CMschart1" RESOURCE_FILE="TeaProductionLine IMS.rc" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

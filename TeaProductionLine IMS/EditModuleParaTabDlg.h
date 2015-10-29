@@ -62,6 +62,11 @@ public:
 
 	BOOL GetConfigState();
 	BOOL GetVisibleState();
+
+	void ShowRecordState(BOOL IsRecord);
+	BOOL GetRecordState();
+
+
 	virtual void OnOK();
 	CComboBox m_AddrTypeComboBox;
 
@@ -72,4 +77,8 @@ private:
 	void SetListItemText(int Index, CProcessPara &processPara);
 public:
 	afx_msg void OnCbnSelchangeModule();
+
+
+private: 
+	std::map<int, int> m_IndexMap; //建立界面上显示的条目与数据源DataProvider里面的对应索引//
 };

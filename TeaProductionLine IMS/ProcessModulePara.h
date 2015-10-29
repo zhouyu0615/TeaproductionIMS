@@ -5,13 +5,6 @@ public:
 	CProcessPara();
 	~CProcessPara();
 
-	//static const int VALUETYPE_BOOL = 0;
-	//static const int VALUETYPE_BYTE = 1;
-	//static const int VALUETYPE_SHORT = 2;
-	//static const int VALUETYPE_LONG = 3;
-	//static const int VALUETYPE_FLOAT = 4;
-	//static const int VALUETYPE_DOUBLE = 5;
-
 
 	enum em_VALUE_TYPE {
 		VALUETYPE_BOOL, VALUETYPE_BYTE, VALUETYPE_SHORT, VALUETYPE_LONG,VALUETYPE_FLOAT, VALUETYPE_DOUBLE
@@ -43,6 +36,8 @@ public:
 	CString m_strUnit;
 	CString m_strWriteAddrIndex;
 
+	int m_IsRecord;
+
 	float m_fSetValue;
 
 	//把地址类型转化为数值形式的枚举的类型//
@@ -51,6 +46,8 @@ public:
 	CString ConvertValTypeToString();
 	CString ConvertIsConfigToString();
 	CString ConvertIsVisibleToString();
+
+	CString ConvertIsRecordToString();
 
 	CString ConvertParaValueToString();
 	CString ConvertSetValueToString();
