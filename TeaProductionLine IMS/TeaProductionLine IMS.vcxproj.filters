@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\MsChart">
+      <UniqueIdentifier>{dad4bcef-7692-47da-b86b-204ac88b20d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\MsChart">
+      <UniqueIdentifier>{424293a7-5044-4084-9c55-4a775d3e51c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -241,7 +247,151 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="mschart1.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CDMSChart.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CDMSChartEvents.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVBDataObject.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVBDataObjectFiles.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcAxis.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcAxisGrid.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcAxisScale.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcAxisTitle.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcBackdrop.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcBrush.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcCategoryScale.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcColor.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcCoor.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcDataGrid.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcDataPoint.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcDataPointLabel.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcDataPoints.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcFill.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcFont.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcFootnote.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcFrame.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcIntersection.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcLabel.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcLabels.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcLCoor.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcLegend.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcLight.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcLightSource.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcLightSources.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcLocation.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcMarker.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcPen.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcPlot.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcPlotBase.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcRect.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcSeries.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcSeriesCollection.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcSeriesMarker.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcSeriesPosition.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcShadow.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcStatLine.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcTextLayout.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcTick.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcTitle.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcValueScale.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcView3d.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcWall.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\CVcWeighting.h">
+      <Filter>头文件\MsChart</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,8 +611,8 @@
     <ClCompile Include="HistoryChlDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="mschart1.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="MsChart\mschart1.cpp">
+      <Filter>源文件\MsChart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

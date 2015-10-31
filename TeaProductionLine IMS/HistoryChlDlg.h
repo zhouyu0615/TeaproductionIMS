@@ -1,5 +1,9 @@
 #pragma once
-#include "mschart1.h"
+#include "MsChart/mschart1.h"
+#include "DataProvider.h"
+#include "ProcessModulePara.h"
+#include "afxcmn.h"
+#include "afxwin.h"
 
 
 // CHistoryChlDlg 对话框
@@ -23,4 +27,19 @@ public:
 	afx_msg void OnCbnSelchangeComboPara();
 
 	CMschart1 m_Chart;
+
+
+private:
+	CDataProvider* m_pDataProvider = CDataProvider::getInstance();
+	std::vector<CProcessPara> m_vRecordProPara; //需要历史记录的工艺参数//
+	CProcessPara m_currentPara; //当前记录的工艺参数//
+
+public:
+	virtual BOOL OnInitDialog();
+
+	void InitChart();
+	CListCtrl m_list1;
+	CComboBox m_LineComboBox;
+	CComboBox m_ModuleComboBox;
+	CComboBox m_ParaComboBox;
 };
