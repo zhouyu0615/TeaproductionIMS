@@ -19,6 +19,9 @@
 #include "AlarmClass.h"
 #include "RequestQueue.h"
 
+#include "ParaRecordTableIndex.h"
+#include "ParaRecord.h"
+
 
 class CDataProvider
 {
@@ -161,6 +164,23 @@ public:
 	int GetMaxDeviceId();
 	int GetMaxPlcId();
 	int GetMaxVideoId();
+
+public:
+	std::vector<CParaRecordIndex> m_vectParaRecordTbIndex; //存取待记录参数的创建的信息，一条记录参数对应一个记录表//
+
+	void ReadRecordTbIndex();
+	void AddRecordTbIndex(CParaRecordIndex& tempRecordIndex);
+	void DeleteRecordTbIndex(CParaRecordIndex& tempRecordIndex);
+	void UpdateRecordTbIndex(CParaRecordIndex& tempRecordIndex);
+
+	//创建每条待记录参数对应的表//
+	BOOL CreateParaRecordTb(CParaRecordIndex &RecordIndex);
+	BOOL DeleteParaRecordTb(CParaRecordIndex &RecordIndex);
+	BOOL AddParaReordToTb(CString& RecordTbName, CParaRecord& ParaRecord);
+
+	std::vector<CParaRecord> m_vParaRecordes;
+	void ReadParaRecords(CString& tbRecordName);
+	
 
 };
 

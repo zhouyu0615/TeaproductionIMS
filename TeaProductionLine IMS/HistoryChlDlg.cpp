@@ -62,6 +62,8 @@ BOOL CHistoryChlDlg::OnInitDialog()
 	}
 
 	InitChart();
+
+	return TRUE;
 }
 
 
@@ -82,10 +84,7 @@ void CHistoryChlDlg::InitChart()
 	m_Chart.put_Column(3);
 	m_Chart.put_ColumnLabel(_T("参数3"));
 
-	int var;
-	// 不自动标注Y轴刻度
-	m_Chart.put_AutoIncrement(FALSE);
-	// Y轴最大刻度
+
 
 	
  

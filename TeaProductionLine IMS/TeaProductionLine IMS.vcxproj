@@ -196,6 +196,8 @@
     <ClInclude Include="NewConfigGraChiDlg.h" />
     <ClInclude Include="OldConfigGraChiDlg.h" />
     <ClInclude Include="ParaCheckUtil.h" />
+    <ClInclude Include="ParaRecord.h" />
+    <ClInclude Include="ParaRecordTableIndex.h" />
     <ClInclude Include="PlcClass.h" />
     <ClInclude Include="PlcStatusDlg.h" />
     <ClInclude Include="ProcessModuleClass.h" />
@@ -214,6 +216,8 @@
     <ClInclude Include="tbFaultPara.h" />
     <ClInclude Include="tbFormula.h" />
     <ClInclude Include="tbLoginUser.h" />
+    <ClInclude Include="tbParaRecord.h" />
+    <ClInclude Include="tbParaRecordIndex.h" />
     <ClInclude Include="tbPLc.h" />
     <ClInclude Include="tbProcessModule.h" />
     <ClInclude Include="tbProcessPara.h" />
@@ -273,6 +277,8 @@
     <ClCompile Include="NewConfigGraChiDlg.cpp" />
     <ClCompile Include="OldConfigGraChiDlg.cpp" />
     <ClCompile Include="ParaCheckUtil.cpp" />
+    <ClCompile Include="ParaRecord.cpp" />
+    <ClCompile Include="ParaRecordTableIndex.cpp" />
     <ClCompile Include="PlcClass.cpp" />
     <ClCompile Include="PlcStatusDlg.cpp" />
     <ClCompile Include="PlcWriteRequest.cpp" />
@@ -292,6 +298,8 @@
     <ClCompile Include="tbFaultPara.cpp" />
     <ClCompile Include="tbFormula.cpp" />
     <ClCompile Include="tbLoginUser.cpp" />
+    <ClCompile Include="tbParaRecord.cpp" />
+    <ClCompile Include="tbParaRecordIndex.cpp" />
     <ClCompile Include="tbPLc.cpp" />
     <ClCompile Include="tbProcessModule.cpp" />
     <ClCompile Include="tbProcessPara.cpp" />

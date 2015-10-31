@@ -5,6 +5,9 @@
 #include "EditModuleParaPopDlg.h"
 #include "ProcessModulePara.h"
 #include "ParaCheckUtil.h"
+#include "ParaRecord.h"
+#include "ParaRecordTableIndex.h"
+
 
 // CEditModuleParaTabDlg ¶Ô»°¿ò
 

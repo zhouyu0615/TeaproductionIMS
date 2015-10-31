@@ -19,6 +19,15 @@
     <Filter Include="源文件\MsChart">
       <UniqueIdentifier>{424293a7-5044-4084-9c55-4a775d3e51c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\tbDataBase">
+      <UniqueIdentifier>{03124ffc-164d-4865-bc4c-5ae943388855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\tbDataBase">
+      <UniqueIdentifier>{69949d34-270a-498e-a015-e381593cbfb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\UIDialog">
+      <UniqueIdentifier>{09fa013e-999c-4310-82ec-8368183b7ef9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -138,36 +147,6 @@
     <ClInclude Include="StatePara.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="tbDevice.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbDevicePara.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbFaultPara.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbLoginUser.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbPLc.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbProcessModule.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbProductionLine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbStatePara.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbUser.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbVideo.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="UserClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -193,9 +172,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="FormulaClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbFormula.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AddConfigParaPopDlg.h">
@@ -238,9 +214,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AlarmClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tbProcessPara.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="HistoryChlDlg.h">
@@ -393,84 +366,63 @@
     <ClInclude Include="MsChart\CVcWeighting.h">
       <Filter>头文件\MsChart</Filter>
     </ClInclude>
+    <ClInclude Include="tbDevice.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbDevicePara.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbFaultPara.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbFormula.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbLoginUser.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbPLc.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbProcessModule.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbProcessPara.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbProductionLine.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbStatePara.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbUser.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbVideo.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="ParaRecordTableIndex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ParaRecord.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tbParaRecordIndex.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="tbParaRecord.h">
+      <Filter>头文件\tbDataBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TeaProductionLine IMS.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MainDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DlgProxy.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="InitDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditOwnerPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditLinePopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditModulePopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditDevicePopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditPlcPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditVedioPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditPlcParaDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditDeviceParaTabDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditDeviceParaPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditErrorParaTabDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditErrorParaPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditModuleParaTabDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditModuleParaPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditStateParaTabDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditStateParaPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="UserManageDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="AllUserManageDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditUserPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EditPassWordDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="VedioChiDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceChiDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DataProvider.cpp">
@@ -503,36 +455,6 @@
     <ClCompile Include="StatePara.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tbDevice.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbDevicePara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbFaultPara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbLoginUser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbPLc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbProcessModule.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbProductionLine.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbStatePara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbUser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbVideo.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="UserClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -542,40 +464,13 @@
     <ClCompile Include="realplayxctrl1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LoginDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceContrlPopDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigChiDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="NewConfigGraChiDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="OldConfigGraChiDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="FormulaClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbFormula.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="AddConfigParaPopDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ParaCheckUtil.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Weather.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PlcStatusDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="FullScreenDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Modbus.cpp">
@@ -599,20 +494,158 @@
     <ClCompile Include="TCPClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="AlarmDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="AlarmClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tbProcessPara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="HistoryChlDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MsChart\mschart1.cpp">
       <Filter>源文件\MsChart</Filter>
+    </ClCompile>
+    <ClCompile Include="tbDevice.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbDevicePara.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbFaultPara.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbFormula.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbLoginUser.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbPLc.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbProcessModule.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbProcessPara.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbProductionLine.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbStatePara.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbUser.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbVideo.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="AddConfigParaPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="AllUserManageDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigChiDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="AlarmDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceChiDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceContrlPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditDeviceParaPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditDeviceParaTabDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditDevicePopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditErrorParaPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditErrorParaTabDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditLinePopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditModuleParaPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditModuleParaTabDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditModulePopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditOwnerPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditPassWordDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditPlcParaDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditPlcPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditStateParaPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditStateParaTabDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditUserPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="EditVedioPopDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="FullScreenDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryChlDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="InitDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="MainDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="NewConfigGraChiDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="OldConfigGraChiDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="PlcStatusDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManageDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="VedioChiDlg.cpp">
+      <Filter>源文件\UIDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ParaRecordTableIndex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ParaRecord.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tbParaRecordIndex.cpp">
+      <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="tbParaRecord.cpp">
+      <Filter>源文件\tbDataBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

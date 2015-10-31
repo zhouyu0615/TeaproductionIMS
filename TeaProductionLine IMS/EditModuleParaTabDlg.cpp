@@ -112,6 +112,7 @@ void CEditModuleParaTabDlg::OnBnClickedAddItem()
 		int i = m_list1.GetItemCount()-1;
 		int index = m_pDataProvider->m_vectProModulePara.size()-1;
 		m_IndexMap[i] = index;
+
 	}
 
 	//ListOnPaint();

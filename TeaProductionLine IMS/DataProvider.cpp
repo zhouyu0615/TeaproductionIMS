@@ -12,8 +12,8 @@
 #include "tbFaultPara.h"
 #include "tbProcessPara.h"
 #include "tbStatePara.h"
-
-
+#include "tbParaRecordIndex.h"
+#include "tbParaRecord.h"
 
 
 
@@ -766,6 +766,16 @@ void CDataProvider::AddProcessParaToDatabase(CProcessPara tempProcessPara)
 
 	}
 	tbProcessPara.Close();
+
+
+	if (tempProcessPara.m_IsRecord == TRUE)
+	{
+		CParaRecordIndex paraIndex;
+		paraIndex.m_ProParaId = tempProcessPara.m_Id;
+		AddRecordTbIndex(paraIndex);
+	}
+
+
 
 }
 
@@ -3020,6 +3030,183 @@ int CDataProvider::GetMaxVideoId()
 	}
 
 	return maxId;
+}
+
+
+//2015-10-31添加参数历史记录功能//
+void CDataProvider::ReadRecordTbIndex()
+{
+	CString strsql;
+	strsql.Format(_T("select * from tbParaRecordIndex order by Id"));
+
+	CtbParaRecordIndex tbRecordIndex; 
+	try{
+		if (tbRecordIndex.IsOpen())
+			tbRecordIndex.Close();
+		if (!tbRecordIndex.Open(CRecordset::dynaset, strsql)){
+			AfxMessageBox(_T("打开数据库失败！"));
+			return;
+		}
+	}
+	catch (CDBException *e){
+		e->ReportError();
+	}
+
+	if (tbRecordIndex.IsBOF())
+	{
+		return;
+	}
+
+
+	m_vectParaRecordTbIndex.clear();
+
+	CParaRecordIndex tempParaRecordTbIndex;
+	tbRecordIndex.MoveFirst();
+	while (!tbRecordIndex.IsEOF()){	
+		tempParaRecordTbIndex.m_Id = tbRecordIndex.m_Id;
+		tempParaRecordTbIndex.m_strCreatedTime = tbRecordIndex.m_CreatedDateTime.Format(_T("%Y-%m-%d %H:%M:%S"));
+		tempParaRecordTbIndex.m_strLastUpdateTime = tbRecordIndex.m_LastUpdatedDateTime.Format(_T("%Y-%m-%d %H:%M:%S"));
+
+		tempParaRecordTbIndex.m_strTbRecordName = tbRecordIndex.m_tbRecordName; //参数对应的表名//
+
+		m_vectParaRecordTbIndex.push_back(tempParaRecordTbIndex);
+		tbRecordIndex.MoveNext();
+	}
+
+	tbRecordIndex.Close();
+}
+void CDataProvider::AddRecordTbIndex(CParaRecordIndex& tempRecordIndex)
+{
+	CtbParaRecordIndex tbRecordIndex;
+	try{
+		if (tbRecordIndex.IsOpen())
+			tbRecordIndex.Close();
+		if (!tbRecordIndex.Open(CRecordset::dynaset)){
+			AfxMessageBox(_T("打开数据库失败！"));
+			return;
+		}
+	}
+	catch (CDBException *e){
+		e->ReportError();
+	}
+
+	int length = m_vectParaRecordTbIndex.size();
+	if (length == 0)//设置第一个模块ID
+	{
+		tempRecordIndex.m_Id = 1;
+	}
+	else{
+		tempRecordIndex.m_Id = m_vectParaRecordTbIndex[length - 1].m_Id + 1;
+	}
+
+	//创建的表名tbParaRecord+待记录参数的ID//
+	tempRecordIndex.m_strTbRecordName.Format(_T("tbParaRecord%d"), tempRecordIndex.m_ProParaId);
+
+	m_vectParaRecordTbIndex.push_back(tempRecordIndex);
+
+	if (tbRecordIndex.CanUpdate()){
+		tbRecordIndex.AddNew();
+		CTime time = CTime::GetCurrentTime();
+		tbRecordIndex.m_Id = tempRecordIndex.m_Id;
+		tbRecordIndex.m_CreatedDateTime = time;
+		tbRecordIndex.m_LastUpdatedDateTime = time;
+		tbRecordIndex.m_ProParaId = tempRecordIndex.m_ProParaId;
+		tbRecordIndex.m_tbRecordName = tempRecordIndex.m_strTbRecordName;
+		tbRecordIndex.Update();
+	}
+	tbRecordIndex.Close();
+
+	CreateParaRecordTb(tempRecordIndex); //创建记录参数对应的表//
+}
+
+
+void CDataProvider::DeleteRecordTbIndex(CParaRecordIndex& tempRecordIndex)
+{
+	CString strsql;
+	strsql.Format(_T("DELETE FROM tbParaRecordIndex WHERE Id=%d"), tempRecordIndex.m_Id); 
+	ExecutionSQL(strsql); //删除索引表的记录//
+
+	DeleteParaRecordTb(tempRecordIndex); //删除表//
+
+}
+void CDataProvider::UpdateRecordTbIndex(CParaRecordIndex& tempRecordIndex)
+{
 
 
 }
+
+//创建每条待记录参数对应的表//
+BOOL CDataProvider::CreateParaRecordTb(CParaRecordIndex &RecordIndex)
+{
+	CString strsql;
+
+	strsql.Format(_T("CREATE TABLE %s(Id int,strCreatedTime varchar(100),ProParaId int,ParaValue float)"), RecordIndex.m_strTbRecordName);
+	if (ExecutionSQL(strsql))
+	{
+		return FALSE;
+	}
+	return TRUE; //执行成功//
+}
+BOOL CDataProvider::DeleteParaRecordTb(CParaRecordIndex &RecordIndex)
+{
+	CString strsql;
+	strsql.Format(_T("DROP TABLE  %s"), RecordIndex.m_strTbRecordName);
+	if (ExecutionSQL(strsql))
+	{
+		return FALSE;
+	}
+	return TRUE;
+
+}
+BOOL CDataProvider::AddParaReordToTb(CString& RecordTbName, CParaRecord& ParaRecord)
+{
+
+	CString strsql;
+	
+	strsql.Format(_T("INSERT INTO %s(Id, CreatedTime,ProParaId,ParaValue) VALUES('%s',getdate(),'%d')"), RecordTbName, ParaRecord.m_Id, ParaRecord.m_ProParaId,ParaRecord.m_fParaValue);
+
+	ExecutionSQL(strsql);
+	return TRUE;
+}
+
+
+void CDataProvider::ReadParaRecords(CString& tbRecordName)
+{
+	CtbParaRecord tbParaRecord;
+	CString strsql;
+	strsql.Format(_T("select * from %s order by Id"),tbRecordName);
+
+	try{
+		if (tbParaRecord.IsOpen())
+			tbParaRecord.Close();
+		if (!tbParaRecord.Open(CRecordset::dynaset, strsql)){
+			AfxMessageBox(_T("打开数据库失败！"));
+			return ;
+		}
+	}
+	catch (CDBException *e){
+		e->ReportError();
+	}
+
+	if (tbParaRecord.IsBOF())
+	{
+		return;
+	}
+
+	m_vParaRecordes.clear();
+
+	CParaRecord tempParaRecord;
+	tbParaRecord.MoveFirst();
+	while (!tbParaRecord.IsEOF()){	
+		tempParaRecord.m_Id = tbParaRecord.m_Id;
+		tempParaRecord.m_CreateTime = tbParaRecord.m_CreatedTime;
+		tempParaRecord.m_ProParaId = tbParaRecord.m_ProParaId;
+		tempParaRecord.m_fParaValue = tbParaRecord.m_ParaValue;
+
+		m_vParaRecordes.push_back(tempParaRecord);
+		tbParaRecord.MoveNext();
+	}
+
+	tbParaRecord.Close();
+}
+
