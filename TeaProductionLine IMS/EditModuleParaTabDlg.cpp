@@ -113,9 +113,14 @@ void CEditModuleParaTabDlg::OnBnClickedAddItem()
 		int index = m_pDataProvider->m_vectProModulePara.size()-1;
 		m_IndexMap[i] = index;
 
-	}
+		if (tempProPara.m_IsRecord == TRUE) //添加历史记录索引，并创建该记录的表//
+		{
+			CParaRecordIndex paraIndex;
+			paraIndex.m_ProParaId = m_pDataProvider->m_vectProModulePara[index].m_Id;
+			m_pDataProvider->AddRecordTbIndex(paraIndex);
+		}
 
-	//ListOnPaint();
+	}
 }
 
 void CEditModuleParaTabDlg::OnBnClickedClearEdit()
@@ -137,7 +142,7 @@ void CEditModuleParaTabDlg::OnBnClickedClearAll()
 	{
 		m_pDataProvider->m_vectProModulePara.clear();
 		m_pDataProvider->DeleteDbTable(CDataProvider::tbProcessPara);		
-		
+	
 		MyOnPaint();
 	}
 }
@@ -199,9 +204,29 @@ void CEditModuleParaTabDlg::OnNMRClickLi1EditmoduleparaTabdlg(NMHDR *pNMHDR, LRE
 		m_ModuleParaPopDlg.m_DataIndex = DataIndex;
 		m_ModuleParaPopDlg.DoModal();
 		UpdateItemInList(m_nSelectedItem, m_pDataProvider->m_vectProModulePara[DataIndex]);
+
+		if (m_pDataProvider->m_vectProModulePara[DataIndex].m_IsRecord==TRUE)
+		{
+			for (int i = 0; i < m_pDataProvider->m_vectParaRecordTbIndex.size();i++)
+			{
+				//如果已经该条参数的历史记录索引已经存在，则不需要再添加//
+				if (m_pDataProvider->m_vectParaRecordTbIndex[i].m_ProParaId == m_pDataProvider->m_vectProModulePara[DataIndex].m_Id)
+				{
+					return;
+				}
+			}
+			CParaRecordIndex paraIndex;
+			paraIndex.m_ProParaId = m_pDataProvider->m_vectProModulePara[DataIndex].m_Id;
+			m_pDataProvider->AddRecordTbIndex(paraIndex);
+		}
 		break;
 	case ID_PARA_DELETE:
 		m_pDataProvider->DeleteDbTableItem(CDataProvider::tbProcessPara, m_pDataProvider->m_vectProModulePara[DataIndex].m_Id);
+		if (m_pDataProvider->m_vectProModulePara[DataIndex].m_IsRecord==TRUE)
+		{
+			m_pDataProvider->DeleteRecordTbIndex(m_pDataProvider->m_vectProModulePara[DataIndex].m_Id);
+		}
+
 		m_pDataProvider->m_vectProModulePara.erase(m_pDataProvider->m_vectProModulePara.begin() + DataIndex);
 		
 		DeleteItemInList(m_nSelectedItem);
@@ -210,8 +235,6 @@ void CEditModuleParaTabDlg::OnNMRClickLi1EditmoduleparaTabdlg(NMHDR *pNMHDR, LRE
 	default:
 		break;
 	}
-
-	//ListOnPaint();
 
 }
 

@@ -6,6 +6,7 @@
 #include "afxwin.h"
 
 
+
 // CHistoryChlDlg 对话框
 
 class CHistoryChlDlg : public CDialogEx
@@ -34,6 +35,8 @@ private:
 	std::vector<CProcessPara> m_vRecordProPara; //需要历史记录的工艺参数//
 	CProcessPara m_currentPara; //当前记录的工艺参数//
 
+	std::vector<CParaRecord>   m_vParaRecords; //记录的参数的值//
+
 public:
 	virtual BOOL OnInitDialog();
 
@@ -42,4 +45,21 @@ public:
 	CComboBox m_LineComboBox;
 	CComboBox m_ModuleComboBox;
 	CComboBox m_ParaComboBox;
+	afx_msg void OnBnClickedButtonOk();
+	afx_msg void OnCbnSelchangeLine();
+	afx_msg void OnCbnSelchangeModule();
+	CComboBox m_TimeIntervalComboBox;
+
+	void LineComboxPaint();
+	void ModuleComboxPaint(const CString& LineName);
+	void ParaComboxPaint(const CString& LineName, const CString& ModuleName);
+
+private:
+	void InitList();
+	void SetListItemText(int Index, CParaRecord &paraRecord);
+	void UpdateItemInList(int Index, CParaRecord &paraRecord);
+	void AddItemToList(CParaRecord &paraRecord);
+
+
+	void SetCurrentPara();
 };

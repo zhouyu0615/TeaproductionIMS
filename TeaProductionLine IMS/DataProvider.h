@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
+#include <set>
 
 #include "UserClass.h"
 #include "ProcessModuleClass.h"
@@ -170,14 +171,18 @@ public:
 
 	void ReadRecordTbIndex();
 	void AddRecordTbIndex(CParaRecordIndex& tempRecordIndex);
-	void DeleteRecordTbIndex(CParaRecordIndex& tempRecordIndex);
+	void DeleteRecordTbIndex(int ProParaId);
 	void UpdateRecordTbIndex(CParaRecordIndex& tempRecordIndex);
 
+	void ClearReadTbIndex();//清空所有的历史参数索引，删除索引所对应的表//
+
+private:
 	//创建每条待记录参数对应的表//
 	BOOL CreateParaRecordTb(CParaRecordIndex &RecordIndex);
-	BOOL DeleteParaRecordTb(CParaRecordIndex &RecordIndex);
+	BOOL DeleteParaRecordTb(CString& RecordTbName);
 	BOOL AddParaReordToTb(CString& RecordTbName, CParaRecord& ParaRecord);
 
+public:
 	std::vector<CParaRecord> m_vParaRecordes;
 	void ReadParaRecords(CString& tbRecordName);
 	

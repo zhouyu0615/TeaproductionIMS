@@ -67,6 +67,9 @@ void CDataProvider::InitDataProvider()
 	this->ReadFaultParaFromDatabase();
 	this->ReadStateParaFromDatabase();
 	this->ReadFormulaFormDatabase();
+
+	this->ReadRecordTbIndex();
+
 }
 
 
@@ -766,15 +769,6 @@ void CDataProvider::AddProcessParaToDatabase(CProcessPara tempProcessPara)
 
 	}
 	tbProcessPara.Close();
-
-
-	if (tempProcessPara.m_IsRecord == TRUE)
-	{
-		CParaRecordIndex paraIndex;
-		paraIndex.m_ProParaId = tempProcessPara.m_Id;
-		AddRecordTbIndex(paraIndex);
-	}
-
 
 
 }
@@ -1563,6 +1557,9 @@ int CDataProvider::DeleteDbTable(enumDBTABLE dbTable)
 	case CDataProvider::tbProcessPara:
 		strsql.Format(_T("DELETE FROM tbProcessPara"));
 		m_vectProModulePara.clear();
+
+		ClearReadTbIndex();//清除历史记录参数的索引及历史记录表//
+
 		break;
 	case CDataProvider::tbFormula:
 		strsql.Format(_T("DELETE FROM tbFormula"));
@@ -3120,15 +3117,36 @@ void CDataProvider::AddRecordTbIndex(CParaRecordIndex& tempRecordIndex)
 }
 
 
-void CDataProvider::DeleteRecordTbIndex(CParaRecordIndex& tempRecordIndex)
+void CDataProvider::DeleteRecordTbIndex(int ProParaId)
 {
 	CString strsql;
-	strsql.Format(_T("DELETE FROM tbParaRecordIndex WHERE Id=%d"), tempRecordIndex.m_Id); 
+	strsql.Format(_T("DELETE FROM tbParaRecordIndex WHERE ProParaId=%d"),ProParaId);
 	ExecutionSQL(strsql); //删除索引表的记录//
 
-	DeleteParaRecordTb(tempRecordIndex); //删除表//
+	CString tbName;
+	tbName.Format(_T("tbParaRecord%d"), ProParaId);
+	DeleteParaRecordTb(tbName); //删除表//s
 
 }
+
+//清空所有的历史参数索引，删除索引所对应的表//
+void CDataProvider::ClearReadTbIndex()
+{
+	for (int i = 0; i < m_vectParaRecordTbIndex.size();i++)
+	{
+		DeleteParaRecordTb(m_vectParaRecordTbIndex[i].m_strTbRecordName);
+	}
+
+	m_vectParaRecordTbIndex.clear();
+	m_vParaRecordes.clear();
+
+	CString strsql;
+	strsql.Format(_T("DELETE FROM tbParaRecordIndex"));
+	ExecutionSQL(strsql); //删除索引表的记录//
+
+}
+
+
 void CDataProvider::UpdateRecordTbIndex(CParaRecordIndex& tempRecordIndex)
 {
 
@@ -3147,10 +3165,11 @@ BOOL CDataProvider::CreateParaRecordTb(CParaRecordIndex &RecordIndex)
 	}
 	return TRUE; //执行成功//
 }
-BOOL CDataProvider::DeleteParaRecordTb(CParaRecordIndex &RecordIndex)
+
+BOOL CDataProvider::DeleteParaRecordTb(CString& RecordTbName)
 {
 	CString strsql;
-	strsql.Format(_T("DROP TABLE  %s"), RecordIndex.m_strTbRecordName);
+	strsql.Format(_T("DROP TABLE  %s"), RecordTbName);
 	if (ExecutionSQL(strsql))
 	{
 		return FALSE;

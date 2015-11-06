@@ -86,6 +86,7 @@ void CEditModuleParaPopDlg::OnBnClickedOk()
 
 	tempProcessPara.m_IsConfig = GetConfigState();
 	tempProcessPara.m_IsVisible = GetVisibleState();
+
 	tempProcessPara.m_IsRecord = GetRecordState();
 
 	if (!m_ParaCheckUtil.ProcessParaCheck(tempProcessPara, m_DataIndex))
