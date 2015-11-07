@@ -65,7 +65,7 @@ public:
 	CThread *m_pThread;
 
 private:
-	static UINT SocketThreadFunc(LPVOID lparam); //通讯线程运行函数
+	//static UINT SocketThreadFunc(LPVOID lparam); //通讯线程运行函数
 
 	bool SendData(const char *p_SendBuff, int BuffLen);
 	int GetPlcClassIndex();            //获取当前PLC在公共数据容器中的位置索引

@@ -217,6 +217,7 @@ void CEditModuleParaTabDlg::OnNMRClickLi1EditmoduleparaTabdlg(NMHDR *pNMHDR, LRE
 			}
 			CParaRecordIndex paraIndex;
 			paraIndex.m_ProParaId = m_pDataProvider->m_vectProModulePara[DataIndex].m_Id;
+	
 			m_pDataProvider->AddRecordTbIndex(paraIndex);
 		}
 		break;

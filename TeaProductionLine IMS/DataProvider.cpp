@@ -3064,7 +3064,10 @@ void CDataProvider::ReadRecordTbIndex()
 		tempParaRecordTbIndex.m_strCreatedTime = tbRecordIndex.m_CreatedDateTime.Format(_T("%Y-%m-%d %H:%M:%S"));
 		tempParaRecordTbIndex.m_strLastUpdateTime = tbRecordIndex.m_LastUpdatedDateTime.Format(_T("%Y-%m-%d %H:%M:%S"));
 
+		tempParaRecordTbIndex.m_ProParaId = tbRecordIndex.m_ProParaId;
+
 		tempParaRecordTbIndex.m_strTbRecordName = tbRecordIndex.m_tbRecordName; //参数对应的表名//
+		
 
 		m_vectParaRecordTbIndex.push_back(tempParaRecordTbIndex);
 		tbRecordIndex.MoveNext();
@@ -3116,6 +3119,15 @@ void CDataProvider::AddRecordTbIndex(CParaRecordIndex& tempRecordIndex)
 	CreateParaRecordTb(tempRecordIndex); //创建记录参数对应的表//
 }
 
+//读取各个历史记录表中ID最大的一条//
+void CDataProvider::GetMaxIdRecords()
+{
+
+
+}
+
+
+
 
 void CDataProvider::DeleteRecordTbIndex(int ProParaId)
 {
@@ -3138,7 +3150,7 @@ void CDataProvider::ClearReadTbIndex()
 	}
 
 	m_vectParaRecordTbIndex.clear();
-	m_vParaRecordes.clear();
+	m_vCurrentParaRecordes.clear();
 
 	CString strsql;
 	strsql.Format(_T("DELETE FROM tbParaRecordIndex"));
@@ -3158,7 +3170,7 @@ BOOL CDataProvider::CreateParaRecordTb(CParaRecordIndex &RecordIndex)
 {
 	CString strsql;
 
-	strsql.Format(_T("CREATE TABLE %s(Id int,strCreatedTime varchar(100),ProParaId int,ParaValue float)"), RecordIndex.m_strTbRecordName);
+	strsql.Format(_T("CREATE TABLE %s(Id int,CreatedTime datetime,ProParaId int,ParaValue float)"), RecordIndex.m_strTbRecordName);
 	if (ExecutionSQL(strsql))
 	{
 		return FALSE;
@@ -3182,7 +3194,8 @@ BOOL CDataProvider::AddParaReordToTb(CString& RecordTbName, CParaRecord& ParaRec
 
 	CString strsql;
 	
-	strsql.Format(_T("INSERT INTO %s(Id, CreatedTime,ProParaId,ParaValue) VALUES('%s',getdate(),'%d')"), RecordTbName, ParaRecord.m_Id, ParaRecord.m_ProParaId,ParaRecord.m_fParaValue);
+
+	strsql.Format(_T("INSERT INTO %s(Id, CreatedTime,ProParaId,ParaValue) VALUES('%d',getdate(),'%d','%f')"), RecordTbName, ParaRecord.m_Id, ParaRecord.m_ProParaId,ParaRecord.m_fParaValue);
 
 	ExecutionSQL(strsql);
 	return TRUE;
@@ -3212,7 +3225,7 @@ void CDataProvider::ReadParaRecords(CString& tbRecordName)
 		return;
 	}
 
-	m_vParaRecordes.clear();
+	m_vCurrentParaRecordes.clear();
 
 	CParaRecord tempParaRecord;
 	tbParaRecord.MoveFirst();
@@ -3222,10 +3235,18 @@ void CDataProvider::ReadParaRecords(CString& tbRecordName)
 		tempParaRecord.m_ProParaId = tbParaRecord.m_ProParaId;
 		tempParaRecord.m_fParaValue = tbParaRecord.m_ParaValue;
 
-		m_vParaRecordes.push_back(tempParaRecord);
+		m_vCurrentParaRecordes.push_back(tempParaRecord);
 		tbParaRecord.MoveNext();
 	}
 
 	tbParaRecord.Close();
+}
+
+
+void CDataProvider::ClearParaRecords(CString& tbRecordName)
+{
+	CString strsql;
+	strsql.Format(_T("Delete from %s"), tbRecordName);
+	ExecutionSQL(strsql);
 }
 

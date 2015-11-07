@@ -219,9 +219,6 @@
     <ClInclude Include="HistoryChlDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="mschart1.h">
-      <Filter>头文件\MsChart</Filter>
-    </ClInclude>
     <ClInclude Include="MsChart\CDMSChart.h">
       <Filter>头文件\MsChart</Filter>
     </ClInclude>
@@ -414,6 +411,15 @@
     <ClInclude Include="tbParaRecord.h">
       <Filter>头文件\tbDataBase</Filter>
     </ClInclude>
+    <ClInclude Include="RecordThread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="MsChart\mschart1.h">
+      <Filter>头文件\MsChart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TeaProductionLine IMS.cpp">
@@ -496,9 +502,6 @@
     </ClCompile>
     <ClCompile Include="AlarmClass.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MsChart\mschart1.cpp">
-      <Filter>源文件\MsChart</Filter>
     </ClCompile>
     <ClCompile Include="tbDevice.cpp">
       <Filter>源文件\tbDataBase</Filter>
@@ -646,6 +649,12 @@
     </ClCompile>
     <ClCompile Include="tbParaRecord.cpp">
       <Filter>源文件\tbDataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="RecordThread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mschart1.cpp">
+      <Filter>源文件\MsChart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

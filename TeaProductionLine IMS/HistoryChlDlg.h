@@ -1,15 +1,17 @@
 #pragma once
-#include "MsChart/mschart1.h"
+
+#include "MsChart.h"
 #include "DataProvider.h"
 #include "ProcessModulePara.h"
 #include "afxcmn.h"
 #include "afxwin.h"
+#include "Thread.h"
 
 
 
 // CHistoryChlDlg 对话框
 
-class CHistoryChlDlg : public CDialogEx
+class CHistoryChlDlg : public CDialogEx,Runnable
 {
 	DECLARE_DYNAMIC(CHistoryChlDlg)
 
@@ -33,6 +35,11 @@ public:
 private:
 	CDataProvider* m_pDataProvider = CDataProvider::getInstance();
 	std::vector<CProcessPara> m_vRecordProPara; //需要历史记录的工艺参数//
+	std::map<int, int> m_ParaIndexMap; //Key为m_vRecordProPara,Value为m_dataProider中m_vectProModulePara中的下标索引
+
+
+
+	size_t m_CurrentParaDataIndex;
 	CProcessPara m_currentPara; //当前记录的工艺参数//
 
 	std::vector<CParaRecord>   m_vParaRecords; //记录的参数的值//
@@ -61,5 +68,15 @@ private:
 	void AddItemToList(CParaRecord &paraRecord);
 
 
-	void SetCurrentPara();
+	BOOL SetCurrentPara();
+
+	virtual void Run();
+	CThread* m_pThread;
+
+	
+	CArray<double, double> m_arrary;
+
+	void UpDateChart();
+public:
+	afx_msg void OnBnClickedButtonClear();
 };

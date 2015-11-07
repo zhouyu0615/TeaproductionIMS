@@ -176,15 +176,21 @@ public:
 
 	void ClearReadTbIndex();//清空所有的历史参数索引，删除索引所对应的表//
 
+	
+	std::map<CString, int> m_MaxRecordsIdMap;  //存储各个历史记录表中对应的最大ID,KEY为表名，value为最大的ID//
+	void GetMaxIdRecords();  //读取各个历史记录表中ID最大的一条
+
 private:
 	//创建每条待记录参数对应的表//
 	BOOL CreateParaRecordTb(CParaRecordIndex &RecordIndex);
 	BOOL DeleteParaRecordTb(CString& RecordTbName);
+public:
 	BOOL AddParaReordToTb(CString& RecordTbName, CParaRecord& ParaRecord);
 
 public:
-	std::vector<CParaRecord> m_vParaRecordes;
+	std::vector<CParaRecord> m_vCurrentParaRecordes;
 	void ReadParaRecords(CString& tbRecordName);
+	void ClearParaRecords(CString& tbRecordName);
 	
 
 };
