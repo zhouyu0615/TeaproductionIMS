@@ -189,7 +189,7 @@ public:
 
 public:
 	std::vector<CParaRecord> m_vCurrentParaRecordes;
-	void ReadParaRecords(CString& tbRecordName);
+	void ReadRecentParaRecords(CString& tbRecordName);
 	void ClearParaRecords(CString& tbRecordName);
 	
 

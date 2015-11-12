@@ -88,4 +88,8 @@ public:
 	afx_msg void OnBnClickedButtonClear();
 
 	void StopRecordThread();
+
+	BOOL m_bIsRecording = FALSE; //记录当前是否真正记录的标志位//
+	afx_msg void OnBnClickedButtonExportRecord();
+	afx_msg void OnBnClickedButtonImportRecord();
 };

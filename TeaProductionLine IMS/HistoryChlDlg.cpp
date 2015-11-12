@@ -41,6 +41,8 @@ BEGIN_MESSAGE_MAP(CHistoryChlDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_PARA2, &CHistoryChlDlg::OnCbnSelchangeLine)
 	ON_CBN_SELCHANGE(IDC_COMBO_PARA3, &CHistoryChlDlg::OnCbnSelchangeModule)
 	ON_BN_CLICKED(IDC_BUTTON_CLEAR, &CHistoryChlDlg::OnBnClickedButtonClear)
+	ON_BN_CLICKED(IDC_BUTTON_EXPORT_RECORD, &CHistoryChlDlg::OnBnClickedButtonExportRecord)
+	ON_BN_CLICKED(IDC_BUTTON_IMPORT_RECORD, &CHistoryChlDlg::OnBnClickedButtonImportRecord)
 END_MESSAGE_MAP()
 
 
@@ -176,10 +178,8 @@ void CHistoryChlDlg::ParaComboxPaint(const CString& LineName, const CString& Mod
 void CHistoryChlDlg::InitChart()
 {
 
-	
 
 	m_Chart.put_ColumnCount(10);
-
 
 	m_Chart.put_ShowLegend(FALSE);
 	m_Chart.put_RandomFill(FALSE);
@@ -339,10 +339,32 @@ void CHistoryChlDlg::InitChart()
 void CHistoryChlDlg::OnBnClickedButtonOk()
 {
 
-	if (SetCurrentPara())
+	if (m_bIsRecording==TRUE)
 	{
-		m_pThread = new CThread(this);
-		m_pThread->Start();
+		return;
+	}
+	BOOL Init_Success = SetCurrentPara();
+	if (Init_Success)
+	{
+		CString tbName;
+		tbName.Format(_T("tbParaRecord%d"), m_currentPara.m_Id);
+		m_pDataProvider->ReadRecentParaRecords(tbName);
+
+		int length = m_pDataProvider->m_vCurrentParaRecordes.size();
+		for (int i = 0; i < length;i++)
+		{
+			AddItemToList(m_pDataProvider->m_vCurrentParaRecordes[i]);
+			AddDataPointToChart(m_pDataProvider->m_vCurrentParaRecordes[i]);
+		}
+
+
+		if (m_pThread==NULL)
+		{
+			m_pThread = new CThread(this);
+			m_pThread->Start();
+		}
+
+		m_bIsRecording = TRUE;
 	}
 	
 }
@@ -470,6 +492,7 @@ void CHistoryChlDlg::Run()
 			m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
 
 			AddItemToList(tParaRecord);
+
 			AddDataPointToChart(tParaRecord);
 			UpDateChartShow();
 			
@@ -529,7 +552,15 @@ void CHistoryChlDlg::OnBnClickedButtonClear()
 	tbName.Format(_T("tbParaRecord%d"), m_currentPara.m_Id);
 	m_pDataProvider->ClearParaRecords(tbName);
 
+
+	m_vChartData.clear();
+	
+	m_Chart.put_RowCount(1);  //清除图表//
+	InitChart();
+
 	m_list1.DeleteAllItems();
+
+	
 }
 
 
@@ -542,3 +573,33 @@ void CHistoryChlDlg::StopRecordThread()
 	}
 	
 }
+
+
+void CHistoryChlDlg::OnBnClickedButtonExportRecord()
+{
+
+	
+
+}
+
+
+void CHistoryChlDlg::OnBnClickedButtonImportRecord()
+{
+	BOOL isOpen = TRUE;		//是否打开(否则为保存)
+	CString defaultDir = L"E:\\FileTest";	//默认打开的文件路径
+	CString fileName = L"";			//默认打开的文件名
+	CString filter = L"文件 (*.xls)|*.xls||";	//文件过虑的类型
+	CFileDialog openFileDlg(isOpen, defaultDir, fileName, OFN_HIDEREADONLY | OFN_READONLY, filter, NULL);
+	openFileDlg.GetOFN().lpstrInitialDir = L"E:\\FileTest\\test.doc";
+	openFileDlg.GetOFN().lpstrFileTitle = L"导入文件";
+	INT_PTR result = openFileDlg.DoModal();
+	CString filePath = defaultDir + "\\test.doc";
+	if (result == IDOK)
+	{
+		filePath = openFileDlg.GetPathName();
+	}
+}
+
+
+
+
