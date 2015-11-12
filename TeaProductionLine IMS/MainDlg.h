@@ -117,4 +117,5 @@ public:
 	void UpdateStatePara();   //更新状态参数//
 	bool m_bIsWarningDlgShow;  //报警警告窗口是否显示//
 	afx_msg void OnBnClickedBtHistroy();
+	afx_msg void OnBnClickedCancel();
 };

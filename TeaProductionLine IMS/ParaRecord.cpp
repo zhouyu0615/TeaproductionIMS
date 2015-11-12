@@ -16,5 +16,6 @@ CParaRecord::~CParaRecord()
 
 CString CParaRecord::getCreateTimeString()
 {
-	return m_CreateTime.Format("%Y-%m-%d %H:%M:%S");
+	//return m_CreateTime.Format("%Y-%m-%d %H:%M:%S");
+	return m_CreateTime.Format("%H:%M:%S");
 }

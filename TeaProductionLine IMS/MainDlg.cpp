@@ -109,6 +109,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialog)
 
 	ON_BN_CLICKED(IDC_BT_ALARM, &CMainDlg::OnBnClickedBtAlarm)
 	ON_BN_CLICKED(IDC_BT_HISTROY, &CMainDlg::OnBnClickedBtHistroy)
+	ON_BN_CLICKED(IDCANCEL, &CMainDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -734,6 +735,18 @@ void CMainDlg::OnBnClickedBtHistroy()
 	m_VedioChiDlg.StopAllVideoPlay();
 
 	m_nCurChiDlg = ID_HISTORYDLG;
+
+
+}
+
+
+void CMainDlg::OnBnClickedCancel()
+{
+	// TODO:  在此添加控件通知处理程序代码
+
+	m_HistoryChiDlg.StopRecordThread();
+
+	CDialog::OnCancel();
 
 
 }

@@ -74,9 +74,18 @@ private:
 	CThread* m_pThread;
 
 	
-	CArray<double, double> m_arrary;
+	
+	//CArray<double, double> m_arrary;
 
-	void UpDateChart();
+	std::vector<CParaRecord> m_vChartData;
+	const static int MAX_ROW_COUNT = 7;
+
+	void AddDataPointToChart(const CParaRecord& paraRecord); //添加图表数据内容//
+	void UpDateChartShow(); //更新图表显示界面//
+
+
 public:
 	afx_msg void OnBnClickedButtonClear();
+
+	void StopRecordThread();
 };

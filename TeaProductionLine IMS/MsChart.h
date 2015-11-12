@@ -30,3 +30,4 @@
 #include "MsChart/CVcLabels.h"
 #include "MsChart/CVcLabel.h"
 #include "MsChart/CVcSeriesMarker.h"
+#include "MsChart/CVcTextLayout.h"

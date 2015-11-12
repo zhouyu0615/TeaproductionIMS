@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CHistoryChlDlg, CDialogEx)
 
 CHistoryChlDlg::CHistoryChlDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CHistoryChlDlg::IDD, pParent)
+: CDialogEx(CHistoryChlDlg::IDD, pParent), m_pThread(NULL)
 	
 {
 
@@ -20,7 +20,7 @@ CHistoryChlDlg::CHistoryChlDlg(CWnd* pParent /*=NULL*/)
 
 CHistoryChlDlg::~CHistoryChlDlg()
 {
-
+	free(m_pThread);
 }
 
 void CHistoryChlDlg::DoDataExchange(CDataExchange* pDX)
@@ -176,12 +176,13 @@ void CHistoryChlDlg::ParaComboxPaint(const CString& LineName, const CString& Mod
 void CHistoryChlDlg::InitChart()
 {
 
-	m_Chart.put_TitleText(_T("历史记录"));
+	
 
-	m_Chart.put_ColumnCount(1);
+	m_Chart.put_ColumnCount(10);
 
 
 	m_Chart.put_ShowLegend(FALSE);
+	m_Chart.put_RandomFill(FALSE);
 	//m_Chart.put_Column(1);
 	//m_Chart.put_ColumnLabel(_T("参数1"));
 
@@ -193,6 +194,10 @@ void CHistoryChlDlg::InitChart()
 	vcColor = vcFont.get_VtColor();
 	vcColor.Set(0, 255, 0);
 	vcFont.put_Size(20);
+
+	m_Chart.put_TitleText(_T("历史记录"));
+
+
 
 	CVcBackdrop vcbackdrop;
 	CVcFill vcfill;
@@ -206,7 +211,7 @@ void CHistoryChlDlg::InitChart()
 	vcColor.Set(100, 100, 100);
 
 
-	m_Chart.put_RowCount(15);
+	m_Chart.put_RowCount(MAX_ROW_COUNT);
 
 	m_Chart.put_Row(1);
 	m_Chart.put_RowLabel((LPCTSTR)(_T("12")));
@@ -214,13 +219,6 @@ void CHistoryChlDlg::InitChart()
 	m_Chart.put_Row(2);
 	m_Chart.put_RowLabel((LPCTSTR)(_T("24")));
 
-	/*for(int i = 1; i <= m_chartt.get_RowCount(); i ++)
-	{
-	CVcDataGrid vcDataGrid = m_chartt.get_DataGrid();
-	vcDataGrid.SetData(i,1,rand() % 200,0);
-	}*/
-
-	//	m_chartt.put_SeriesType(11);
 
 	m_Chart.put_Stacking(TRUE);
 
@@ -230,6 +228,8 @@ void CHistoryChlDlg::InitChart()
 	CVcPlot vcplot;
 	CVcAxis vcaxis;
 	CVcAxisTitle vcAxistitle;
+	CVcTextLayout textlayout;
+	
 
 	vcplot = m_Chart.get_Plot();
 	vcaxis = vcplot.get_Axis(0, var);
@@ -237,9 +237,11 @@ void CHistoryChlDlg::InitChart()
 	vcAxistitle.put_Text(_T("时间(s)"));
 
 	vcaxis = vcplot.get_Axis(1, var);
-	vcAxistitle = vcaxis.get_AxisTitle();
+	vcAxistitle = vcaxis.get_AxisTitle();  
+	textlayout = vcAxistitle.get_TextLayout();
+	textlayout.put_Orientation(1); //设置字体横竖排放//
 	vcAxistitle.put_Text(_T("温度"));
-
+	
 
 	CVcPlot vcPlot = m_Chart.get_Plot();
 	CVcAxis vcAxis = vcPlot.get_Axis(0, var);
@@ -248,13 +250,14 @@ void CHistoryChlDlg::InitChart()
 	vccat.put_DivisionsPerLabel(1);
 	vccat.put_DivisionsPerTick(1);
 
-	m_Chart.put_ColumnCount(1);
+
+
 
 	vcAxis = vcPlot.get_Axis(1, var);
 	CVcValueScale vcvalue = vcAxis.get_ValueScale();
-	vcvalue.put_MajorDivision(25);
-	vcvalue.put_Maximum(100);
-	vcvalue.put_Minimum(0);
+	vcvalue.put_MajorDivision(10);
+	//vcvalue.put_Maximum(100);
+	//vcvalue.put_Minimum(0);
 
 
 	CVcSeriesCollection vcseriescollection;
@@ -330,25 +333,6 @@ void CHistoryChlDlg::InitChart()
 	//vcvalue.put_Minimum(-100);
 	vcvalue.put_MajorDivision(20);
 	vcvalue.put_MinorDivision(1);
-
-
-	m_arrary.SetSize(15);
-	int count = m_arrary.GetCount();
-	for (int i = 0; i < m_arrary.GetCount(); i++)
-	{
-		m_arrary[i] = rand() % 300;
-	}
-
-	CRgn rgn;
-	m_Chart.GetUpdateRgn(&rgn);
-
-	for (int i = 1; i <= m_Chart.get_RowCount(); i++)
-	{
-		CVcDataGrid vcDataGrid = m_Chart.get_DataGrid();
-		vcDataGrid.SetData(i, 1, m_arrary[i - 1], 0);
-	}
-
-
 	
 }
 
@@ -454,29 +438,44 @@ void CHistoryChlDlg::AddItemToList(CParaRecord &paraRecord)
 
 void CHistoryChlDlg::Run()
 {
-	std::map<int, int>::iterator pIter;
+	std::map<int, int>::const_iterator pIter;
 	while (TRUE)
 	{
-		for (pIter = m_ParaIndexMap.begin(); pIter != m_ParaIndexMap.end();++pIter)
-		{
+
+		//for (pIter = m_ParaIndexMap.begin(); pIter != m_ParaIndexMap.end();++pIter)
+		//{
+		//	CParaRecord tParaRecord;
+		//	CProcessPara proPara = m_pDataProvider->m_vectProModulePara[pIter->second];
+		//	tParaRecord.m_ProParaId = proPara.m_Id;
+		//	tParaRecord.m_fParaValue = proPara.m_ParaValue;
+		//	CString tbName;
+		//	tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
+		//	m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
+
+		//	if (m_CurrentParaDataIndex == pIter->second)
+		//	{
+		//		AddItemToList(tParaRecord);
+		//		AddDataPointToChart(tParaRecord);
+		//		UpDateChartShow();
+		//	}		
+		//}
+
 			CParaRecord tParaRecord;
-			CProcessPara proPara = m_pDataProvider->m_vectProModulePara[pIter->second];
+			CProcessPara proPara = m_pDataProvider->m_vectProModulePara[m_CurrentParaDataIndex];
 			tParaRecord.m_ProParaId = proPara.m_Id;
 			tParaRecord.m_fParaValue = proPara.m_ParaValue;
+			tParaRecord.m_CreateTime = CTime::GetCurrentTime();
 			CString tbName;
 			tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
 			m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
 
-			if (m_CurrentParaDataIndex == pIter->second)
-			{
-				AddItemToList(tParaRecord);
-			}		
-		}
+			AddItemToList(tParaRecord);
+			AddDataPointToChart(tParaRecord);
+			UpDateChartShow();
+			
 
-		UpDateChart();
+
 		
-
-
 		Sleep(3 * 1000);
 
 	}
@@ -485,34 +484,39 @@ void CHistoryChlDlg::Run()
 
 
 
-void CHistoryChlDlg::UpDateChart()
+//更新图表数据内容//
+void CHistoryChlDlg::AddDataPointToChart(const CParaRecord& paraRecord)
 {
-
-	if (m_arrary.GetSize() == 15)
+	int length = m_vChartData.size();
+	if (length<MAX_ROW_COUNT)
 	{
-		m_arrary.RemoveAt(0);
-
-		int size = m_arrary.GetSize();
-
-		m_arrary.Add(rand() % 300);
-
+		m_vChartData.push_back(paraRecord);
 	}
 	else
 	{
-		int size = m_arrary.GetSize();
-		m_arrary[size - 1] = rand() % 300;
-
+		m_vChartData.erase(m_vChartData.begin());
+		m_vChartData.push_back(paraRecord);
 	}
+}
 
+
+
+void CHistoryChlDlg::UpDateChartShow()
+{
 
 	m_Chart.SetRedraw(FALSE);
 	CRgn rgn;
 	m_Chart.GetUpdateRgn(&rgn);
 
-	for (int i = 1; i <= m_Chart.get_RowCount(); i++)
+	int length = m_vChartData.size();
+	for (int i = 1; i <= length; i++)
 	{
 		CVcDataGrid vcDataGrid = m_Chart.get_DataGrid();
-		vcDataGrid.SetData(i, 1, m_arrary[i - 1], 0);
+		vcDataGrid.SetData(i, 1, m_vChartData[i-1].m_fParaValue, 0);
+
+		m_Chart.put_Row(i);
+		m_Chart.put_RowLabel(m_vChartData[i - 1].getCreateTimeString());
+		
 	}
 	m_Chart.SetRedraw(TRUE);
 	m_Chart.InvalidateRgn(&rgn, FALSE);
@@ -526,6 +530,15 @@ void CHistoryChlDlg::OnBnClickedButtonClear()
 	m_pDataProvider->ClearParaRecords(tbName);
 
 	m_list1.DeleteAllItems();
-	
+}
 
+
+
+void CHistoryChlDlg::StopRecordThread()
+{
+	if (m_pThread !=NULL)
+	{
+		m_pThread->Suspend();
+	}
+	
 }
