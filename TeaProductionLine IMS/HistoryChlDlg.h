@@ -94,7 +94,7 @@ public:
 	BOOL m_bIsRecording = FALSE; //记录当前是否真正记录的标志位//
 	BOOL m_bIsSelectedPara = FALSE; //记录是否已经选中当前参数//
 	afx_msg void OnBnClickedButtonExportRecord();
-	afx_msg void OnBnClickedButtonImportRecord();
+
 
 private:
 	//获取Excel单元头

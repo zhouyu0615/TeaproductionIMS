@@ -53,7 +53,6 @@ BEGIN_MESSAGE_MAP(CHistoryChlDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_PARA3, &CHistoryChlDlg::OnCbnSelchangeModule)
 	ON_BN_CLICKED(IDC_BUTTON_CLEAR, &CHistoryChlDlg::OnBnClickedButtonClear)
 	ON_BN_CLICKED(IDC_BUTTON_EXPORT_RECORD, &CHistoryChlDlg::OnBnClickedButtonExportRecord)
-	ON_BN_CLICKED(IDC_BUTTON_IMPORT_RECORD, &CHistoryChlDlg::OnBnClickedButtonImportRecord)
 	ON_BN_CLICKED(IDC_BUTTON_START_RECORD, &CHistoryChlDlg::OnBnClickedButtonStartRecord)
 END_MESSAGE_MAP()
 
@@ -729,36 +728,5 @@ void CHistoryChlDlg::OnBnClickedButtonExportRecord()
 		app.ReleaseDispatch();
 	}
 }
-
-
-void CHistoryChlDlg::OnBnClickedButtonImportRecord()
-{
-	OnBnClickedButtonOk();//调用确认参数的按钮
-	if (m_bIsSelectedPara == FALSE)
-	{
-		return;
-	}
-
-
-
-	BOOL isOpen = TRUE;		//是否打开(否则为保存)
-	CString defaultDir =_T("C:\\Users\\Administrator\\Desktop");	//默认打开的文件路径
-	CString fileName = L"";			//默认打开的文件名
-	CString filter = L"文件 (*.xls)|*.xls||";	//文件过滤的类型//
-	CFileDialog openFileDlg(isOpen, defaultDir, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, filter, NULL);
-
-	openFileDlg.m_ofn.lpstrFileTitle = _T("导入文件");
-	INT_PTR result = openFileDlg.DoModal();
-	CString filePath = defaultDir + "\\test.doc";
-	if (result == IDOK)
-	{
-		filePath = openFileDlg.GetPathName();
-	}
-}
-
-
-
-
-
 
 
