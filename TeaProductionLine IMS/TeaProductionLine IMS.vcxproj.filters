@@ -28,6 +28,9 @@
     <Filter Include="源文件\UIDialog">
       <UniqueIdentifier>{09fa013e-999c-4310-82ec-8368183b7ef9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\MsExcel">
+      <UniqueIdentifier>{50d993d3-cd92-44c3-a01c-b1f027b90c28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -208,9 +211,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Modbus.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="AlarmDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AlarmClass.h">
@@ -419,6 +419,30 @@
     </ClInclude>
     <ClInclude Include="MsChart\mschart1.h">
       <Filter>头文件\MsChart</Filter>
+    </ClInclude>
+    <ClInclude Include="CFont0.h">
+      <Filter>头文件\MsExcel</Filter>
+    </ClInclude>
+    <ClInclude Include="CRange.h">
+      <Filter>头文件\MsExcel</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorkbook.h">
+      <Filter>头文件\MsExcel</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorkbooks.h">
+      <Filter>头文件\MsExcel</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorksheet.h">
+      <Filter>头文件\MsExcel</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorksheets.h">
+      <Filter>头文件\MsExcel</Filter>
+    </ClInclude>
+    <ClInclude Include="AlarmDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CApplication.h">
+      <Filter>头文件\MsExcel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

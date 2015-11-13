@@ -3202,12 +3202,14 @@ BOOL CDataProvider::AddParaReordToTb(CString& RecordTbName, CParaRecord& ParaRec
 }
 
 
-//从当前表名中读取前100条记录//
+
 void CDataProvider::ReadRecentParaRecords(CString& tbRecordName)
 {
 	CtbParaRecord tbParaRecord;
 	CString strsql;
-	strsql.Format(_T("select top 100 * from %s order by Createdtime ASC"),tbRecordName);
+	//strsql.Format(_T("select top 100 * from %s order by Createdtime ASC"),tbRecordName);
+
+	strsql.Format(_T("select * from %s order by Createdtime ASC"), tbRecordName);
 
 	try{
 		if (tbParaRecord.IsOpen())

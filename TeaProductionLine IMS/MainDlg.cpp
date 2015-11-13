@@ -747,6 +747,4 @@ void CMainDlg::OnBnClickedCancel()
 	m_HistoryChiDlg.StopRecordThread();
 
 	CDialog::OnCancel();
-
-
 }

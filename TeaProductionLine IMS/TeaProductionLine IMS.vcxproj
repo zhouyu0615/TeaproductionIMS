@@ -111,7 +111,14 @@
     <ClInclude Include="AlarmClass.h" />
     <ClInclude Include="AlarmDlg.h" />
     <ClInclude Include="AllUserManageDlg.h" />
+    <ClInclude Include="CApplication.h" />
+    <ClInclude Include="CFont0.h" />
     <ClInclude Include="ConfigChiDlg.h" />
+    <ClInclude Include="CRange.h" />
+    <ClInclude Include="CWorkbook.h" />
+    <ClInclude Include="CWorkbooks.h" />
+    <ClInclude Include="CWorksheet.h" />
+    <ClInclude Include="CWorksheets.h" />
     <ClInclude Include="DataProvider.h" />
     <ClInclude Include="DeviceChiDlg.h" />
     <ClInclude Include="DeviceClass.h" />

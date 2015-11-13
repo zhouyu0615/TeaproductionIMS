@@ -7,6 +7,16 @@
 #include "afxdialogex.h"
 
 
+#include "CApplication.h"
+#include "CFont0.h"
+#include "CRange.h"
+#include "CWorkbook.h"
+#include "CWorkbooks.h"
+#include "CWorksheet.h"
+#include "CWorksheets.h"
+
+
+
 // CHistoryChlDlg 对话框//
 
 IMPLEMENT_DYNAMIC(CHistoryChlDlg, CDialogEx)
@@ -15,12 +25,13 @@ CHistoryChlDlg::CHistoryChlDlg(CWnd* pParent /*=NULL*/)
 : CDialogEx(CHistoryChlDlg::IDD, pParent), m_pThread(NULL)
 	
 {
-
+	//m_hEvent = CreateEvent(NULL, TRUE, FALSE, NULL); //手动复原，初始状态无信号
 }
 
 CHistoryChlDlg::~CHistoryChlDlg()
 {
-	free(m_pThread);
+	//free(m_pThread);
+	//CloseHandle(m_hEvent);
 }
 
 void CHistoryChlDlg::DoDataExchange(CDataExchange* pDX)
@@ -31,7 +42,7 @@ void CHistoryChlDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO_PARA2, m_LineComboBox);
 	DDX_Control(pDX, IDC_COMBO_PARA3, m_ModuleComboBox);
 	DDX_Control(pDX, IDC_COMBO_PARA, m_ParaComboBox);
-	DDX_Control(pDX, IDC_COMBO_TIME_INTERVAL, m_TimeIntervalComboBox);
+	DDX_Control(pDX, IDC_BUTTON_START_RECORD, m_BtnStart);
 }
 
 
@@ -43,6 +54,7 @@ BEGIN_MESSAGE_MAP(CHistoryChlDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_CLEAR, &CHistoryChlDlg::OnBnClickedButtonClear)
 	ON_BN_CLICKED(IDC_BUTTON_EXPORT_RECORD, &CHistoryChlDlg::OnBnClickedButtonExportRecord)
 	ON_BN_CLICKED(IDC_BUTTON_IMPORT_RECORD, &CHistoryChlDlg::OnBnClickedButtonImportRecord)
+	ON_BN_CLICKED(IDC_BUTTON_START_RECORD, &CHistoryChlDlg::OnBnClickedButtonStartRecord)
 END_MESSAGE_MAP()
 
 
@@ -111,13 +123,6 @@ void CHistoryChlDlg::InitList()
 	m_list1.InsertColumn(3, _T("参数值"), LVCFMT_CENTER, rect1.Width() / 8 * 2, -1);
 	m_list1.InsertColumn(4, _T("单位"), LVCFMT_CENTER, rect1.Width() / 8 * 2, -1);
 
-	for (size_t i = 0; i < m_vParaRecords.size();i++)
-	{
-		litem.iItem = i;
-		m_list1.InsertItem(&litem);
-		SetListItemText(i, m_vParaRecords[i]);
-	}
-
 }
 
 
@@ -160,6 +165,9 @@ void CHistoryChlDlg::ModuleComboxPaint(const CString& LineName)
 }
 void CHistoryChlDlg::ParaComboxPaint(const CString& LineName, const CString& ModuleName)
 {
+
+	m_bIsSelectedPara = FALSE; //选中的参数有变动//
+
 	m_ParaComboBox.ResetContent();
 	for (int i = 0; i < m_vRecordProPara.size();i++)
 	{
@@ -178,9 +186,7 @@ void CHistoryChlDlg::ParaComboxPaint(const CString& LineName, const CString& Mod
 void CHistoryChlDlg::InitChart()
 {
 
-
 	m_Chart.put_ColumnCount(10);
-
 	m_Chart.put_ShowLegend(FALSE);
 	m_Chart.put_RandomFill(FALSE);
 	//m_Chart.put_Column(1);
@@ -230,7 +236,6 @@ void CHistoryChlDlg::InitChart()
 	CVcAxisTitle vcAxistitle;
 	CVcTextLayout textlayout;
 	
-
 	vcplot = m_Chart.get_Plot();
 	vcaxis = vcplot.get_Axis(0, var);
 	vcAxistitle = vcaxis.get_AxisTitle();
@@ -251,27 +256,20 @@ void CHistoryChlDlg::InitChart()
 	vccat.put_DivisionsPerTick(1);
 
 
-
-
 	vcAxis = vcPlot.get_Axis(1, var);
 	CVcValueScale vcvalue = vcAxis.get_ValueScale();
 	vcvalue.put_MajorDivision(10);
 	//vcvalue.put_Maximum(100);
 	//vcvalue.put_Minimum(0);
 
-
 	CVcSeriesCollection vcseriescollection;
 	vcseriescollection = vcplot.get_SeriesCollection();
 	CVcSeries vcseries = vcseriescollection.get_Item(1);
-
-
 
 	CVcPen vcpen = vcseries.get_Pen();
 	vcColor = vcpen.get_VtColor();
 	vcColor.Set(255, 0, 0);
 	vcpen.put_Width(25);
-
-
 
 	CVcDataPoints datapoints;
 	CVcDataPoint datatpont;
@@ -281,11 +279,9 @@ void CHistoryChlDlg::InitChart()
 	vcdatapointslabel = datatpont.get_DataPointLabel();
 	vcdatapointslabel.put_LocationType(1);
 
-
 	CVcSeriesMarker vcseriesmarker;
 	vcseriesmarker = vcseries.get_SeriesMarker();
 	vcseriesmarker.put_Auto(FALSE);
-
 
 	vcFont = vcdatapointslabel.get_VtFont();
 	vcColor = vcFont.get_VtColor();
@@ -309,8 +305,6 @@ void CHistoryChlDlg::InitChart()
 	vcColor = vcpen.get_VtColor();
 	vcColor.Set(0, 255, 255);
 
-
-
 	vcpen = vcAxis.get_Pen();
 	vcColor = vcpen.get_VtColor();
 	vcColor.Set(0, 255, 0);
@@ -324,8 +318,6 @@ void CHistoryChlDlg::InitChart()
 	vcColor = vcFont.get_VtColor();
 	vcColor.Set(255, 255, 0);
 
-
-
 	vcAxis = vcplot.get_Axis(1, var);
 	vcvalue = vcAxis.get_ValueScale();
 	vcvalue.put_Auto(TRUE);
@@ -338,14 +330,18 @@ void CHistoryChlDlg::InitChart()
 
 void CHistoryChlDlg::OnBnClickedButtonOk()
 {
-
-	if (m_bIsRecording==TRUE)
+	
+	if (m_bIsSelectedPara==TRUE) //当前选中的参数并未改变//
 	{
 		return;
 	}
-	BOOL Init_Success = SetCurrentPara();
-	if (Init_Success)
+	m_bIsSelectedPara = SetCurrentPara();
+
+	if (m_bIsSelectedPara)
 	{
+		//清空列表//
+		m_list1.DeleteAllItems();
+
 		CString tbName;
 		tbName.Format(_T("tbParaRecord%d"), m_currentPara.m_Id);
 		m_pDataProvider->ReadRecentParaRecords(tbName);
@@ -356,15 +352,45 @@ void CHistoryChlDlg::OnBnClickedButtonOk()
 			AddItemToList(m_pDataProvider->m_vCurrentParaRecordes[i]);
 			AddDataPointToChart(m_pDataProvider->m_vCurrentParaRecordes[i]);
 		}
+		UpDateChartShow();
+	}
+	else
+	{
+		AfxMessageBox(_T("没有确定当前记录的参数，请确定！"));
+	}
+	
+}
+
+void CHistoryChlDlg::OnBnClickedButtonStartRecord()
+{
+	OnBnClickedButtonOk();//调用确认参数的按钮
+	if (m_bIsSelectedPara==FALSE)
+	{
+		return;
+	}
+
+	if (m_pThread == NULL)
+	{
+		m_pThread = new CThread(this);
+		m_pThread->Start(); //创建线程，并等待
+	}
 
 
-		if (m_pThread==NULL)
-		{
-			m_pThread = new CThread(this);
-			m_pThread->Start();
-		}
+	if (m_bIsRecording==FALSE) //停止状态切换到开始记录状态
+	{
+		//SetEvent(m_hEvent);
 
 		m_bIsRecording = TRUE;
+		m_pThread->Resume();
+		m_BtnStart.SetWindowText(_T("停止记录"));
+
+	}
+	else //记录状态切换到停止记录状态
+	{
+		//ResetEvent(m_hEvent);
+		m_pThread->Suspend();
+		m_bIsRecording = FALSE;
+		m_BtnStart.SetWindowText(_T("开始记录"));
 	}
 	
 }
@@ -383,7 +409,6 @@ BOOL CHistoryChlDlg::SetCurrentPara()
 
 	if (paraName=="")
 	{
-		AfxMessageBox(_T("未选定参数！"));
 		return FALSE;
 	}
 
@@ -395,7 +420,6 @@ BOOL CHistoryChlDlg::SetCurrentPara()
 		{
 			m_currentPara = m_vRecordProPara[i];
 			m_CurrentParaDataIndex = m_ParaIndexMap[i];
-
 			return TRUE;
 		}
 	}
@@ -405,8 +429,7 @@ BOOL CHistoryChlDlg::SetCurrentPara()
 
 
 void CHistoryChlDlg::OnCbnSelchangeLine()
-{
-	
+{	
 	CString LineName,ModuleName;
 	m_LineComboBox.GetWindowText(LineName);
     
@@ -461,44 +484,44 @@ void CHistoryChlDlg::AddItemToList(CParaRecord &paraRecord)
 void CHistoryChlDlg::Run()
 {
 	std::map<int, int>::const_iterator pIter;
+
 	while (TRUE)
 	{
+	//for (pIter = m_ParaIndexMap.begin(); pIter != m_ParaIndexMap.end();++pIter)
+	//{
+	//	CParaRecord tParaRecord;
+	//	CProcessPara proPara = m_pDataProvider->m_vectProModulePara[pIter->second];
+	//	tParaRecord.m_ProParaId = proPara.m_Id;
+	//	tParaRecord.m_fParaValue = proPara.m_ParaValue;
+	//	CString tbName;
+	//	tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
+	//	m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
 
-		//for (pIter = m_ParaIndexMap.begin(); pIter != m_ParaIndexMap.end();++pIter)
-		//{
-		//	CParaRecord tParaRecord;
-		//	CProcessPara proPara = m_pDataProvider->m_vectProModulePara[pIter->second];
-		//	tParaRecord.m_ProParaId = proPara.m_Id;
-		//	tParaRecord.m_fParaValue = proPara.m_ParaValue;
-		//	CString tbName;
-		//	tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
-		//	m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
-
-		//	if (m_CurrentParaDataIndex == pIter->second)
-		//	{
-		//		AddItemToList(tParaRecord);
-		//		AddDataPointToChart(tParaRecord);
-		//		UpDateChartShow();
-		//	}		
-		//}
-
-			CParaRecord tParaRecord;
-			CProcessPara proPara = m_pDataProvider->m_vectProModulePara[m_CurrentParaDataIndex];
-			tParaRecord.m_ProParaId = proPara.m_Id;
-			tParaRecord.m_fParaValue = proPara.m_ParaValue;
-			tParaRecord.m_CreateTime = CTime::GetCurrentTime();
-			CString tbName;
-			tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
-			m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
-
-			AddItemToList(tParaRecord);
-
-			AddDataPointToChart(tParaRecord);
-			UpDateChartShow();
-			
-
-
+	//	if (m_CurrentParaDataIndex == pIter->second)
+	//	{
+	//		AddItemToList(tParaRecord);
+	//		AddDataPointToChart(tParaRecord);
+	//		UpDateChartShow();
+	//	}		
+	//}
 		
+		//WaitForSingleObject(m_hEvent, INFINITE);
+
+
+		CParaRecord tParaRecord;
+		CProcessPara proPara = m_pDataProvider->m_vectProModulePara[m_CurrentParaDataIndex];
+		tParaRecord.m_ProParaId = proPara.m_Id;
+		tParaRecord.m_fParaValue = proPara.m_ParaValue;
+		tParaRecord.m_CreateTime = CTime::GetCurrentTime();
+		CString tbName;
+		tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
+		m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
+
+		AddItemToList(tParaRecord);
+
+		AddDataPointToChart(tParaRecord);
+		UpDateChartShow();
+				
 		Sleep(3 * 1000);
 
 	}
@@ -548,14 +571,20 @@ void CHistoryChlDlg::UpDateChartShow()
 
 void CHistoryChlDlg::OnBnClickedButtonClear()
 {
+	OnBnClickedButtonOk();//调用确认参数的按钮
+	if (m_bIsSelectedPara == FALSE)
+	{
+		return;
+	}
+
+
 	CString tbName;
 	tbName.Format(_T("tbParaRecord%d"), m_currentPara.m_Id);
 	m_pDataProvider->ClearParaRecords(tbName);
 
-
 	m_vChartData.clear();
 	
-	m_Chart.put_RowCount(1);  //清除图表//
+	m_Chart.put_RowCount(1);  //清除图表
 	InitChart();
 
 	m_list1.DeleteAllItems();
@@ -567,7 +596,8 @@ void CHistoryChlDlg::OnBnClickedButtonClear()
 
 void CHistoryChlDlg::StopRecordThread()
 {
-	if (m_pThread !=NULL)
+	
+	if (m_pThread!=NULL)
 	{
 		m_pThread->Suspend();
 	}
@@ -575,23 +605,149 @@ void CHistoryChlDlg::StopRecordThread()
 }
 
 
+
+void CHistoryChlDlg::GetCellName(int nRow, int nCol, CString &strName)
+{
+	int nSeed = nCol;
+	CString strRow;
+	char cCell = 'A' + nCol - 1;
+	strName.Format(_T("%c"), cCell);
+	strRow.Format(_T("%d "), nRow);
+	strName += strRow;
+}
+
+
 void CHistoryChlDlg::OnBnClickedButtonExportRecord()
 {
 
-	
+	OnBnClickedButtonOk();//调用确认参数的按钮
+	if (m_bIsSelectedPara==FALSE)
+	{
+		return;
+	}
 
+
+	BOOL isOpen = FALSE;
+	CFileDialog FileDlg(isOpen, _T("(*.xlsx)"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,_T("(*.xlsx)|*.xlsx||"), NULL);
+
+	if (FileDlg.DoModal() == IDOK)
+	{
+		//获取路径
+		CString strFileName = FileDlg.GetPathName();
+		COleVariant
+			covTrue((short)TRUE),
+			covFalse((short)FALSE),
+			covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
+
+		CApplication app;
+		CWorkbook book;
+		CWorkbooks books;
+		CWorksheet sheet;
+		CWorksheets sheets;
+		CRange range;
+		CFont0 font;
+
+		if (!app.CreateDispatch(_T("Excel.Application")))
+		{
+			MessageBox(_T("创建失败!"));
+		}
+
+		books = app.get_Workbooks();
+		book = books.Add(covOptional);
+		sheets = book.get_Worksheets();
+		sheet = sheets.get_Item(COleVariant((short)1));
+
+		//range = sheet.get_Range(COleVariant(_T("A1")), COleVariant(_T("A1")));
+		//range.put_Value2(COleVariant(_T("hanhan")));
+
+		CHeaderCtrl   *pmyHeaderCtrl;
+		pmyHeaderCtrl = m_list1.GetHeaderCtrl();//此句取得CListCtrl控件的列表頭
+
+		int   iRow, iCol;
+		int   m_cols = pmyHeaderCtrl->GetItemCount();
+		int   m_rows = m_list1.GetItemCount();
+		HDITEM   hdi;
+		TCHAR     lpBuffer[256];
+		bool       fFound = false;
+		hdi.mask = HDI_TEXT;
+		hdi.pszText = lpBuffer;
+		hdi.cchTextMax = 256;
+		CString   colname;
+		CString strTemp;
+
+		for (iCol = 0; iCol < m_cols; iCol++)//将列表的标题头写入EXCEL
+		{
+			GetCellName(1, iCol + 1, colname);
+			range = sheet.get_Range(COleVariant(colname), COleVariant(colname));
+			pmyHeaderCtrl->GetItem(iCol, &hdi);
+			range.put_Value2(COleVariant(hdi.pszText));
+
+			int   nWidth = m_list1.GetColumnWidth(iCol) / 6;
+			//得到第iCol+1列  
+			range.AttachDispatch(range.get_Item(_variant_t((long)(iCol + 1)), vtMissing).pdispVal, true);
+
+			//设置列宽 
+			range.put_ColumnWidth(_variant_t((long)nWidth));
+		}
+
+		range = sheet.get_Range(COleVariant(_T("A1 ")), COleVariant(colname));
+		range.put_RowHeight(_variant_t((long)50));//设置行的高度
+		font = range.get_Font();
+		font.put_Bold(covTrue);
+		range.put_VerticalAlignment(COleVariant((short)-4108));//xlVAlignCenter   =   -4108
+		COleSafeArray   saRet;
+		DWORD   numElements[] = { m_rows, m_cols };       //5x2   element   array
+		saRet.Create(VT_BSTR, 2, numElements);
+		range = sheet.get_Range(COleVariant(_T("A2 ")), covOptional);
+		range = range.get_Resize(COleVariant((short)m_rows), COleVariant((short)m_cols));
+		
+		long   index[2];
+		range = sheet.get_Range(COleVariant(_T("A2 ")), covOptional);
+
+		range = range.get_Resize(COleVariant((short)m_rows), COleVariant((short)m_cols));
+		for (iRow = 1; iRow <= m_rows; iRow++)//将列表内容写入EXCEL
+		{
+			for (iCol = 1; iCol <= m_cols; iCol++)
+			{
+				index[0] = iRow - 1;
+				index[1] = iCol - 1;
+				CString   szTemp;
+				szTemp = m_list1.GetItemText(iRow - 1, iCol - 1);
+				BSTR   bstr = szTemp.AllocSysString();
+				saRet.PutElement(index, bstr);
+				SysFreeString(bstr);
+			}
+
+		}
+		range.put_Value2(COleVariant(saRet));
+		saRet.Detach();
+		book.SaveCopyAs(COleVariant(strFileName));
+		book.put_Saved(true);
+		book.ReleaseDispatch();
+		books.ReleaseDispatch();
+		app.Quit();
+		app.ReleaseDispatch();
+	}
 }
 
 
 void CHistoryChlDlg::OnBnClickedButtonImportRecord()
 {
+	OnBnClickedButtonOk();//调用确认参数的按钮
+	if (m_bIsSelectedPara == FALSE)
+	{
+		return;
+	}
+
+
+
 	BOOL isOpen = TRUE;		//是否打开(否则为保存)
-	CString defaultDir = L"E:\\FileTest";	//默认打开的文件路径
+	CString defaultDir =_T("C:\\Users\\Administrator\\Desktop");	//默认打开的文件路径
 	CString fileName = L"";			//默认打开的文件名
-	CString filter = L"文件 (*.xls)|*.xls||";	//文件过虑的类型
-	CFileDialog openFileDlg(isOpen, defaultDir, fileName, OFN_HIDEREADONLY | OFN_READONLY, filter, NULL);
-	openFileDlg.GetOFN().lpstrInitialDir = L"E:\\FileTest\\test.doc";
-	openFileDlg.GetOFN().lpstrFileTitle = L"导入文件";
+	CString filter = L"文件 (*.xls)|*.xls||";	//文件过滤的类型//
+	CFileDialog openFileDlg(isOpen, defaultDir, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, filter, NULL);
+
+	openFileDlg.m_ofn.lpstrFileTitle = _T("导入文件");
 	INT_PTR result = openFileDlg.DoModal();
 	CString filePath = defaultDir + "\\test.doc";
 	if (result == IDOK)
@@ -599,6 +755,9 @@ void CHistoryChlDlg::OnBnClickedButtonImportRecord()
 		filePath = openFileDlg.GetPathName();
 	}
 }
+
+
+
 
 
 

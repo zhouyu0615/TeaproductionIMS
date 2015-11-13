@@ -55,7 +55,7 @@ public:
 	afx_msg void OnBnClickedButtonOk();
 	afx_msg void OnCbnSelchangeLine();
 	afx_msg void OnCbnSelchangeModule();
-	CComboBox m_TimeIntervalComboBox;
+
 
 	void LineComboxPaint();
 	void ModuleComboxPaint(const CString& LineName);
@@ -87,9 +87,19 @@ private:
 public:
 	afx_msg void OnBnClickedButtonClear();
 
+
+	HANDLE m_hEvent;
 	void StopRecordThread();
 
 	BOOL m_bIsRecording = FALSE; //记录当前是否真正记录的标志位//
+	BOOL m_bIsSelectedPara = FALSE; //记录是否已经选中当前参数//
 	afx_msg void OnBnClickedButtonExportRecord();
 	afx_msg void OnBnClickedButtonImportRecord();
+
+private:
+	//获取Excel单元头
+	void  GetCellName(int nRow, int nCol, CString &strName);
+public:
+	afx_msg void OnBnClickedButtonStartRecord();
+	CButton m_BtnStart;
 };
