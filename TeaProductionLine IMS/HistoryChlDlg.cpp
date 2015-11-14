@@ -62,7 +62,7 @@ END_MESSAGE_MAP()
 
 void CHistoryChlDlg::OnCbnSelchangeComboPara()
 {
-	// TODO:  在此添加控件通知处理程序代码
+	m_bIsSelectedPara = FALSE;
 }
 
 
@@ -120,7 +120,8 @@ void CHistoryChlDlg::InitList()
 	m_list1.InsertColumn(1, _T("序号"), LVCFMT_CENTER, rect1.Width() / 8, -1);
 	m_list1.InsertColumn(2, _T("参数名称"), LVCFMT_CENTER, rect1.Width() / 8 * 3, -1);
 	m_list1.InsertColumn(3, _T("参数值"), LVCFMT_CENTER, rect1.Width() / 8 * 2, -1);
-	m_list1.InsertColumn(4, _T("单位"), LVCFMT_CENTER, rect1.Width() / 8 * 2, -1);
+	m_list1.InsertColumn(4, _T("时间"), LVCFMT_CENTER, rect1.Width() / 8 * 2, -1);
+	m_list1.InsertColumn(5, _T("单位"), LVCFMT_CENTER, rect1.Width() / 8 * 2, -1);
 
 }
 
@@ -217,12 +218,6 @@ void CHistoryChlDlg::InitChart()
 
 
 	m_Chart.put_RowCount(MAX_ROW_COUNT);
-
-	m_Chart.put_Row(1);
-	m_Chart.put_RowLabel((LPCTSTR)(_T("12")));
-
-	m_Chart.put_Row(2);
-	m_Chart.put_RowLabel((LPCTSTR)(_T("24")));
 
 
 	m_Chart.put_Stacking(TRUE);
@@ -336,10 +331,12 @@ void CHistoryChlDlg::OnBnClickedButtonOk()
 	}
 	m_bIsSelectedPara = SetCurrentPara();
 
+	
 	if (m_bIsSelectedPara)
 	{
-		//清空列表//
-		m_list1.DeleteAllItems();
+		//清空列表//	
+		ClearList();
+		ClearChart();//清空图表//
 
 		CString tbName;
 		tbName.Format(_T("tbParaRecord%d"), m_currentPara.m_Id);
@@ -459,7 +456,8 @@ void CHistoryChlDlg::SetListItemText(int Index, CParaRecord &paraRecord)
 	m_list1.SetItemText(Index, 2, m_currentPara.m_strParaName);
 	str.Format(_T("%.2f"), paraRecord.m_fParaValue);
 	m_list1.SetItemText(Index, 3, str);
-	m_list1.SetItemText(Index, 4, m_currentPara.m_strUnit);
+	m_list1.SetItemText(Index, 4, paraRecord.getCreateTimeString());
+	m_list1.SetItemText(Index, 5, m_currentPara.m_strUnit);
 
 }
 
@@ -486,40 +484,41 @@ void CHistoryChlDlg::Run()
 
 	while (TRUE)
 	{
-	//for (pIter = m_ParaIndexMap.begin(); pIter != m_ParaIndexMap.end();++pIter)
-	//{
-	//	CParaRecord tParaRecord;
-	//	CProcessPara proPara = m_pDataProvider->m_vectProModulePara[pIter->second];
-	//	tParaRecord.m_ProParaId = proPara.m_Id;
-	//	tParaRecord.m_fParaValue = proPara.m_ParaValue;
-	//	CString tbName;
-	//	tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
-	//	m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
+		for (pIter = m_ParaIndexMap.begin(); pIter != m_ParaIndexMap.end(); ++pIter)
+		{
+			CParaRecord tParaRecord;
+			CProcessPara proPara = m_pDataProvider->m_vectProModulePara[pIter->second];
+			tParaRecord.m_ProParaId = proPara.m_Id;
+			tParaRecord.m_fParaValue = proPara.m_ParaValue;
+			tParaRecord.m_CreateTime = CTime::GetCurrentTime();
+			CString tbName;
+			tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
+			m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
 
-	//	if (m_CurrentParaDataIndex == pIter->second)
-	//	{
-	//		AddItemToList(tParaRecord);
-	//		AddDataPointToChart(tParaRecord);
-	//		UpDateChartShow();
-	//	}		
-	//}
+			if (m_CurrentParaDataIndex == pIter->second)
+			{
+				AddItemToList(tParaRecord);
+				AddDataPointToChart(tParaRecord);
+				UpDateChartShow();
+			}
+		}
 		
-		//WaitForSingleObject(m_hEvent, INFINITE);
 
 
-		CParaRecord tParaRecord;
-		CProcessPara proPara = m_pDataProvider->m_vectProModulePara[m_CurrentParaDataIndex];
-		tParaRecord.m_ProParaId = proPara.m_Id;
-		tParaRecord.m_fParaValue = proPara.m_ParaValue;
-		tParaRecord.m_CreateTime = CTime::GetCurrentTime();
-		CString tbName;
-		tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
-		m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
 
-		AddItemToList(tParaRecord);
+		//CParaRecord tParaRecord;
+		//CProcessPara proPara = m_pDataProvider->m_vectProModulePara[m_CurrentParaDataIndex];
+		//tParaRecord.m_ProParaId = proPara.m_Id;
+		//tParaRecord.m_fParaValue = proPara.m_ParaValue;
+		//tParaRecord.m_CreateTime = CTime::GetCurrentTime();
+		//CString tbName;
+		//tbName.Format(_T("tbParaRecord%d"), tParaRecord.m_ProParaId);
+		//m_pDataProvider->AddParaReordToTb(tbName, tParaRecord);
 
-		AddDataPointToChart(tParaRecord);
-		UpDateChartShow();
+		//AddItemToList(tParaRecord);
+
+		//AddDataPointToChart(tParaRecord);
+		//UpDateChartShow();
 				
 		Sleep(3 * 1000);
 
@@ -581,16 +580,23 @@ void CHistoryChlDlg::OnBnClickedButtonClear()
 	tbName.Format(_T("tbParaRecord%d"), m_currentPara.m_Id);
 	m_pDataProvider->ClearParaRecords(tbName);
 
-	m_vChartData.clear();
 	
-	m_Chart.put_RowCount(1);  //清除图表
-	InitChart();
-
-	m_list1.DeleteAllItems();
-
+	ClearChart();	
+	ClearList();
 	
 }
 
+
+void CHistoryChlDlg::ClearList()
+{
+	m_list1.DeleteAllItems();
+}
+void CHistoryChlDlg::ClearChart()
+{
+	m_vChartData.clear();
+	m_Chart.put_RowCount(0);  //清除图表
+	InitChart();
+}
 
 
 void CHistoryChlDlg::StopRecordThread()

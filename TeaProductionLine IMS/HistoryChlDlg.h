@@ -102,4 +102,8 @@ private:
 public:
 	afx_msg void OnBnClickedButtonStartRecord();
 	CButton m_BtnStart;
+
+private:
+	void ClearList();
+	void ClearChart();
 };

@@ -3211,6 +3211,8 @@ void CDataProvider::ReadRecentParaRecords(CString& tbRecordName)
 
 	strsql.Format(_T("select * from %s order by Createdtime ASC"), tbRecordName);
 
+
+	m_vCurrentParaRecordes.clear();
 	try{
 		if (tbParaRecord.IsOpen())
 			tbParaRecord.Close();
@@ -3227,9 +3229,6 @@ void CDataProvider::ReadRecentParaRecords(CString& tbRecordName)
 	{
 		return;
 	}
-
-	m_vCurrentParaRecordes.clear();
-
 	CParaRecord tempParaRecord;
 	tbParaRecord.MoveFirst();
 	while (!tbParaRecord.IsEOF()){	
