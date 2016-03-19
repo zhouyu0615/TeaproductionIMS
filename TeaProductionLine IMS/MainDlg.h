@@ -118,4 +118,7 @@ public:
 	bool m_bIsWarningDlgShow;  //报警警告窗口是否显示//
 	afx_msg void OnBnClickedBtHistroy();
 	afx_msg void OnBnClickedCancel();
+
+
+	afx_msg void OnUploadData();//下拉菜单中上传数据选项//
 };

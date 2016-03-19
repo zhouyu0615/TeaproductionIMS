@@ -72,7 +72,7 @@ public:
 	std::vector<CFormulaClass>::iterator pFormulaIter;
 	void  InitDataProvider();
 	void ReadLoginUserFormDatabase();
-	void AddLoginUserToDatabase(CLoginUser tempLoginUser);
+	void AddLoginUserToDatabase( CLoginUser& tempLoginUser);
 	void UpdateUserLoginTime(int LoginUserId);
 	void AddUserToDatabase(CUserClass tempUser);
 	void ReadUserFromDatabase();

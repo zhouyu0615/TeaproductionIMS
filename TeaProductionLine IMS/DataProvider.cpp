@@ -184,7 +184,7 @@ CString CDataProvider::FindProcessParaName(int ProcessParaId)
 }
 
 
-void CDataProvider::AddLoginUserToDatabase(CLoginUser tempLoginUser)
+void CDataProvider::AddLoginUserToDatabase( CLoginUser& tempLoginUser)
 {
 	int length = m_vectLoginUser.size();
 	if (length==0)
@@ -1141,10 +1141,11 @@ void CDataProvider::ReadLoginUserFormDatabase()
 
 	 m_vectLoginUser.clear();
 
-	CLoginUser tempLoginUser;
+	
 	tbLoginUser.MoveFirst();
 	while (!tbLoginUser.IsEOF()){
 		//获取类成员变量 唯一的 用户ID
+		CLoginUser tempLoginUser;
 		tempLoginUser.m_Id = tbLoginUser.m_Id;
 		tempLoginUser.m_strCreatedDateTime = tbLoginUser.m_CreatedDateTime.Format(_T("%Y-%m-%d %H:%M:%S"));
 		tempLoginUser.m_strLastUpdatedDateTime = tbLoginUser.m_LastUpdatedDateTime.Format(_T("%Y-%m-%d %H:%M:%S"));

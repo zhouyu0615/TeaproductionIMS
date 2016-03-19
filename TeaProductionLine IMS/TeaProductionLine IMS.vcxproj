@@ -105,6 +105,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="版本更新说明.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddConfigParaPopDlg.h" />
@@ -120,6 +121,7 @@
     <ClInclude Include="CWorksheet.h" />
     <ClInclude Include="CWorksheets.h" />
     <ClInclude Include="DataProvider.h" />
+    <ClInclude Include="DataSerialization.h" />
     <ClInclude Include="DeviceChiDlg.h" />
     <ClInclude Include="DeviceClass.h" />
     <ClInclude Include="DeviceContrlPopDlg.h" />
@@ -251,6 +253,7 @@
     <ClCompile Include="AllUserManageDlg.cpp" />
     <ClCompile Include="ConfigChiDlg.cpp" />
     <ClCompile Include="DataProvider.cpp" />
+    <ClCompile Include="DataSerialization.cpp" />
     <ClCompile Include="DeviceChiDlg.cpp" />
     <ClCompile Include="DeviceClass.cpp" />
     <ClCompile Include="DeviceContrlPopDlg.cpp" />

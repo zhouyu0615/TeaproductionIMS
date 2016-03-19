@@ -297,12 +297,6 @@ void CTCPClient::DealRecvData(char* pcRcvData)
 }
 
 
-
-
-
-
-
-
 //==================================================================//
 //功能：获取当前PLC在公共数据容器中的位置索引
 //入口：无
@@ -322,3 +316,6 @@ int CTCPClient::GetPlcClassIndex()
 	}
 	return nIndex;
 }
+
+
+

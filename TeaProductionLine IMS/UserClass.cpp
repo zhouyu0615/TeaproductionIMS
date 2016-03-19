@@ -3,7 +3,6 @@
 
 
 
-
 CUserClass::CUserClass()
 {
 	m_UserId = 0;

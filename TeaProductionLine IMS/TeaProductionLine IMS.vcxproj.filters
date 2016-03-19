@@ -31,9 +31,22 @@
     <Filter Include="头文件\MsExcel">
       <UniqueIdentifier>{50d993d3-cd92-44c3-a01c-b1f027b90c28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\DataModuleClass">
+      <UniqueIdentifier>{1ba8b69b-fe02-4f9e-84d0-29952a291e8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\DataModuleClass">
+      <UniqueIdentifier>{df6dcca6-4acb-4cef-a2d6-6c836bdea523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\UpLoadData">
+      <UniqueIdentifier>{cf957732-8be9-4ea7-bdb8-2d769bae6421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\UpLoadData">
+      <UniqueIdentifier>{c1dc3f54-8a25-4f93-9bd6-b4a08c6b474e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="版本更新说明.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TeaProductionLine IMS.h">
@@ -123,21 +136,6 @@
     <ClInclude Include="DataProvider.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="DeviceClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DevicePara.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FaultPara.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginUser.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PlcClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ProcessModuleClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -145,15 +143,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ProductionLineClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="StatePara.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="UserClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="VideoClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="realplayxctrl1.h">
@@ -402,9 +391,6 @@
     <ClInclude Include="ParaRecordTableIndex.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ParaRecord.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="tbParaRecordIndex.h">
       <Filter>头文件\tbDataBase</Filter>
     </ClInclude>
@@ -444,6 +430,36 @@
     <ClInclude Include="CApplication.h">
       <Filter>头文件\MsExcel</Filter>
     </ClInclude>
+    <ClInclude Include="DeviceClass.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DevicePara.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginUser.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoClass.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="UserClass.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="StatePara.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="PlcClass.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ParaRecord.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="FaultPara.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSerialization.h">
+      <Filter>头文件\UpLoadData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TeaProductionLine IMS.cpp">
@@ -458,43 +474,10 @@
     <ClCompile Include="DataProvider.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="DeviceClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DevicePara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="FaultPara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginUser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PlcClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessModuleClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessModulePara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ProductionLineClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="StatePara.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="UserClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="VideoClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="realplayxctrl1.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="FormulaClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ParaCheckUtil.cpp">
@@ -662,12 +645,6 @@
     <ClCompile Include="VedioChiDlg.cpp">
       <Filter>源文件\UIDialog</Filter>
     </ClCompile>
-    <ClCompile Include="ParaRecordTableIndex.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ParaRecord.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="tbParaRecordIndex.cpp">
       <Filter>源文件\tbDataBase</Filter>
     </ClCompile>
@@ -679,6 +656,48 @@
     </ClCompile>
     <ClCompile Include="mschart1.cpp">
       <Filter>源文件\MsChart</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceClass.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="FaultPara.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="DevicePara.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="FormulaClass.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="PlcClass.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessModuleClass.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessModulePara.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="UserClass.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoClass.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginUser.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="StatePara.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ParaRecord.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ParaRecordTableIndex.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSerialization.cpp">
+      <Filter>源文件\UpLoadData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

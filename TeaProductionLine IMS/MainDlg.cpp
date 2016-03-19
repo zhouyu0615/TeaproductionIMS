@@ -41,6 +41,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+
 END_MESSAGE_MAP()
 
 
@@ -110,6 +111,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialog)
 	ON_BN_CLICKED(IDC_BT_ALARM, &CMainDlg::OnBnClickedBtAlarm)
 	ON_BN_CLICKED(IDC_BT_HISTROY, &CMainDlg::OnBnClickedBtHistroy)
 	ON_BN_CLICKED(IDCANCEL, &CMainDlg::OnBnClickedCancel)
+	ON_COMMAND(IDM_UPLOAD, &CMainDlg::OnUploadData)
 END_MESSAGE_MAP()
 
 
@@ -747,4 +749,13 @@ void CMainDlg::OnBnClickedCancel()
 	m_HistoryChiDlg.StopRecordThread();
 
 	CDialog::OnCancel();
+}
+
+
+
+
+//下拉菜单中上传数据选项回调函数//
+void CMainDlg::OnUploadData()
+{
+	
 }
