@@ -25,7 +25,7 @@ CDataProvider::CDataProvider()
 CRITICAL_SECTION Cs;
 CDataProvider::~CDataProvider()
 {
-	delete(Instance);
+	delete Instance;
 	DeleteCriticalSection(&Cs);
 }
 
@@ -96,7 +96,7 @@ int CDataProvider::ExecutionSQL(CString strSql)
 }
 
 
-int CDataProvider::FindProLineId(CString ProducitonLineName)
+int CDataProvider::FindProLineId(CString& ProducitonLineName)
 {
 	int ProLineId;
 	for (int i = 0; i < m_vectProductionLine.size(); i++)
@@ -111,9 +111,9 @@ int CDataProvider::FindProLineId(CString ProducitonLineName)
 }
 
 
-int CDataProvider::FindProModuleId(CString ProductionLineName, CString ModuleName)
+int CDataProvider::FindProModuleId(CString& ProductionLineName, CString& ModuleName)
 {
-	int ProModuleId;
+	int ProModuleId; 
 	for (int i = 0; i < m_vectProcessModule.size(); i++)
 	{
 		if (ProductionLineName == m_vectProcessModule[i].m_strProductionLineName
@@ -127,7 +127,7 @@ int CDataProvider::FindProModuleId(CString ProductionLineName, CString ModuleNam
 }
 
 
-int CDataProvider::FindPlcId(CString PlcName)
+int CDataProvider::FindPlcId(CString& PlcName)
 {
 	int PlcId;
 	for (int i = 0; i < m_vectPlc.size();i++)
@@ -142,7 +142,7 @@ int CDataProvider::FindPlcId(CString PlcName)
 
 }
 
-int CDataProvider::FindDeviceId(CString ProductionLineName, CString ModuleName, CString DeviceName)
+int CDataProvider::FindDeviceId(CString& ProductionLineName, CString& ModuleName, CString& DeviceName)
 {
 	int DeviceId;
 	for (int i = 0; i < m_vectDevice.size();i++)
@@ -159,7 +159,7 @@ int CDataProvider::FindDeviceId(CString ProductionLineName, CString ModuleName, 
 	return 0;
 }
 
-int CDataProvider::FindProcessParaId(CString ProcessParaName)
+int CDataProvider::FindProcessParaId(CString& ProcessParaName)
 {
 	for (int i = 0; i < m_vectProModulePara.size(); i++)
 	{
@@ -885,7 +885,7 @@ void CDataProvider::AddFormulaToDatabase(CFormulaClass tempFormula)
 
 //如果为第一个配方的第一条记录，则分配FormulaID为1000，若存在同一个配方，则返回同一配方的ID
 //若为新建配方，则另外分配一个FormulaID
-int CDataProvider::FindFormulaId(CString FormulaName)
+int CDataProvider::FindFormulaId(CString& FormulaName)
 {
 	int len = m_vectFormula.size();
 	if(len==0)

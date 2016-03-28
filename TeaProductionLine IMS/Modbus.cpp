@@ -10,6 +10,7 @@ CModbus::CModbus()
 	//初始化全局数据类
 	m_pDataP = CDataProvider::getInstance();
 
+	
 	m_WndCycleThread = NULL;
 
 	m_DispatchThread = NULL;
@@ -44,14 +45,17 @@ void CModbus::CycleStart()
 		m_pDataP->m_vectPlc[i].InitPlcMemory();
 	}
 
-	m_vPlcClass = m_pDataP->m_vectPlc;
-	m_nCountTCPClient = m_vPlcClass.size();
+	
+	m_nCountTCPClient = m_pDataP->m_vectPlc.size();
 	for (int i = 0; i < m_nCountTCPClient; i++)
 	{
 		m_pTCPClient = new CTCPClient;
-		m_pTCPClient->m_strRemoteHost = m_vPlcClass[i].m_strIPAddr;
-		m_pTCPClient->m_PlcId = m_vPlcClass[i].m_Id;
+		m_pTCPClient->m_strRemoteHost = m_pDataP->m_vectPlc[i].m_strIPAddr;
+		m_pTCPClient->m_PlcId = m_pDataP->m_vectPlc[i].m_Id;
 		m_vMultipleTCPClient.push_back(*m_pTCPClient);
+
+		//构造读取PLC内存的数据帧，写入到TCPCLIENT线程发送队列中，启动线程//
+		ConstructModbusReadFrame(m_pDataP->m_vectPlc[i], i);
 	}
 
 	//复位退出轮询线程事件	
@@ -218,13 +222,13 @@ UINT CModbus::CycleThreadFunc(LPVOID lparam)
 		{
 			if (pmd->m_vMultipleTCPClient[i].m_bIsconnected == FALSE)
 			{
-				pmd->m_vMultipleTCPClient[i].Close();
-				pmd->m_vMultipleTCPClient[i].Open();
-				pmd->m_vMultipleTCPClient[i].Connect();
-				if (pmd->m_vMultipleTCPClient[i].m_bIsconnected == TRUE)
+				//pmd->m_vMultipleTCPClient[i].Close();
+				//pmd->m_vMultipleTCPClient[i].Open();
+				//pmd->m_vMultipleTCPClient[i].Connect();
+				//if (pmd->m_vMultipleTCPClient[i].m_bIsconnected == TRUE)
 				{
 					//构造读取PLC内存的数据帧，写入到TCPCLIENT线程发送队列中，启动线程//
-					pmd->ConstructModbusReadFrame(pmd->m_vPlcClass[i], i);
+					//pmd->ConstructModbusReadFrame(pmd->m_vPlcClass[i], i);
 					if (pmd->m_vMultipleTCPClient[i].m_pThread == NULL)
 					{
 						pmd->m_vMultipleTCPClient[i].CreatePollThread();
@@ -309,7 +313,7 @@ BOOL CModbus::VerifyRecvData(int Index)
 	return 0;
 }
 
-int CModbus::GetPlcClassIndex(CString strIpAddr)
+int CModbus::GetPlcClassIndex(CString& strIpAddr)
 {
 	int PlcIndex;
 	for (PlcIndex = 0; PlcIndex < m_pDataP->m_vectPlc.size(); PlcIndex++)

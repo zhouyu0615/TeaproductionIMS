@@ -757,5 +757,8 @@ void CMainDlg::OnBnClickedCancel()
 //下拉菜单中上传数据选项回调函数//
 void CMainDlg::OnUploadData()
 {
+
+	CDataSerialization  dataSerial;
+	dataSerial.LoginUserSerial();
 	
 }

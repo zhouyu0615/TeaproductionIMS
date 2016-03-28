@@ -19,6 +19,7 @@ CTCPClient::CTCPClient()
 	//初始化全局数据类
 	m_pDataP = CDataProvider::getInstance();
 	m_pThread = NULL;
+
 	InitializeCriticalSection(&m_RBCS); //初始化临界区
 }
 
@@ -64,100 +65,110 @@ void CTCPClient::Run()
 	tvTime.tv_usec = 0;
 	while (TRUE)
 	{
-		if (m_bIsconnected == FALSE)
+		if (m_bIsconnected == FALSE) //没有建立连接
 		{
 			TRACE("连接失败");
-			Sleep(500);
-			continue;
-		}
-		//当写入队列有数据时，优先把数据写入到PLC去//
-		if (!m_WriteFrameQueue.IsEmpty())
-		{
-			CTcpSendBuffFrame tempWriteFrame = m_WriteFrameQueue.PopFront();
-			char *pWrite = (char *)tempWriteFrame.m_BSendBuff;
-			SendData(pWrite, tempWriteFrame.m_nLen);
-		}
-		else
-		{
-			CTcpSendBuffFrame tempReadFrame = m_ReadFrameQueue.PopFront();
-			char *pRead =(char *) tempReadFrame.m_BSendBuff;
-			m_ReadFrameQueue.PushBack(tempReadFrame); //构成一个循环队列，把队列第一个元素放到队列末尾//
-			SendData(pRead, tempReadFrame.m_nLen);		
-		}
-
-
-		//收到退出事件，结束线程
-		//if (WaitForSingleObject(m_hExitThreadEvent, 0) == WAIT_OBJECT_0)
-		//{
-		//	break;
-		//}
-		//置fdRead事件为空
-		FD_ZERO(&fdRead);
-		//给客户端Socket设置读事件
-		FD_SET(this->m_Socket, &fdRead);
-		//调用select函数，判断是否有读事件发生
-		nRet = select(32, &fdRead, NULL, NULL, &tvTime);
-
-		if (nRet == SOCKET_ERROR)
-		{
-			WSAGetLastError();
-			//读取文件描述符失败
-			TRACE("读取文件描述符失败\n");
-			//关闭客户端socket
-			closesocket(m_Socket);
-			WSACleanup();
-			m_bIsconnected = FALSE;
-			m_pDataP->m_vectPlc[GetPlcClassIndex()].SetConectedState(FALSE);
-			//break;
-		}
-
-		if (nRet > 0)
-		{
-			if (FD_ISSET(m_Socket, &fdRead))
+			Close();
+			Open();
+			Connect();
+			if (m_bIsconnected == FALSE)
 			{
-				//检查fdset联系的文件句柄fd是否可读写，当>0表示可读写，则
-				//发生读事件
-				char cRecvBuf[RECEIVE_BUFF_SIZE];
-				int nRecvLen;
-				ZeroMemory(cRecvBuf, RECEIVE_BUFF_SIZE);
-				TRACE("数据读取事件触发，执行读操作\n");
-				//接收数据
-				nRecvLen = recv(m_Socket, cRecvBuf, RECEIVE_BUFF_SIZE, 0);
-				if (nRecvLen == SOCKET_ERROR)
-				{
-					int nError = WSAGetLastError();
-					//数据接收操作失败
-					TRACE("数据接收操作失败\n");
-					//关闭客户端socket
-					closesocket(m_Socket);
-					m_bIsconnected = FALSE;
-					m_pDataP->m_vectPlc[GetPlcClassIndex()].SetConectedState(FALSE);
-					//break;
-				}
-				else if (nRecvLen == 0)
-				{
-					//触发断开连接事件
-					TRACE("数据接收等待过程中网络中断\n");
-					//关闭客户端socket
-					closesocket(m_Socket);
-
-					m_bIsconnected = FALSE;
-					m_pDataP->m_vectPlc[GetPlcClassIndex()].SetConectedState(FALSE);
-					//break;
-				}
-				else
-				{
-					//触发数据接收事件采用sendmessage机制将接收的数组发送到父亲窗口
-					//SetReadDataPacket(m_strRemoteHost, cRecvBuf);
-					DealRecvData(cRecvBuf);
-					m_bIsconnected = TRUE;
-					m_pDataP->m_vectPlc[GetPlcClassIndex()].SetConectedState(TRUE);
-					TRACE("%d 数据接收成功\n", m_pThread->GetThreadID());
-				}
+				Sleep(500);
+				continue;
 			}
 		}
+		else  //建立连接，进行通信//
+		{
+			//当写入队列有数据时，优先把数据写入到PLC去//
+			if (!m_WriteFrameQueue.IsEmpty())
+			{
+				CTcpSendBuffFrame tempWriteFrame = m_WriteFrameQueue.PopFront();
+				char *pWrite = (char *)tempWriteFrame.m_BSendBuff;
+				SendData(pWrite, tempWriteFrame.m_nLen);
+			}
+			else
+			{
+				CTcpSendBuffFrame tempReadFrame = m_ReadFrameQueue.PopFront();
+				char *pRead = (char *)tempReadFrame.m_BSendBuff;
+				m_ReadFrameQueue.PushBack(tempReadFrame); //构成一个循环队列，把队列第一个元素放到队列末尾//
+				SendData(pRead, tempReadFrame.m_nLen);
+			}
 
-		Sleep(50);
+
+			//收到退出事件，结束线程
+			//if (WaitForSingleObject(m_hExitThreadEvent, 0) == WAIT_OBJECT_0)
+			//{
+			//	break;
+			//}
+			//置fdRead事件为空
+			FD_ZERO(&fdRead);
+			//给客户端Socket设置读事件
+			FD_SET(this->m_Socket, &fdRead);
+			//调用select函数，判断是否有读事件发生
+			nRet = select(32, &fdRead, NULL, NULL, &tvTime);
+
+			if (nRet == SOCKET_ERROR)
+			{
+				WSAGetLastError();
+				//读取文件描述符失败
+				TRACE("读取文件描述符失败\n");
+				//关闭客户端socket
+				closesocket(m_Socket);
+				WSACleanup();
+				m_bIsconnected = FALSE;
+				m_pDataP->m_vectPlc[GetPlcClassIndex()].SetConectedState(FALSE);
+				//break;
+			}
+
+			if (nRet > 0)
+			{
+				if (FD_ISSET(m_Socket, &fdRead))
+				{
+					//检查fdset联系的文件句柄fd是否可读写，当>0表示可读写，则
+					//发生读事件
+					char cRecvBuf[RECEIVE_BUFF_SIZE];
+					int nRecvLen;
+					ZeroMemory(cRecvBuf, RECEIVE_BUFF_SIZE);
+					TRACE("数据读取事件触发，执行读操作\n");
+					//接收数据
+					nRecvLen = recv(m_Socket, cRecvBuf, RECEIVE_BUFF_SIZE, 0);
+					if (nRecvLen == SOCKET_ERROR)
+					{
+						int nError = WSAGetLastError();
+						//数据接收操作失败
+						TRACE("数据接收操作失败\n");
+						//关闭客户端socket
+						closesocket(m_Socket);
+						m_bIsconnected = FALSE;
+						m_pDataP->m_vectPlc[GetPlcClassIndex()].SetConectedState(FALSE);
+						//break;
+					}
+					else if (nRecvLen == 0)
+					{
+						//触发断开连接事件
+						TRACE("数据接收等待过程中网络中断\n");
+						//关闭客户端socket
+						closesocket(m_Socket);
+
+						m_bIsconnected = FALSE;
+						m_pDataP->m_vectPlc[GetPlcClassIndex()].SetConectedState(FALSE);
+						//break;
+					}
+					else
+					{
+
+						DealRecvData(cRecvBuf);
+						m_bIsconnected = TRUE;
+						m_pDataP->m_vectPlc[GetPlcClassIndex()].SetConectedState(TRUE);
+						TRACE("%d 数据接收成功\n", m_pThread->GetThreadID());
+					}
+				}
+			}
+			Sleep(50);
+
+
+		}//end of else
+		
 	}
 
 
@@ -205,6 +216,11 @@ bool CTCPClient::Connect()
 	ZeroMemory(cAnsiRemoteHost, 255);
 	WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, m_strRemoteHost, wcslen(m_strRemoteHost), cAnsiRemoteHost, wcslen(m_strRemoteHost), NULL, NULL);
 	addr.sin_addr.S_un.S_addr = inet_addr(cAnsiRemoteHost);
+
+	//设置连接超时时间//
+	DWORD TimeOut = 600;
+	setsockopt(m_Socket, SOL_SOCKET, SO_SNDTIMEO, (char *)&TimeOut, sizeof(TimeOut));
+
 	//面向连接的Socket客户端，不需要bind()
 	//采用同步连接方式，connect直接返回成功或者失败
 	nErr = connect(m_Socket, (struct sockaddr*)&addr, sizeof(addr));

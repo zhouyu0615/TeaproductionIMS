@@ -121,15 +121,15 @@ public:
 	int DeleteParaRelatedToPlc(int PlcId);
 
 	//根据提供的生产线名，返回找到生产线的ID,查找失败则返回0
-	int FindProLineId(CString ProducitonLineName);
+	int FindProLineId(CString& ProducitonLineName);
 	//根据提供的生产线名，模块名，返回找到的所属工艺模块的ID,查找失败则返回0
-	int FindProModuleId(CString ProductionLineName, CString ModuleName);
+	int FindProModuleId(CString& ProductionLineName, CString& ModuleName);
 
-	int FindPlcId(CString PlcName);
-	int FindDeviceId(CString ProductionLineName, CString ModuleName, CString DeviceName);
+	int FindPlcId(CString& PlcName);
+	int FindDeviceId(CString& ProductionLineName, CString& ModuleName, CString& DeviceName);
 
-	int FindFormulaId(CString FormulaName);
-	int FindProcessParaId(CString ProcessPara);
+	int FindFormulaId(CString& FormulaName);
+	int FindProcessParaId(CString& ProcessPara);
 	CString FindProcessParaName(int ProcessParaId);
 
 	//作为Search Device,PlcPara,Video 方法临时存储的中间容器

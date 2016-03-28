@@ -28,7 +28,7 @@ public:
 
 public:
 	vector<CTCPClient> m_vMultipleTCPClient;    //TCP客户端连接类容器，封装一连串TCP客户端对象
-	vector<CPlcClass> m_vPlcClass;              //PLC类容器
+	//vector<CPlcClass> m_vPlcClass;              //PLC类容器
 	int m_nCountTCPClient;                //TCP客户端连接数量	
 	bool m_bIsCycling;                   //轮询启动标记
 	CDataProvider *m_pDataP;             //指向全局数据存储类
@@ -55,7 +55,7 @@ public:
 	void DispatchReadResponse();
 	void DispatchWriteRequest();
 	BOOL  VerifyRecvData(int Index);
-	int GetPlcClassIndex(CString strIpAddr);            //获取当前PLC在公共数据容器中的位置索引
+	int GetPlcClassIndex(CString& strIpAddr);            //获取当前PLC在公共数据容器中的位置索引
 
 
 	CThread *m_DispatchThread;

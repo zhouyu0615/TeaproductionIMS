@@ -43,6 +43,15 @@
     <Filter Include="头文件\UpLoadData">
       <UniqueIdentifier>{c1dc3f54-8a25-4f93-9bd6-b4a08c6b474e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\ModbusCom">
+      <UniqueIdentifier>{9ef35a77-2e36-4901-abf0-a3794f251bca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ModbusCom">
+      <UniqueIdentifier>{808eadb4-0787-4218-b55b-af0785e87039}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\UIDialog">
+      <UniqueIdentifier>{e6d8c0d5-2794-40aa-9dea-2a739f2fcc69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -50,9 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TeaProductionLine IMS.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MainDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DlgProxy.h">
@@ -65,72 +71,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="InitDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditOwnerPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditLinePopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditModulePopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditDevicePopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditPlcPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditVedioPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditPlcParaDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditDeviceParaTabDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditDeviceParaPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditErrorParaTabDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditErrorParaPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditModuleParaTabDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditModuleParaPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditStateParaTabDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditStateParaPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="UserManageDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="AllUserManageDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditUserPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EditPassWordDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="VedioChiDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceChiDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DataProvider.h">
@@ -148,37 +88,13 @@
     <ClInclude Include="realplayxctrl1.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="LoginDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceContrlPopDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigChiDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="NewConfigGraChiDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="OldConfigGraChiDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="FormulaClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="AddConfigParaPopDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ParaCheckUtil.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Weather.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PlcStatusDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FullScreenDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SkinPPWTL.h">
@@ -203,9 +119,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AlarmClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="HistoryChlDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MsChart\CDMSChart.h">
@@ -424,9 +337,6 @@
     <ClInclude Include="CWorksheets.h">
       <Filter>头文件\MsExcel</Filter>
     </ClInclude>
-    <ClInclude Include="AlarmDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="CApplication.h">
       <Filter>头文件\MsExcel</Filter>
     </ClInclude>
@@ -460,6 +370,108 @@
     <ClInclude Include="DataSerialization.h">
       <Filter>头文件\UpLoadData</Filter>
     </ClInclude>
+    <ClInclude Include="MobusClient.h">
+      <Filter>头文件\ModbusCom</Filter>
+    </ClInclude>
+    <ClInclude Include="EditStateParaTabDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditDeviceParaPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditDeviceParaTabDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditDevicePopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditErrorParaPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditErrorParaTabDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditLinePopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditModuleParaPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditModuleParaTabDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditModulePopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditOwnerPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditPassWordDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditPlcParaDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditPlcPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditStateParaPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="MainDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="InitDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="HistoryChlDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="FullScreenDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="PlcStatusDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManageDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="VedioChiDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="OldConfigGraChiDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="NewConfigGraChiDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditVedioPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="EditUserPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceContrlPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceChiDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigChiDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="AlarmDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="AllUserManageDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="AddConfigParaPopDlg.h">
+      <Filter>头文件\UIDialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TeaProductionLine IMS.cpp">
@@ -472,9 +484,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DataProvider.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ProductionLineClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="realplayxctrl1.cpp">
@@ -698,6 +707,12 @@
     </ClCompile>
     <ClCompile Include="DataSerialization.cpp">
       <Filter>源文件\UpLoadData</Filter>
+    </ClCompile>
+    <ClCompile Include="MobusClient.cpp">
+      <Filter>源文件\ModbusCom</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductionLineClass.cpp">
+      <Filter>源文件\DataModuleClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

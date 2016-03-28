@@ -152,6 +152,7 @@
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="LoginUser.h" />
     <ClInclude Include="MainDlg.h" />
+    <ClInclude Include="MobusClient.h" />
     <ClInclude Include="Modbus.h" />
     <ClInclude Include="MsChart.h" />
     <ClInclude Include="MsChart\CDMSChart.h" />
@@ -284,6 +285,7 @@
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="LoginUser.cpp" />
     <ClCompile Include="MainDlg.cpp" />
+    <ClCompile Include="MobusClient.cpp" />
     <ClCompile Include="Modbus.cpp" />
     <ClCompile Include="mschart1.cpp" />
     <ClCompile Include="NewConfigGraChiDlg.cpp" />

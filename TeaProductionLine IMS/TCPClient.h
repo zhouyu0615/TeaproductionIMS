@@ -64,6 +64,7 @@ public:
 	virtual void Run(); 
 	CThread *m_pThread;
 
+
 private:
 	//static UINT SocketThreadFunc(LPVOID lparam); //通讯线程运行函数
 

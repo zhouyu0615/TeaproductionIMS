@@ -19,6 +19,9 @@
 #include "afxcmn.h"
 #include "HistoryChlDlg.h"
 
+
+#include "DataSerialization.h"
+
 class CTeaProductionLineIMSDlgAutoProxy;
 #define ID_VEDIODLG 1
 #define ID_DEVICEDLG 2
