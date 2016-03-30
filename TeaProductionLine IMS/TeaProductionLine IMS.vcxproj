@@ -154,6 +154,7 @@
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="MobusClient.h" />
     <ClInclude Include="Modbus.h" />
+    <ClInclude Include="ModbusManager.h" />
     <ClInclude Include="MsChart.h" />
     <ClInclude Include="MsChart\CDMSChart.h" />
     <ClInclude Include="MsChart\CDMSChartEvents.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="MsChart\CVcWeighting.h" />
     <ClInclude Include="MsChart\mschart1.h" />
     <ClInclude Include="NewConfigGraChiDlg.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="OldConfigGraChiDlg.h" />
     <ClInclude Include="ParaCheckUtil.h" />
     <ClInclude Include="ParaRecord.h" />
@@ -222,6 +224,7 @@
     <ClInclude Include="SkinPPWTL.h" />
     <ClInclude Include="StatePara.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tbDevice.h" />
     <ClInclude Include="tbDevicePara.h" />
@@ -287,8 +290,10 @@
     <ClCompile Include="MainDlg.cpp" />
     <ClCompile Include="MobusClient.cpp" />
     <ClCompile Include="Modbus.cpp" />
+    <ClCompile Include="ModbusManager.cpp" />
     <ClCompile Include="mschart1.cpp" />
     <ClCompile Include="NewConfigGraChiDlg.cpp" />
+    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="OldConfigGraChiDlg.cpp" />
     <ClCompile Include="ParaCheckUtil.cpp" />
     <ClCompile Include="ParaRecord.cpp" />
@@ -308,6 +313,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="tbDevice.cpp" />
     <ClCompile Include="tbDevicePara.cpp" />
     <ClCompile Include="tbFaultPara.cpp" />

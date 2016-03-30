@@ -228,7 +228,6 @@ int CProcessPara::GetWriteBitOffSet()
 //把存储的字符串类型转化为枚举类型表示的数值//
 int CProcessPara::GetAddrTypeInEmType()
 {
-
 	if (m_strAddressType == _T("MX"))
 	{
 		return ADDR_TYPE_BIT;
@@ -247,6 +246,5 @@ int CProcessPara::GetAddrTypeInEmType()
 	}
 
 	return ADDR_TYPE_WORD; //默认为双字节类型//
-
-
 }
+

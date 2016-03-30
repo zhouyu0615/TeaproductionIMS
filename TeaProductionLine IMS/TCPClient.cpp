@@ -309,7 +309,6 @@ void CTCPClient::DealRecvData(char* pcRcvData)
 	}
 	LeaveCriticalSection(&m_RBCS);
 
-
 }
 
 

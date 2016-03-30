@@ -2933,7 +2933,6 @@ void CDataProvider::DispatchStatePara(int PlcIndex)
 	int ParaValue;
 	for (int i = 0; i < m_vectStatePara.size(); i++)
 	{
-
 		if (m_vectStatePara[i].m_PlcId == m_vectPlc[PlcIndex].m_Id && (m_vectPlc[PlcIndex].GetPlcReadMemorySize() > m_vectStatePara[i].GetReadAddrByteIndex()))
 		{
 			int ByteAddr = m_vectStatePara[i].GetReadAddrByteIndex();

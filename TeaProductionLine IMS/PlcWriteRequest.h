@@ -14,7 +14,6 @@ public:
 	};
 
 
-
 	typedef union {
 		struct {
 			unsigned char low_byte;

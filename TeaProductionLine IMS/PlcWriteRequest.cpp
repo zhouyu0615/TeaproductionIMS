@@ -11,9 +11,6 @@ CPlcWriteRequest::CPlcWriteRequest()
 	m_ByteOffset = 0;
 	m_AddrType = 0;
 	m_SetValue = 0;
-
-
-
 }
 
 

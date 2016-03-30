@@ -34,7 +34,7 @@ public:
 private:
 	SOCKET m_Socket;                     //通讯Socket句柄
 	//HANDLE m_hExitThreadEvent;           //退出通讯线程事件的句柄
-	CWinThread* m_WndTCPThread;          //通讯线程句柄
+	//CWinThread* m_WndTCPThread;          //通讯线程句柄
 
 	CWnd* m_pWndOwner;                   //父窗口句柄
 

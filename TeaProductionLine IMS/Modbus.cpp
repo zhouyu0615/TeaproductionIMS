@@ -183,8 +183,7 @@ void CModbus::ConstructModbusReadFrame(CPlcClass plcClass, int nPlcIndex)
 	}
 
 	
-   
-
+ 
 }
 
 
@@ -285,7 +284,6 @@ void CModbus::DispatchReadResponse()
 						RegIndex = (Respone_Frame_Index*MAX_READ_BYTE_LEN + i) / 2;
 
 						m_pDataP->m_vectPlc[PlcIndex].m_PlcReadMemory[RegIndex].reg_Byte.high_byte = m_vMultipleTCPClient[TcpIndex].m_vRecvBuff[9 + i];
-
 						++i;
 						m_pDataP->m_vectPlc[PlcIndex].m_PlcReadMemory[RegIndex].reg_Byte.low_byte = m_vMultipleTCPClient[TcpIndex].m_vRecvBuff[9 + i];
 						++i;

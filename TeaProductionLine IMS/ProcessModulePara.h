@@ -1,4 +1,7 @@
 #pragma once
+
+
+
 class CProcessPara
 {
 public:
@@ -67,5 +70,9 @@ public:
 	//获取预设值的地址//
 	int GetWriteAddrByteIndex();
 	int GetWriteBitOffSet();
+
+
+
+
 };
 

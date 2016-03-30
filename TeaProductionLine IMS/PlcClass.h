@@ -1,5 +1,9 @@
 #pragma once
 #include <vector>
+#include "ProcessModulePara.h"
+#include "DevicePara.h"
+#include "FaultPara.h"
+#include "StatePara.h"
 
 class CPlcClass
 {
@@ -78,6 +82,35 @@ public:
 	BOOL GetConectedState();
 
 	CString GetConectedString();
+
+
+
+	enum enumPARATYPE{PROCESSPARA,DEVICEPARA,FAULTPARA,STATEPARA};
+
+	std::vector<CProcessPara&> m_vProPara;
+	std::vector<CDevicePara&>  m_vDevPara;
+	std::vector<CFaultPara&>  m_vFaultPara;
+	std::vector<CStatePara&>  m_vStatePara;
+
+
+	void DispatchPara();
+
+	void DispatchProPara(CPlcClass &plc);
+	void DispatchDevicePara(CPlcClass &plc);
+	void DispatchFaultPara(CPlcClass &plc);
+	void DispatchStatePara(CPlcClass &plc);
+
+	void AddParaToPlc(CProcessPara& proPara);
+	void AddParaToPlc(CDevicePara& devPara);
+	void AddParaToPlc(CFaultPara& faultPara);
+	void AddParaToPlc(CStatePara& statePara);
+
+	void RemovePara(CProcessPara& proPara);
+	void RemovePara(CDevicePara& devPara);
+	void RemovePara(CFaultPara& faultPara);
+	void RemovePara(CStatePara& statePara);
+
+
 
 };
 

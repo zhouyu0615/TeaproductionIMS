@@ -18,8 +18,6 @@ CPlcClass::CPlcClass()
 	m_WriteLength = 0;
 	m_SortIndex = 0;
 	m_bIsConnected = 0;
-
-
 }
 
 
@@ -149,7 +147,6 @@ BOOL CPlcClass::GetReadMemoryBit(int ReadByteAddr, int bitOffset)
 }
 
 
-
 void CPlcClass::InitPlcMemory()
 {
 	Register temp;
@@ -158,7 +155,103 @@ void CPlcClass::InitPlcMemory()
 		temp.regWord = 0;
 		m_PlcReadMemory.push_back(temp);
 	}
+}
 
+
+
+
+void CPlcClass::DispatchProPara(CPlcClass &Plc)
+{
+	int  ParaValue = 0;
+	int  AddrByte = 0;
+	int  BitOffset = 0;
+	//把PLC里面的参数写入到各条工艺参数
+	for (int i = 0; i < Plc.m_vProPara.size(); i++)
+	{
+		if (Plc.m_vProPara[i].m_PlcId == Plc.m_Id
+			&& (Plc.GetPlcReadMemorySize() >  Plc.m_vProPara[i].GetReadAddrIndex()))
+		{
+
+			switch (Plc.m_vProPara[i].GetAddrTypeInEmType())
+			{
+			case CProcessPara::ADDR_TYPE_BIT:
+				AddrByte = Plc.m_vProPara[i].GetReadAddrByteIndex();
+				BitOffset = Plc.m_vProPara[i].GetReadBitOffSet();
+				ParaValue = Plc.GetReadMemoryBit(AddrByte, BitOffset);
+				Plc.m_vProPara[i].SetParaValue(ParaValue);
+
+				//读出PLC里面的设定值，写入到预设值中
+				AddrByte = Plc.m_vProPara[i].GetWriteAddrByteIndex();
+				BitOffset = Plc.m_vProPara[i].GetWriteBitOffSet();
+				ParaValue = Plc.GetReadMemoryBit(AddrByte, BitOffset);
+				Plc.m_vProPara[i].SetPreSetValue(ParaValue);
+
+				break;
+			case CProcessPara::ADDR_TYPE_BYTE:
+				AddrByte = Plc.m_vProPara[i].GetReadAddrByteIndex();
+				ParaValue = Plc.GetReadMemoryByte(AddrByte);
+				Plc.m_vProPara[i].SetParaValue(ParaValue);
+
+				AddrByte = Plc.m_vProPara[i].GetWriteAddrByteIndex();
+				ParaValue = Plc.GetReadMemoryByte(AddrByte);
+				Plc.m_vProPara[i].SetPreSetValue(ParaValue);
+
+				break;
+			case CProcessPara::ADDR_TYPE_WORD:
+				AddrByte = Plc.m_vProPara[i].GetReadAddrByteIndex();
+				ParaValue = Plc.GetReadMemoryWord(AddrByte);
+				Plc.m_vProPara[i].SetParaValue(ParaValue);
+
+				AddrByte = Plc.m_vProPara[i].GetWriteAddrByteIndex();
+				ParaValue = Plc.GetReadMemoryWord(AddrByte);
+				Plc.m_vProPara[i].SetPreSetValue(ParaValue);
+
+				break;
+			case CProcessPara::ADDR_TYPE_DWORD:  //双字只有浮点型一种数据类型
+				AddrByte = Plc.m_vProPara[i].GetReadAddrByteIndex();
+				float	fParaValue = Plc.GetReadDWord(AddrByte);
+				Plc.m_vProPara[i].SetParaValue(fParaValue);
+
+				AddrByte = Plc.m_vProPara[i].GetWriteAddrByteIndex();
+				fParaValue = Plc.GetReadDWord(AddrByte);
+				Plc.m_vProPara[i].SetPreSetValue(fParaValue);
+			}
+		}
+	}
+}
+
+
+void CPlcClass::DispatchDevicePara(CPlcClass &plc)
+{
+	int ParaValue = 0;
+	for (int i = 0; i < plc.m_vDevPara.size(); i++)
+	{
+		if (plc.m_vDevPara[i].m_PlcId == plc.m_Id && (plc.GetPlcReadMemorySize() > plc.m_vDevPara[i].GetControlAddrByteIndex()))
+		{
+			int ByteAddr = plc.m_vDevPara[i].GetControlAddrByteIndex();
+			int BitOffset = plc.m_vDevPara[i].GetControlAddrBitOffSet();
+			ParaValue = plc.GetReadMemoryBit(ByteAddr, BitOffset);
+			plc.m_vDevPara[i].SetControlPara(ParaValue);
+
+
+			ByteAddr = plc.m_vDevPara[i].GetStateAddrByteIndex();
+			BitOffset = plc.m_vDevPara[i].GetStateAddrBitOffSet();
+			ParaValue = plc.GetReadMemoryBit(ByteAddr, BitOffset);
+			plc.m_vDevPara[i].SetStatePara(ParaValue);
+		}
+	}
+
+
+}
+void CPlcClass::DispatchFaultPara(CPlcClass &plc)
+{
+
+
+
+
+}
+void CPlcClass::DispatchStatePara(CPlcClass &plc)
+{
 
 }
 

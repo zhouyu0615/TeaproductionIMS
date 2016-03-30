@@ -52,6 +52,9 @@
     <Filter Include="头文件\UIDialog">
       <UniqueIdentifier>{e6d8c0d5-2794-40aa-9dea-2a739f2fcc69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\UtilClass">
+      <UniqueIdentifier>{08080c01-f6c9-4025-84ac-780104992620}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -76,19 +79,7 @@
     <ClInclude Include="DataProvider.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ProcessModuleClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ProcessModulePara.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ProductionLineClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="realplayxctrl1.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FormulaClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ParaCheckUtil.h">
@@ -116,9 +107,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Modbus.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="AlarmClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MsChart\CDMSChart.h">
@@ -472,6 +460,30 @@
     <ClInclude Include="AddConfigParaPopDlg.h">
       <Filter>头文件\UIDialog</Filter>
     </ClInclude>
+    <ClInclude Include="ModbusManager.h">
+      <Filter>头文件\ModbusCom</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessModuleClass.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessModulePara.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductionLineClass.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="FormulaClass.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="AlarmClass.h">
+      <Filter>头文件\DataModuleClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TeaProductionLine IMS.cpp">
@@ -508,9 +520,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="TcpSendBuffFrame.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Thread.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="TCPClient.cpp">
@@ -713,6 +722,18 @@
     </ClCompile>
     <ClCompile Include="ProductionLineClass.cpp">
       <Filter>源文件\DataModuleClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ModbusManager.cpp">
+      <Filter>源文件\ModbusCom</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>源文件\UtilClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>源文件\UtilClass</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>源文件\UtilClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
