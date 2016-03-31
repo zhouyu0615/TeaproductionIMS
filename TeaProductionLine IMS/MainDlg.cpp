@@ -604,9 +604,15 @@ void CMainDlg::OnAbout()
 void CMainDlg::OnBnClickedConnectPLC()
 {
 	//调用modbus.CycleStart()启动PLC轮询机制
-	if (m_Modbus.m_bIsCycling == TRUE)
+	//if (m_Modbus.m_bIsCycling == TRUE)
+	//	return;
+	//m_Modbus.CycleStart();
+
+	if (m_ModManger.m_bIsCycling == TRUE)
 		return;
-	m_Modbus.CycleStart();
+	m_ModManger.CycleStart();
+	
+
 	int defaultConfigId;
 	CString strtemp;
 	for (int a = 0; a < m_pDataProvider->m_vectProductionLine.size(); a++)  //为每条生产线设置配方//
@@ -633,8 +639,13 @@ void CMainDlg::OnBnClickedConnectPLC()
 
 void CMainDlg::OnBnClickedDisconnectPlc()
 {
-	if (m_Modbus.m_bIsCycling == TRUE)
-		m_Modbus.CycleDisconnect();
+	//if (m_Modbus.m_bIsCycling == TRUE)
+	//	m_Modbus.CycleDisconnect();
+
+	if (m_ModManger.m_bIsCycling==TRUE)
+	{
+		m_ModManger.CycleDisconnect();
+	}
 }
 
 void CMainDlg::OnBnClickedBtAlarm() //报警按钮//

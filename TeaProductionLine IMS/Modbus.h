@@ -48,9 +48,7 @@ public:
 	void CycleStart();     //根据数据库读取的PLC类容器，添加TCPClient容器，启动轮询线程     
 	void CycleDisconnect();               //断开轮询状态，并不断开与PLC的连接状态
 
-	//bool WriteHoldingReg(CDataWritePacket DataWritePacket);         //写寄存器操作
-
-
+	
 
 	void DispatchReadResponse();
 	void DispatchWriteRequest();

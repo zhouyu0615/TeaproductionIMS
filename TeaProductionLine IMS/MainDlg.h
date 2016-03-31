@@ -19,7 +19,7 @@
 #include "afxcmn.h"
 #include "HistoryChlDlg.h"
 
-
+#include "ModbusManager.h"
 #include "DataSerialization.h"
 
 class CTeaProductionLineIMSDlgAutoProxy;
@@ -91,6 +91,9 @@ public:
 	CLoginDlg m_LoginDlg;							//登录界面///
 	CPlcStatusDlg m_PLCStatusDlg;                   //PLC状态监视界面//
 	CModbus m_Modbus;                               //modbus连接变量
+
+	CModbusManager m_ModManger;
+
 	CAlarmDlg m_AlarmDlg;
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);

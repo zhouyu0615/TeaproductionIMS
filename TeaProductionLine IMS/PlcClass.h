@@ -87,18 +87,18 @@ public:
 
 	enum enumPARATYPE{PROCESSPARA,DEVICEPARA,FAULTPARA,STATEPARA};
 
-	std::vector<CProcessPara&> m_vProPara;
-	std::vector<CDevicePara&>  m_vDevPara;
-	std::vector<CFaultPara&>  m_vFaultPara;
-	std::vector<CStatePara&>  m_vStatePara;
+	std::vector<CProcessPara*> m_vProPara;
+	std::vector<CDevicePara*>  m_vDevPara;
+	std::vector<CFaultPara*>  m_vFaultPara;
+	std::vector<CStatePara*>  m_vStatePara;
 
 
 	void DispatchPara();
 
-	void DispatchProPara(CPlcClass &plc);
-	void DispatchDevicePara(CPlcClass &plc);
-	void DispatchFaultPara(CPlcClass &plc);
-	void DispatchStatePara(CPlcClass &plc);
+	void DispatchProPara();
+	void DispatchDevicePara();
+	void DispatchFaultPara();
+	void DispatchStatePara();
 
 	void AddParaToPlc(CProcessPara& proPara);
 	void AddParaToPlc(CDevicePara& devPara);
@@ -110,6 +110,7 @@ public:
 	void RemovePara(CFaultPara& faultPara);
 	void RemovePara(CStatePara& statePara);
 
+	void ClearAllParas(); //清空所有存储的参数引用//
 
 
 };

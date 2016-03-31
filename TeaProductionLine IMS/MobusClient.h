@@ -24,13 +24,13 @@ class CMobusClient:public Runnable
 private:
 	CMobusClient();
 public:	
-	CMobusClient(CPlcClass& plc);
+	CMobusClient(CPlcClass* plc);
 	~CMobusClient();
 	
 	void InitModbusClient();
-	
+	CPlcClass* m_Plc;
+
 private:
-	CPlcClass& m_Plc;
 
 	SOCKET m_Socket;                     //通讯Socket句柄
 
@@ -52,6 +52,7 @@ public:
 
 	bool SendData(const char *p_SendBuff, int BuffLen);
 
+	bool GetConnectedState();
 
 	/*保护m_vRecvBuff的临界区变量*/
 	CRITICAL_SECTION m_RBCS;

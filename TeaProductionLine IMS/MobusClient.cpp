@@ -7,7 +7,7 @@
 
 
 
-CMobusClient::CMobusClient(CPlcClass& Plc) :m_Plc(Plc)
+CMobusClient::CMobusClient(CPlcClass* Plc) :m_Plc(Plc)
 {
 	WSADATA wd;
 	WSAStartup(MAKEWORD(2, 1), &wd);
@@ -15,7 +15,10 @@ CMobusClient::CMobusClient(CPlcClass& Plc) :m_Plc(Plc)
 	m_bIsconnected = FALSE;
 	m_bIsopen = FALSE;
 	m_PlcId = 0;
-	//初始化全局数据类
+	//初始化全局数据类_
+
+	m_strRemoteHost = m_Plc->m_strIPAddr;
+
 	m_pDataP = CDataProvider::getInstance();
 	m_pWorkThread = NULL;
 	InitializeCriticalSection(&m_RBCS); //初始化临界区
@@ -30,7 +33,7 @@ CMobusClient::~CMobusClient()
 
 void CMobusClient::InitModbusClient()
 {
-
+	m_Plc->InitPlcMemory();
 	ConstructModbusReadFrame();
 }
 
@@ -46,7 +49,7 @@ void CMobusClient::CreatePollThread()
 void CMobusClient::StartPollThread()
 {
 	m_pWorkThread->Start();
-	m_pWorkThread->SetThreadName(m_strRemoteHost);
+	m_pWorkThread->SetThreadName(m_Plc->m_strIPAddr);
 }
 void CMobusClient::ResumePollThread()
 {
@@ -57,6 +60,10 @@ void CMobusClient::SuspendPollThread()
 	m_pWorkThread->Suspend();
 }
 
+bool CMobusClient::GetConnectedState()
+{
+	return m_bIsconnected;
+}
 
 //线程工作函数//
 void CMobusClient::Run()
@@ -113,7 +120,7 @@ void CMobusClient::Run()
 				closesocket(m_Socket);
 				WSACleanup();
 				m_bIsconnected = FALSE;
-				m_Plc.SetConectedState(FALSE);
+				m_Plc->SetConectedState(FALSE);
 				//break;
 			}
 
@@ -137,7 +144,7 @@ void CMobusClient::Run()
 						//关闭客户端socket
 						closesocket(m_Socket);
 						m_bIsconnected = FALSE;
-						m_Plc.SetConectedState(FALSE);
+						m_Plc->SetConectedState(FALSE);
 						//break;
 					}
 					else if (nRecvLen == 0)
@@ -145,14 +152,17 @@ void CMobusClient::Run()
 						TRACE("数据接收等待过程中网络中断\n");					
 						closesocket(m_Socket);
 						m_bIsconnected = FALSE;
-						m_Plc.SetConectedState(FALSE);
+						m_Plc->SetConectedState(FALSE);
 						//break;
 					}
 					else
 					{
-						DealRecvData(cRecvBuf,nRecvLen);
 						m_bIsconnected = TRUE;
-						m_Plc.SetConectedState(TRUE);
+						m_Plc->SetConectedState(TRUE);
+
+						DealRecvData(cRecvBuf,nRecvLen);
+						DispatchReadResponse();		
+
 						TRACE("%d 数据接收成功\n", m_pWorkThread->GetThreadID());
 					}
 				}
@@ -216,7 +226,7 @@ bool CMobusClient::Connect()
 	{
 		TRACE("连接失败\n");
 		m_bIsconnected = FALSE;
-		m_Plc.SetConectedState(FALSE);
+		m_Plc->SetConectedState(FALSE);
 		//Close();
 		return FALSE;
 	}
@@ -225,7 +235,7 @@ bool CMobusClient::Connect()
 	ioctlsocket(m_Socket, FIONBIO, &dwUl);
 	TRACE("连接成功\n");
 	m_bIsconnected = TRUE;
-	m_Plc.SetConectedState(TRUE);
+	m_Plc->SetConectedState(TRUE);
 
 	return TRUE;
 }
@@ -244,7 +254,7 @@ bool CMobusClient::Close()
 		return FALSE;
 	}
 	m_bIsconnected = FALSE;
-	m_Plc.SetConectedState(FALSE);
+	m_Plc->SetConectedState(FALSE);
 	return TRUE;
 }
 
@@ -268,13 +278,13 @@ bool CMobusClient::SendData(const char *p_SendBuff, int BuffLen)
 		//关闭Socket
 		Close();
 		m_bIsconnected = FALSE;
-		m_Plc.SetConectedState(FALSE);
+		m_Plc->SetConectedState(FALSE);
 		return FALSE;
 	}
 
 	TRACE("发送数据成功\n");
 	m_bIsconnected = TRUE;
-	m_Plc.SetConectedState(TRUE);
+	m_Plc->SetConectedState(TRUE);
 	return TRUE;
 }
 
@@ -289,8 +299,6 @@ void CMobusClient::DealRecvData(char* pcRcvData,int rcvLen)
 	{
 		m_vRecvBuff.push_back(*pcRcvData++);
 	}
-
-
 	LeaveCriticalSection(&m_RBCS);
 
 }
@@ -321,9 +329,9 @@ void CMobusClient::DispatchReadResponse()
 					for (int i = 0; i < nSizeOfResponseReadData - 1;)
 					{
 						RegIndex = (Respone_Frame_Index*MAX_READ_BYTE_LEN + i) / 2;
-						m_Plc.m_PlcReadMemory[RegIndex].reg_Byte.high_byte = m_vRecvBuff[9 + i];
+						m_Plc->m_PlcReadMemory[RegIndex].reg_Byte.high_byte = m_vRecvBuff[9 + i];
 						++i;
-						m_Plc.m_PlcReadMemory[RegIndex].reg_Byte.low_byte = m_vRecvBuff[9 + i];
+						m_Plc->m_PlcReadMemory[RegIndex].reg_Byte.low_byte = m_vRecvBuff[9 + i];
 						++i;
 					}
 					break;
@@ -332,7 +340,7 @@ void CMobusClient::DispatchReadResponse()
 				}
 
 				//把该PLC下面的参数分派到各个参数记录中//
-				//m_pDataP->DispatchParaValue(PlcIndex);
+				m_Plc->DispatchPara();
 			}
 		}	
 }
@@ -355,7 +363,7 @@ void  CMobusClient::ConstructModbusReadFrame()
 	int FrameReadLength; //帧读取的数据字节长度//
 
 	//plcClass.m_ReadLength中字节个数，MODBUS保持寄存器按照字读，需要转换为字节
-	int SumReadLen = m_Plc.m_ReadLength;  //总共还需要读写的长度//
+	int SumReadLen = m_Plc->m_ReadLength;  //总共还需要读写的长度//
 	int NumOfReg = 0;  //读取的寄存器个数//
 
 	nFrameCount = SumReadLen / MAX_READ_BYTE_LEN;
@@ -365,7 +373,7 @@ void  CMobusClient::ConstructModbusReadFrame()
 	} //nFrameCount把向上取整
 
 
-	FrameStartAddr = m_Plc.m_ReadStartAddr / 2;
+	FrameStartAddr = m_Plc->m_ReadStartAddr / 2;
 	//把	PLC里面读取内容读取出来//
 	for (int index = 0; index < nFrameCount; index++)
 	{
